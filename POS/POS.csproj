@@ -1,0 +1,775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A12D88DC-46AB-4863-B039-E77C6489746C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>POS</RootNamespace>
+    <AssemblyName>POS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44376</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\Default.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Default.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\POSController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Main.cs" />
+    <Compile Include="Models\Store.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\themes\default\assets\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\themes\default\assets\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\themes\default\assets\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\themes\default\assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\themes\default\assets\bootstrap\js\npm.js" />
+    <Content Include="Content\themes\default\assets\dev\css\AdminLTE.css" />
+    <Content Include="Content\themes\default\assets\dev\css\AdminLTE.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\custom.css" />
+    <Content Include="Content\themes\default\assets\dev\css\index.html" />
+    <Content Include="Content\themes\default\assets\dev\css\jquery-ui.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\index.html" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-black-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-black-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-black.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-black.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-blue-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-blue-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-blue.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-blue.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-green-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-green-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-green.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-green.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-purple-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-purple-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-purple.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-purple.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-red-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-red-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-red.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-red.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-yellow-light.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-yellow-light.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-yellow.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\skin-yellow.min.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\_all-skins.css" />
+    <Content Include="Content\themes\default\assets\dev\css\skins\_all-skins.min.css" />
+    <Content Include="Content\themes\default\assets\dev\fonts\index.html" />
+    <Content Include="Content\themes\default\assets\dev\img\boxed-bg.jpg" />
+    <Content Include="Content\themes\default\assets\dev\img\boxed-bg.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\american-express.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\cirrus.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\mastercard.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\mestro.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\paypal.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\paypal2.png" />
+    <Content Include="Content\themes\default\assets\dev\img\credit\visa.png" />
+    <Content Include="Content\themes\default\assets\dev\img\default-50x50.gif" />
+    <Content Include="Content\themes\default\assets\dev\img\icons.png" />
+    <Content Include="Content\themes\default\assets\dev\img\index.html" />
+    <Content Include="Content\themes\default\assets\dev\index.html" />
+    <Content Include="Content\themes\default\assets\dev\js\app.js" />
+    <Content Include="Content\themes\default\assets\dev\js\app.min.js" />
+    <Content Include="Content\themes\default\assets\dev\js\common-libs.js" />
+    <Content Include="Content\themes\default\assets\dev\js\custom.js" />
+    <Content Include="Content\themes\default\assets\dev\js\demo.js" />
+    <Content Include="Content\themes\default\assets\dev\js\hideseek.min.js" />
+    <Content Include="Content\themes\default\assets\dev\js\index.html" />
+    <Content Include="Content\themes\default\assets\dev\js\jquery-ui.min.js" />
+    <Content Include="Content\themes\default\assets\dev\js\pages\all.js" />
+    <Content Include="Content\themes\default\assets\dev\js\pages\index.html" />
+    <Content Include="Content\themes\default\assets\dev\js\pages\purchases.js" />
+    <Content Include="Content\themes\default\assets\dev\js\parse-track-data.js" />
+    <Content Include="Content\themes\default\assets\dev\js\pos.js" />
+    <Content Include="Content\themes\default\assets\dist\css\blue%402x.png" />
+    <Content Include="Content\themes\default\assets\dist\css\blue.png" />
+    <Content Include="Content\themes\default\assets\dist\css\rtl.css" />
+    <Content Include="Content\themes\default\assets\dist\css\styles.css" />
+    <Content Include="Content\themes\default\assets\dist\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\themes\default\assets\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\themes\default\assets\dist\fonts\index.html" />
+    <Content Include="Content\themes\default\assets\dist\js\htmlimg.js" />
+    <Content Include="Content\themes\default\assets\dist\js\libraries.min.js" />
+    <Content Include="Content\themes\default\assets\dist\js\pos.min.js" />
+    <Content Include="Content\themes\default\assets\dist\js\purchases.min.js" />
+    <Content Include="Content\themes\default\assets\dist\js\scripts.min.js" />
+    <Content Include="Content\themes\default\assets\dist\js\spos_ad.min.js" />
+    <Content Include="Content\themes\default\assets\dist\styles\styles.css" />
+    <Content Include="Content\themes\default\assets\images\ajax-loader.gif" />
+    <Content Include="Content\themes\default\assets\images\arabic.png" />
+    <Content Include="Content\themes\default\assets\images\card.png" />
+    <Content Include="Content\themes\default\assets\images\card2.png" />
+    <Content Include="Content\themes\default\assets\images\card_bg.png" />
+    <Content Include="Content\themes\default\assets\images\chinese.png" />
+    <Content Include="Content\themes\default\assets\images\czech.png" />
+    <Content Include="Content\themes\default\assets\images\en.png" />
+    <Content Include="Content\themes\default\assets\images\english.png" />
+    <Content Include="Content\themes\default\assets\images\french.png" />
+    <Content Include="Content\themes\default\assets\images\german.png" />
+    <Content Include="Content\themes\default\assets\images\icon.png" />
+    <Content Include="Content\themes\default\assets\images\index.html" />
+    <Content Include="Content\themes\default\assets\images\indonesian.png" />
+    <Content Include="Content\themes\default\assets\images\italian.png" />
+    <Content Include="Content\themes\default\assets\images\loader.gif" />
+    <Content Include="Content\themes\default\assets\images\loading_bar.gif" />
+    <Content Include="Content\themes\default\assets\images\oval.svg" />
+    <Content Include="Content\themes\default\assets\images\portuguese-brazilian.png" />
+    <Content Include="Content\themes\default\assets\images\spanish.png" />
+    <Content Include="Content\themes\default\assets\images\thai.png" />
+    <Content Include="Content\themes\default\assets\images\turkish.png" />
+    <Content Include="Content\themes\default\assets\images\vietnamese.png" />
+    <Content Include="Content\themes\default\assets\index.html" />
+    <Content Include="Content\themes\default\assets\plugins\animsition\animsition.js" />
+    <Content Include="Content\themes\default\assets\plugins\animsition\animsition.min.css" />
+    <Content Include="Content\themes\default\assets\plugins\animsition\animsition.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="Content\themes\default\assets\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\themes\default\assets\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\themes\default\assets\plugins\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\bootstrap-datetimepicker\js\moment.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\datatables\datatables.min.css" />
+    <Content Include="Content\themes\default\assets\plugins\datatables\datatables.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\fastclick\fastclick.js" />
+    <Content Include="Content\themes\default\assets\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\index.html" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\css\formValidation.css" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\css\formValidation.min.css" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\formValidation.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\formValidation.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\formValidation.popular.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\formValidation.popular.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\bootstrap.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\bootstrap.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\foundation.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\foundation.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\pure.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\pure.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\semantic.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\semantic.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\uikit.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\framework\uikit.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ar_MA.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\be_FR.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\be_NL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\bg_BG.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ca_ES.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\cs_CZ.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\da_DK.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\de_DE.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\en_US.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\es_CL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\es_ES.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\eu_ES.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\fa_IR.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\fi_FI.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\fr_FR.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\gr_EL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\he_IL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\hi_IN.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\hu_HU.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\id_ID.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\it_IT.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ja_JP.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\nl_NL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\no_NO.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\pl_PL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\pt_BR.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\pt_PT.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ro_RO.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ru_RU.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\sk_SK.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\sq_AL.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\sr_RS.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\sv_SE.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\th_TH.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\tr_TR.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\ua_UA.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\vi_VN.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\zh_CN.js" />
+    <Content Include="Content\themes\default\assets\plugins\formvalidation\js\language\zh_TW.js" />
+    <Content Include="Content\themes\default\assets\plugins\highchart\exporting.js" />
+    <Content Include="Content\themes\default\assets\plugins\highchart\highcharts.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\banner.jpg" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\custom.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\icheck.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\arrow-bottom.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\arrow-top.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\header-line.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\icon-fork.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\icon-github.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\icon-lab.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\icon-options.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\ie\icon-star.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-bold.svg" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-regular.svg" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\normalize.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\index.html" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\js\custom.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\js\custom.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\js\jquery.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\js\zepto.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\icheck.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\icheck.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\all.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\aero%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\aero.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\aero.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\blue%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\blue.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\blue.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\flat%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\flat.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\flat.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\green%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\green.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\green.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\grey%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\grey.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\grey.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\orange%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\orange.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\orange.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\pink%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\pink.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\pink.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\purple%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\purple.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\purple.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\red%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\red.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\red.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\yellow%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\yellow.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\yellow.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\flat\_all.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\futurico\futurico%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\futurico\futurico.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\futurico\futurico.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\aero.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\blue.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\green.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\grey.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\line%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\line.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\line.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\orange.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\pink.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\purple.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\red.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\yellow.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\line\_all.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\aero%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\aero.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\aero.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\blue%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\blue.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\blue.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\green%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\green.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\green.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\grey%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\grey.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\grey.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\minimal%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\minimal.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\minimal.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\orange%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\orange.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\orange.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\pink%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\pink.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\pink.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\purple%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\purple.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\purple.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\red%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\red.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\red.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\yellow%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\yellow.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\yellow.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\minimal\_all.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\polaris\polaris%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\polaris\polaris.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\polaris\polaris.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\aero%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\aero.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\aero.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\blue%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\blue.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\blue.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\green%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\green.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\green.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\grey%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\grey.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\grey.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\orange%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\orange.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\orange.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\pink%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\pink.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\pink.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\purple%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\purple.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\purple.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\red%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\red.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\red.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\square%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\square.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\square.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\yellow%402x.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\yellow.css" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\yellow.png" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\skins\square\_all.css" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\phone-codes\readme.txt" />
+    <Content Include="Content\themes\default\assets\plugins\jQuery\jQuery-2.1.4.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\perfect-scrollbar\css\perfect-scrollbar.css" />
+    <Content Include="Content\themes\default\assets\plugins\perfect-scrollbar\js\perfect-scrollbar.jquery.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\perfect-scrollbar\js\perfect-scrollbar.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\redactor\redactor.css" />
+    <Content Include="Content\themes\default\assets\plugins\redactor\redactor.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\az.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\bg.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\ca.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\cs.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\da.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\de.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\en.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\es.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\et.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\eu.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\fa.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\fi.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\fr.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\gl.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\he.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\hi.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\hr.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\hu.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\id.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\is.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\it.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\ko.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\lt.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\lv.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\mk.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\nb.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\nl.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\pl.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\pt-BR.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\pt.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\ro.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\ru.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\sk.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\sr.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\sv.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\th.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\tr.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\uk.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\vi.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\zh-CN.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\i18n\zh-TW.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.css" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.full.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.full.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.js" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.min.css" />
+    <Content Include="Content\themes\default\assets\plugins\select2\select2.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\slimScroll\jquery.slimscroll.js" />
+    <Content Include="Content\themes\default\assets\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\socket.io.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\velocity\velocity.min.js" />
+    <Content Include="Content\themes\default\assets\plugins\velocity\velocity.ui.min.js" />
+    <Content Include="Content\themes\default\index.html" />
+    <Content Include="Content\themes\default\views\auth\create_user.php" />
+    <Content Include="Content\themes\default\views\auth\deactivate_user.php" />
+    <Content Include="Content\themes\default\views\auth\edit_user.php" />
+    <Content Include="Content\themes\default\views\auth\index.php" />
+    <Content Include="Content\themes\default\views\auth\login.php" />
+    <Content Include="Content\themes\default\views\auth\profile.php" />
+    <Content Include="Content\themes\default\views\auth\reset_password.php" />
+    <Content Include="Content\themes\default\views\categories\add.php" />
+    <Content Include="Content\themes\default\views\categories\edit.php" />
+    <Content Include="Content\themes\default\views\categories\import.php" />
+    <Content Include="Content\themes\default\views\categories\index.html" />
+    <Content Include="Content\themes\default\views\categories\index.php" />
+    <Content Include="Content\themes\default\views\customers\add.php" />
+    <Content Include="Content\themes\default\views\customers\edit.php" />
+    <Content Include="Content\themes\default\views\customers\index.html" />
+    <Content Include="Content\themes\default\views\customers\index.php" />
+    <Content Include="Content\themes\default\views\dashboard.php" />
+    <Content Include="Content\themes\default\views\disabled.php" />
+    <Content Include="Content\themes\default\views\email_templates\account_status.html" />
+    <Content Include="Content\themes\default\views\email_templates\activate_email.html" />
+    <Content Include="Content\themes\default\views\email_templates\credentials.html" />
+    <Content Include="Content\themes\default\views\email_templates\forgot_password.html" />
+    <Content Include="Content\themes\default\views\footer.php" />
+    <Content Include="Content\themes\default\views\gift_cards\add.php" />
+    <Content Include="Content\themes\default\views\gift_cards\edit.php" />
+    <Content Include="Content\themes\default\views\gift_cards\index.html" />
+    <Content Include="Content\themes\default\views\gift_cards\index.php" />
+    <Content Include="Content\themes\default\views\gift_cards\view.php" />
+    <Content Include="Content\themes\default\views\header.php" />
+    <Content Include="Content\themes\default\views\index.html" />
+    <Content Include="Content\themes\default\views\pos\close_register.php" />
+    <Content Include="Content\themes\default\views\pos\eview.php" />
+    <Content Include="Content\themes\default\views\pos\index.html" />
+    <Content Include="Content\themes\default\views\pos\index.php" />
+    <Content Include="Content\themes\default\views\pos\open_register.php" />
+    <Content Include="Content\themes\default\views\pos\register_details.php" />
+    <Content Include="Content\themes\default\views\pos\remote_printing.php" />
+    <Content Include="Content\themes\default\views\pos\shortcuts.php" />
+    <Content Include="Content\themes\default\views\pos\today_sale.php" />
+    <Content Include="Content\themes\default\views\pos\view.php" />
+    <Content Include="Content\themes\default\views\pos\view_bill.php" />
+    <Content Include="Content\themes\default\views\products\add.php" />
+    <Content Include="Content\themes\default\views\products\barcode.php" />
+    <Content Include="Content\themes\default\views\products\edit.php" />
+    <Content Include="Content\themes\default\views\products\import.php" />
+    <Content Include="Content\themes\default\views\products\index.html" />
+    <Content Include="Content\themes\default\views\products\index.php" />
+    <Content Include="Content\themes\default\views\products\print_barcodes.php" />
+    <Content Include="Content\themes\default\views\products\print_labels.php" />
+    <Content Include="Content\themes\default\views\products\single_barcode.php" />
+    <Content Include="Content\themes\default\views\products\single_label.php" />
+    <Content Include="Content\themes\default\views\products\update_price.php" />
+    <Content Include="Content\themes\default\views\products\view.php" />
+    <Content Include="Content\themes\default\views\promotions.php" />
+    <Content Include="Content\themes\default\views\purchases\add.php" />
+    <Content Include="Content\themes\default\views\purchases\add_expense.php" />
+    <Content Include="Content\themes\default\views\purchases\edit.php" />
+    <Content Include="Content\themes\default\views\purchases\edit_expense.php" />
+    <Content Include="Content\themes\default\views\purchases\expenses.php" />
+    <Content Include="Content\themes\default\views\purchases\expense_note.php" />
+    <Content Include="Content\themes\default\views\purchases\import.php" />
+    <Content Include="Content\themes\default\views\purchases\index.html" />
+    <Content Include="Content\themes\default\views\purchases\index.php" />
+    <Content Include="Content\themes\default\views\purchases\view.php" />
+    <Content Include="Content\themes\default\views\reports\alerts.php" />
+    <Content Include="Content\themes\default\views\reports\daily.php" />
+    <Content Include="Content\themes\default\views\reports\index.html" />
+    <Content Include="Content\themes\default\views\reports\monthly.php" />
+    <Content Include="Content\themes\default\views\reports\payments.php" />
+    <Content Include="Content\themes\default\views\reports\products.php" />
+    <Content Include="Content\themes\default\views\reports\registers.php" />
+    <Content Include="Content\themes\default\views\reports\sales.php" />
+    <Content Include="Content\themes\default\views\reports\top.php" />
+    <Content Include="Content\themes\default\views\sales\add_payment.php" />
+    <Content Include="Content\themes\default\views\sales\edit_payment.php" />
+    <Content Include="Content\themes\default\views\sales\index.html" />
+    <Content Include="Content\themes\default\views\sales\index.php" />
+    <Content Include="Content\themes\default\views\sales\modal_view.php" />
+    <Content Include="Content\themes\default\views\sales\opened.php" />
+    <Content Include="Content\themes\default\views\sales\payments.php" />
+    <Content Include="Content\themes\default\views\sales\payment_note.php" />
+    <Content Include="Content\themes\default\views\settings\add_printer.php" />
+    <Content Include="Content\themes\default\views\settings\add_store.php" />
+    <Content Include="Content\themes\default\views\settings\backups.php" />
+    <Content Include="Content\themes\default\views\settings\edit_printer.php" />
+    <Content Include="Content\themes\default\views\settings\edit_store.php" />
+    <Content Include="Content\themes\default\views\settings\index.html" />
+    <Content Include="Content\themes\default\views\settings\index.php" />
+    <Content Include="Content\themes\default\views\settings\printers.php" />
+    <Content Include="Content\themes\default\views\settings\stores.php" />
+    <Content Include="Content\themes\default\views\settings\updates.php" />
+    <Content Include="Content\themes\default\views\stores.php" />
+    <Content Include="Content\themes\default\views\suppliers\add.php" />
+    <Content Include="Content\themes\default\views\suppliers\edit.php" />
+    <Content Include="Content\themes\default\views\suppliers\index.html" />
+    <Content Include="Content\themes\default\views\suppliers\index.php" />
+    <Content Include="Content\themes\errors\cli\error_404.php" />
+    <Content Include="Content\themes\errors\cli\error_db.php" />
+    <Content Include="Content\themes\errors\cli\error_exception.php" />
+    <Content Include="Content\themes\errors\cli\error_general.php" />
+    <Content Include="Content\themes\errors\cli\error_php.php" />
+    <Content Include="Content\themes\errors\cli\index.html" />
+    <Content Include="Content\themes\errors\html\assets\bg2.png" />
+    <Content Include="Content\themes\errors\html\error_404.php" />
+    <Content Include="Content\themes\errors\html\error_db.php" />
+    <Content Include="Content\themes\errors\html\error_exception.php" />
+    <Content Include="Content\themes\errors\html\error_general.php" />
+    <Content Include="Content\themes\errors\html\error_php.php" />
+    <Content Include="Content\themes\errors\html\index.html" />
+    <Content Include="Content\themes\errors\index.html" />
+    <Content Include="Content\themes\index.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\themes\default\assets\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\themes\default\assets\dev\fonts\ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff" />
+    <Content Include="Content\themes\default\assets\dev\fonts\ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGCOFnW3Jk0f09zW_Yln67Ac.woff2" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGJ6-ys_j0H4QL65VLqzI3wI.woff" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGNbE_oMaV8t2eFeISPpzbdE.woff" />
+    <Content Include="Content\themes\default\assets\dev\fonts\toadOcfmlt9b38dHJxOBGOode0-EuMkY--TSyExeINg.woff2" />
+    <Content Include="Content\themes\default\assets\dist\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\themes\default\assets\dist\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\themes\default\assets\dist\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\FontAwesome.otf" />
+    <Content Include="Content\themes\default\assets\dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\themes\default\assets\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\themes\default\assets\dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\themes\default\assets\dist\fonts\ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGCOFnW3Jk0f09zW_Yln67Ac.woff2" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGJ6-ys_j0H4QL65VLqzI3wI.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGNbE_oMaV8t2eFeISPpzbdE.woff" />
+    <Content Include="Content\themes\default\assets\dist\fonts\toadOcfmlt9b38dHJxOBGOode0-EuMkY--TSyExeINg.woff2" />
+    <Content Include="Content\themes\default\assets\dist\js\maps\pos.min.js.map" />
+    <Content Include="Content\themes\default\assets\dist\js\maps\purchases.min.js.map" />
+    <Content Include="Content\themes\default\assets\dist\js\maps\scripts.min.js.map" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\themes\default\assets\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\bower.json" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\CHANGELOG.md" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\custom.styl" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-bold.eot" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-bold.ttf" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-bold.woff" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-regular.eot" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-regular.ttf" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\demo\css\montserrat-regular.woff" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\icheck.jquery.json" />
+    <Content Include="Content\themes\default\assets\plugins\icheck\README.md" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\phone-codes\phone-be.json" />
+    <Content Include="Content\themes\default\assets\plugins\input-mask\phone-codes\phone-codes.json" />
+    <Content Include="Content\themes\default\assets\plugins\redactor\redactor-font.eot" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\POS\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Language\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Default.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Default.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62666</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44376/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

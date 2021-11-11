@@ -1,0 +1,1289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title></title>
+</head>
+<body>
+&lt;?php (defined(&#39;BASEPATH&#39;)) or exit(&#39;No direct script access allowed&#39;); ?&gt;&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&lt;head&gt;<br>
+    &lt;meta charset=&quot;UTF&ndash;8&quot;&gt;<br>
+    &lt;title&gt;&lt;?= $page_title . &#39; | &#39; . $Settings&ndash;&gt;site_name; ?&gt;&lt;/title&gt;<br>
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;&lt;?= $assets ?&gt;images/icon.png&quot;/&gt;<br>
+    &lt;link href=&quot;&lt;?= $assets ?&gt;dist/css/styles.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;<br>
+    &lt;?= $Settings&ndash;&gt;rtl ? &#39;&lt;link href=&quot;&#39; . $assets . &#39;dist/css/rtl.css&quot; rel=&quot;stylesheet&quot; /&gt;&#39; : &#39;&#39;; ?&gt;<br>
+    &lt;script src=&quot;&lt;?= $assets ?&gt;plugins/jQuery/jQuery&ndash;2.1.4.min.js&quot;&gt;&lt;/script&gt;<br>
+&lt;/head&gt;<br>
+&lt;body class=&quot;skin&ndash;&lt;?= $Settings&ndash;&gt;theme_style; ?&gt; sidebar&ndash;collapse sidebar&ndash;mini pos&quot;&gt;<br>
+    &lt;div class=&quot;wrapper rtl rtl&ndash;inv&quot;&gt;<br>
+<br>
+        &lt;header class=&quot;main&ndash;header&quot;&gt;<br>
+            &lt;a href=&quot;&lt;?= site_url(); ?&gt;&quot; class=&quot;logo&quot;&gt;<br>
+                &lt;?php if ($store) { ?&gt;<br>
+                &lt;span class=&quot;logo&ndash;mini&quot;&gt;&lt;?= $store&ndash;&gt;code; ?&gt;&lt;/span&gt;<br>
+                &lt;span class=&quot;logo&ndash;lg&quot;&gt;&lt;?= $store&ndash;&gt;name == &#39;SimplePOS&#39; ? &#39;Simple&lt;b&gt;POS&lt;/b&gt;&#39; : $store&ndash;&gt;name; ?&gt;&lt;/span&gt;<br>
+                &lt;?php } else { ?&gt;<br>
+                &lt;span class=&quot;logo&ndash;mini&quot;&gt;POS&lt;/span&gt;<br>
+                &lt;span class=&quot;logo&ndash;lg&quot;&gt;&lt;?= $Settings&ndash;&gt;site_name == &#39;SimplePOS&#39; ? &#39;Simple&lt;b&gt;POS&lt;/b&gt;&#39; : $Settings&ndash;&gt;site_name; ?&gt;&lt;/span&gt;<br>
+                &lt;?php } ?&gt;<br>
+            &lt;/a&gt;<br>
+            &lt;nav class=&quot;navbar navbar&ndash;static&ndash;top&quot; role=&quot;navigation&quot;&gt;<br>
+                &lt;ul class=&quot;nav navbar&ndash;nav pull&ndash;left&quot;&gt;<br>
+                    &lt;li class=&quot;dropdown&quot;&gt;<br>
+                        &lt;a href=&quot;#&quot; class=&quot;dropdown&ndash;toggle&quot; data&ndash;toggle=&quot;dropdown&quot;&gt;&lt;img src=&quot;&lt;?= $assets; ?&gt;images/&lt;?= $Settings&ndash;&gt;selected_language; ?&gt;.png&quot; alt=&quot;&lt;?= $Settings&ndash;&gt;selected_language; ?&gt;&quot;&gt;&lt;/a&gt;<br>
+                        &lt;ul class=&quot;dropdown&ndash;menu&quot;&gt;<br>
+                            &lt;?php $scanned_lang_dir = array_map(function ($path) {<br>
+    return basename($path);<br>
+}, glob(APPPATH . &#39;language/*&#39;, GLOB_ONLYDIR));<br>
+                            foreach ($scanned_lang_dir as $entry) { ?&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/language/&#39; . $entry); ?&gt;&quot;&gt;&lt;img<br>
+                                src=&quot;&lt;?= $assets; ?&gt;images/&lt;?= $entry; ?&gt;.png&quot;<br>
+                                class=&quot;language&ndash;img&quot;&gt; &amp;nbsp;&amp;nbsp;&lt;?= ucwords($entry); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;?php } ?&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                    &lt;/ul&gt;<br>
+                    &lt;div class=&quot;navbar&ndash;custom&ndash;menu&quot;&gt;<br>
+                        &lt;ul class=&quot;nav navbar&ndash;nav&quot;&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;clock&quot;&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;dashboard&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php if ($Admin) { ?&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;cogs&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php } ?&gt;<br>
+                            &lt;?php if ($this&ndash;&gt;db&ndash;&gt;dbdriver != &#39;sqlite3&#39;) { ?&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/view_bill&#39;); ?&gt;&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;fa fa&ndash;desktop&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php } ?&gt;<br>
+                            &lt;li class=&quot;hidden&ndash;xs hidden&ndash;sm&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/shortcuts&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;i class=&quot;fa fa&ndash;key&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/register_details&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;?= lang(&#39;register_details&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php if ($Admin) { ?&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/today_sale&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;?= lang(&#39;today_sale&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php } ?&gt;<br>
+                            &lt;li&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos/close_register&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;?= lang(&#39;close_register&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;?php if ($suspended_sales) { ?&gt;<br>
+                            &lt;li class=&quot;dropdown notifications&ndash;menu&quot; id=&quot;suspended_sales&quot;&gt;<br>
+                                &lt;a href=&quot;#&quot; class=&quot;dropdown&ndash;toggle&quot; data&ndash;toggle=&quot;dropdown&quot;&gt;<br>
+                                    &lt;i class=&quot;fa fa&ndash;bell&ndash;o&quot;&gt;&lt;/i&gt;<br>
+                                    &lt;span class=&quot;label label&ndash;warning&quot;&gt;&lt;?=sizeof($suspended_sales);?&gt;&lt;/span&gt;<br>
+                                &lt;/a&gt;<br>
+                                &lt;ul class=&quot;dropdown&ndash;menu&quot;&gt;<br>
+                                    &lt;li class=&quot;header&quot;&gt;<br>
+                                        &lt;input type=&quot;text&quot; autocomplete=&quot;off&quot; data&ndash;list=&quot;.list&ndash;suspended&ndash;sales&quot; name=&quot;filter&ndash;suspended&ndash;sales&quot; id=&quot;filter&ndash;suspended&ndash;sales&quot; class=&quot;form&ndash;control input&ndash;sm kb&ndash;text clearfix&quot; placeholder=&quot;&lt;?= lang(&#39;filter_by_reference&#39;); ?&gt;&quot;&gt;<br>
+                                    &lt;/li&gt;<br>
+                                    &lt;li&gt;<br>
+                                        &lt;ul class=&quot;menu&quot;&gt;<br>
+                                            &lt;li class=&quot;list&ndash;suspended&ndash;sales&quot;&gt;<br>
+                                                &lt;?php<br>
+                                                foreach ($suspended_sales as $ss) {<br>
+                                                    echo &#39;&lt;a href=&quot;&#39; . site_url(&#39;pos/?hold=&#39; . $ss&ndash;&gt;id) . &#39;&quot; class=&quot;load_suspended&quot;&gt;&#39; . $this&ndash;&gt;tec&ndash;&gt;hrld($ss&ndash;&gt;date) . &#39; (&#39; . $ss&ndash;&gt;customer_name . &#39;)&lt;br&gt;&lt;div class=&quot;bold&quot;&gt;&#39; . $ss&ndash;&gt;hold_ref . &#39;&lt;/div&gt;&lt;/a&gt;&#39;;<br>
+                                                }<br>
+                                                ?&gt;<br>
+                                            &lt;/li&gt;<br>
+                                        &lt;/ul&gt;<br>
+                                    &lt;/li&gt;<br>
+                                    &lt;li class=&quot;footer&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;sales/opened&#39;); ?&gt;&quot;&gt;&lt;?= lang(&#39;view_all&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;/ul&gt;<br>
+                            &lt;/li&gt;<br>
+                            &lt;?php } ?&gt;<br>
+                            &lt;li class=&quot;dropdown user user&ndash;menu&quot;&gt;<br>
+                                &lt;a href=&quot;#&quot; class=&quot;dropdown&ndash;toggle&quot; data&ndash;toggle=&quot;dropdown&quot;&gt;<br>
+                                    &lt;img src=&quot;&lt;?= base_url(&#39;uploads/avatars/thumbs/&#39; . ($this&ndash;&gt;session&ndash;&gt;userdata(&#39;avatar&#39;) ? $this&ndash;&gt;session&ndash;&gt;userdata(&#39;avatar&#39;) : $this&ndash;&gt;session&ndash;&gt;userdata(&#39;gender&#39;) . &#39;.png&#39;)) ?&gt;&quot; class=&quot;user&ndash;image&quot; alt=&quot;Avatar&quot; /&gt;<br>
+                                    &lt;span&gt;&lt;?= $this&ndash;&gt;session&ndash;&gt;userdata(&#39;first_name&#39;) . &#39; &#39; . $this&ndash;&gt;session&ndash;&gt;userdata(&#39;last_name&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;/a&gt;<br>
+                                &lt;ul class=&quot;dropdown&ndash;menu&quot;&gt;<br>
+                                    &lt;li class=&quot;user&ndash;header&quot;&gt;<br>
+                                        &lt;img src=&quot;&lt;?= base_url(&#39;uploads/avatars/&#39; . ($this&ndash;&gt;session&ndash;&gt;userdata(&#39;avatar&#39;) ? $this&ndash;&gt;session&ndash;&gt;userdata(&#39;avatar&#39;) : $this&ndash;&gt;session&ndash;&gt;userdata(&#39;gender&#39;) . &#39;.png&#39;)) ?&gt;&quot; class=&quot;img&ndash;circle&quot; alt=&quot;Avatar&quot; /&gt;<br>
+                                        &lt;p&gt;<br>
+                                            &lt;?= $this&ndash;&gt;session&ndash;&gt;userdata(&#39;email&#39;); ?&gt;<br>
+                                            &lt;small&gt;&lt;?= lang(&#39;member_since&#39;) . &#39; &#39; . $this&ndash;&gt;session&ndash;&gt;userdata(&#39;created_on&#39;); ?&gt;&lt;/small&gt;<br>
+                                        &lt;/p&gt;<br>
+                                    &lt;/li&gt;<br>
+                                    &lt;li class=&quot;user&ndash;footer&quot;&gt;<br>
+                                        &lt;div class=&quot;pull&ndash;left&quot;&gt;<br>
+                                            &lt;a href=&quot;&lt;?= site_url(&#39;users/profile/&#39; . $this&ndash;&gt;session&ndash;&gt;userdata(&#39;user_id&#39;)); ?&gt;&quot; class=&quot;btn btn&ndash;default btn&ndash;flat&quot;&gt;&lt;?= lang(&#39;profile&#39;); ?&gt;&lt;/a&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;pull&ndash;right&quot;&gt;<br>
+                                            &lt;a href=&quot;&lt;?= site_url(&#39;logout&#39;); ?&gt;&quot; class=&quot;btn btn&ndash;default btn&ndash;flat&lt;?= $this&ndash;&gt;session&ndash;&gt;userdata(&#39;register_id&#39;) ? &#39; sign_out&#39; : &#39;&#39;; ?&gt;&quot;&gt;&lt;?= lang(&#39;sign_out&#39;); ?&gt;&lt;/a&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/li&gt;<br>
+                                &lt;/ul&gt;<br>
+                            &lt;/li&gt;<br>
+                            &lt;li&gt;<br>
+                                &lt;a href=&quot;#&quot; data&ndash;toggle=&quot;control&ndash;sidebar&quot; class=&quot;sidebar&ndash;icon&quot;&gt;&lt;i class=&quot;fa fa&ndash;folder sidebar&ndash;icon&quot;&gt;&lt;/i&gt;&lt;/a&gt;<br>
+                            &lt;/li&gt;<br>
+                        &lt;/ul&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/nav&gt;<br>
+            &lt;/header&gt;<br>
+<br>
+            &lt;aside class=&quot;main&ndash;sidebar&quot;&gt;<br>
+                &lt;section class=&quot;sidebar&quot;&gt;<br>
+                    &lt;ul class=&quot;sidebar&ndash;menu&quot;&gt;<br>
+                        &lt;li class=&quot;mm_welcome&quot;&gt;&lt;a href=&quot;&lt;?= site_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;dashboard&quot;&gt;&lt;/i&gt; &lt;span&gt;&lt;?= lang(&#39;dashboard&#39;); ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                        &lt;?php if ($Settings&ndash;&gt;multi_store &amp;&amp; !$this&ndash;&gt;session&ndash;&gt;userdata(&#39;store_id&#39;)) { ?&gt;<br>
+                        &lt;li class=&quot;mm_stores&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;stores&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;building&ndash;o&quot;&gt;&lt;/i&gt; &lt;span&gt;&lt;?= lang(&#39;stores&#39;); ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                        &lt;?php } ?&gt;<br>
+                        &lt;li class=&quot;mm_pos&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;pos&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;th&quot;&gt;&lt;/i&gt; &lt;span&gt;&lt;?= lang(&#39;pos&#39;); ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br>
+<br>
+                        &lt;?php if ($Admin) { ?&gt;<br>
+                        &lt;li class=&quot;treeview mm_products&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;barcode&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;products&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;products_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_products&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;products_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_product&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;products_import&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products/import&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;import_products&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;products_print_barcodes&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products/print_barcodes&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;print_barcodes&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;products_print_labels&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products/print_labels&#39;); ?&gt;&quot; data&ndash;toggle=&quot;ajax&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;print_labels&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;!&ndash;&ndash; &lt;li id=&quot;products_print_barcodes&quot;&gt;<br>
+                                    &lt;a onclick=&quot;window.open(&#39;&lt;?= site_url(&#39;products/print_barcodes&#39;); ?&gt;&#39;, &#39;pos_popup&#39;, &#39;width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0&#39;); return false;&quot; href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;print_barcodes&#39;); ?&gt;&lt;/a&gt;<br>
+                                &lt;/li&gt;<br>
+                                &lt;li id=&quot;products_print_labels&quot;&gt;<br>
+                                    &lt;a onclick=&quot;window.open(&#39;&lt;?= site_url(&#39;products/print_labels&#39;); ?&gt;&#39;, &#39;pos_popup&#39;, &#39;width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0&#39;); return false;&quot; href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;print_labels&#39;); ?&gt;&lt;/a&gt;<br>
+                                &lt;/li&gt; &ndash;&ndash;&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;li class=&quot;treeview mm_categories&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;folder&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;categories&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;categories_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;categories&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_categories&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;categories_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;categories/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_category&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;categories_import&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;categories/import&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;import_categories&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;?php if ($this&ndash;&gt;session&ndash;&gt;userdata(&#39;store_id&#39;)) { ?&gt;<br>
+                        &lt;li class=&quot;treeview mm_sales&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;shopping&ndash;cart&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;sales&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;sales_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;sales&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_sales&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;sales_opened&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;sales/opened&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_opened_bills&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;li class=&quot;treeview mm_purchases&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;plus&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;purchases&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;purchases_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_purchases&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;purchases_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_purchase&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;purchases_expenses&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases/expenses&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_expenses&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;purchases_add_expense&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases/add_expense&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_expense&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;?php } ?&gt;<br>
+                        &lt;li class=&quot;treeview mm_gift_cards&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;credit&ndash;card&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;gift_cards&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;gift_cards_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;gift_cards&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_gift_cards&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;gift_cards_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;gift_cards/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_gift_card&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+<br>
+                        &lt;li class=&quot;treeview mm_auth mm_customers mm_suppliers&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;users&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;people&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;auth_users&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;users&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_users&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;auth_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;users/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_user&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;customers_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;customers&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_customers&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;customers_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;customers/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_customer&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;suppliers_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;suppliers&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_suppliers&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;suppliers_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;suppliers/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_supplier&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+<br>
+                        &lt;li class=&quot;treeview mm_settings&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;cogs&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;settings&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;settings_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;settings&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;?php if ($Settings&ndash;&gt;multi_store) { ?&gt;<br>
+                                &lt;li id=&quot;settings_stores&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/stores&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;stores&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;settings_add_store&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/add_store&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_store&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;?php } ?&gt;<br>
+                                &lt;li id=&quot;settings_printers&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/printers&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;printers&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;settings_add_printer&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/add_printer&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_printer&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;?php if ($this&ndash;&gt;db&ndash;&gt;dbdriver != &#39;sqlite3&#39;) { ?&gt;<br>
+                                &lt;li id=&quot;settings_backups&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/backups&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;backups&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;?php } ?&gt;<br>
+                                &lt;!&ndash;&ndash; &lt;li id=&quot;settings_updates&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;settings/updates&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;updates&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt; &ndash;&ndash;&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;li class=&quot;treeview mm_reports&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;bar&ndash;chart&ndash;o&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;reports&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;reports_daily_sales&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/daily_sales&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;daily_sales&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_monthly_sales&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/monthly_sales&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;monthly_sales&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;sales_report&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_payments&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/payments&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;payments_report&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_registers&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/registers&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;registers_report&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_top_products&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/top_products&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;top_products&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;reports_products&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;reports/products&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;products_report&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;?php } else { ?&gt;<br>
+                        &lt;li class=&quot;mm_products&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;products&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;barcode&quot;&gt;&lt;/i&gt; &lt;span&gt;&lt;?= lang(&#39;products&#39;); ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                        &lt;li class=&quot;mm_categories&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;categories&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;folder&ndash;open&quot;&gt;&lt;/i&gt; &lt;span&gt;&lt;?= lang(&#39;categories&#39;); ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                        &lt;?php if ($this&ndash;&gt;session&ndash;&gt;userdata(&#39;store_id&#39;)) { ?&gt;<br>
+                        &lt;li class=&quot;treeview mm_sales&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;shopping&ndash;cart&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;sales&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;sales_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;sales&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_sales&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;sales_opened&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;sales/opened&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_opened_bills&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;li class=&quot;treeview mm_purchases&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;plus&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;expenses&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;purchases_expenses&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases/expenses&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_expenses&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;purchases_add_expense&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;purchases/add_expense&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_expense&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;?php } ?&gt;<br>
+                        &lt;li class=&quot;treeview mm_gift_cards&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;credit&ndash;card&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;gift_cards&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;gift_cards_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;gift_cards&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_gift_cards&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;gift_cards_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;gift_cards/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_gift_card&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;li class=&quot;treeview mm_customers&quot;&gt;<br>
+                            &lt;a href=&quot;#&quot;&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;users&quot;&gt;&lt;/i&gt;<br>
+                                &lt;span&gt;&lt;?= lang(&#39;customers&#39;); ?&gt;&lt;/span&gt;<br>
+                                &lt;i class=&quot;fa fa&ndash;angle&ndash;left pull&ndash;right&quot;&gt;&lt;/i&gt;<br>
+                            &lt;/a&gt;<br>
+                            &lt;ul class=&quot;treeview&ndash;menu&quot;&gt;<br>
+                                &lt;li id=&quot;customers_index&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;customers&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;list_customers&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                                &lt;li id=&quot;customers_add&quot;&gt;&lt;a href=&quot;&lt;?= site_url(&#39;customers/add&#39;); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa&ndash;circle&ndash;o&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;add_customer&#39;); ?&gt;&lt;/a&gt;&lt;/li&gt;<br>
+                            &lt;/ul&gt;<br>
+                        &lt;/li&gt;<br>
+                        &lt;?php } ?&gt;<br>
+                    &lt;/ul&gt;<br>
+                &lt;/section&gt;<br>
+            &lt;/aside&gt;<br>
+<br>
+            &lt;div class=&quot;content&ndash;wrapper&quot;&gt;<br>
+<br>
+                &lt;div class=&quot;col&ndash;lg&ndash;12 alerts&quot;&gt;<br>
+                &lt;?php if ($error) { ?&gt;<br>
+                    &lt;div class=&quot;alert alert&ndash;danger alert&ndash;dismissable&quot;&gt;<br>
+                        &lt;button aria&ndash;hidden=&quot;true&quot; data&ndash;dismiss=&quot;alert&quot; class=&quot;close&quot; type=&quot;button&quot;&gt;&#215;&lt;/button&gt;<br>
+                        &lt;h4&gt;&lt;i class=&quot;icon fa fa&ndash;ban&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;error&#39;); ?&gt;&lt;/h4&gt;<br>
+                        &lt;?= $error; ?&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;?php } if ($message) { ?&gt;<br>
+                    &lt;div class=&quot;alert alert&ndash;success alert&ndash;dismissable&quot;&gt;<br>
+                        &lt;button aria&ndash;hidden=&quot;true&quot; data&ndash;dismiss=&quot;alert&quot; class=&quot;close&quot; type=&quot;button&quot;&gt;&#215;&lt;/button&gt;<br>
+                        &lt;h4&gt;&lt;i class=&quot;icon fa fa&ndash;check&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;Success&#39;); ?&gt;&lt;/h4&gt;<br>
+                        &lt;?= $message; ?&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;?php } ?&gt;<br>
+                &lt;/div&gt;<br>
+<br>
+                &lt;table style=&quot;width:100%;&quot; class=&quot;layout&ndash;table&quot;&gt;<br>
+                    &lt;tr&gt;<br>
+                        &lt;td style=&quot;width: 460px;&quot;&gt;<br>
+<br>
+                            &lt;div id=&quot;pos&quot;&gt;<br>
+                                &lt;?= form_open(&#39;pos&#39;, &#39;id=&quot;pos&ndash;sale&ndash;form&quot;&#39;); ?&gt;<br>
+                                &lt;div class=&quot;well well&ndash;sm&quot; id=&quot;leftdiv&quot;&gt;<br>
+                                    &lt;div id=&quot;lefttop&quot; style=&quot;margin&ndash;bottom:5px;&quot;&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot; style=&quot;margin&ndash;bottom:5px;&quot;&gt;<br>
+                                            &lt;div class=&quot;input&ndash;group&quot;&gt;<br>
+                                                &lt;?php foreach ($customers as $customer) {<br>
+                                                    $cus[$customer&ndash;&gt;id] = $customer&ndash;&gt;name;<br>
+                                                } ?&gt;<br>
+                                                &lt;?= form_dropdown(&#39;customer_id&#39;, $cus, set_value(&#39;customer_id&#39;, $Settings&ndash;&gt;default_customer), &#39;id=&quot;spos_customer&quot; data&ndash;placeholder=&quot;&#39; . lang(&#39;select&#39;) . &#39; &#39; . lang(&#39;customer&#39;) . &#39;&quot; required=&quot;required&quot; class=&quot;form&ndash;control select2&quot; style=&quot;width:100%;position:absolute;&quot;&#39;); ?&gt;<br>
+                                                &lt;div class=&quot;input&ndash;group&ndash;addon no&ndash;print&quot; style=&quot;padding: 2px 5px;&quot;&gt;<br>
+                                                    &lt;a href=&quot;#&quot; id=&quot;add&ndash;customer&quot; class=&quot;external&quot; data&ndash;toggle=&quot;modal&quot; data&ndash;target=&quot;#myModal&quot;&gt;&lt;i class=&quot;fa fa&ndash;2x fa&ndash;plus&ndash;circle&quot; id=&quot;addIcon&quot;&gt;&lt;/i&gt;&lt;/a&gt;<br>
+                                                &lt;/div&gt;<br>
+                                            &lt;/div&gt;<br>
+                                            &lt;div style=&quot;clear:both;&quot;&gt;&lt;/div&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;?php if ($eid &amp;&amp; $Admin) { ?&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot; style=&quot;margin&ndash;bottom:5px;&quot;&gt;<br>
+                                            &lt;?= form_input(&#39;date&#39;, set_value(&#39;date&#39;, $sale&ndash;&gt;date), &#39;id=&quot;date&quot; required=&quot;required&quot; class=&quot;form&ndash;control&quot;&#39;); ?&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;?php } ?&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot; style=&quot;margin&ndash;bottom:5px;&quot;&gt;<br>
+                                            &lt;input type=&quot;text&quot; name=&quot;hold_ref&quot; value=&quot;&lt;?= $reference_note; ?&gt;&quot; id=&quot;hold_ref&quot; class=&quot;form&ndash;control kb&ndash;text&quot; placeholder=&quot;&lt;?=lang(&#39;reference_note&#39;)?&gt;&quot; /&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot; style=&quot;margin&ndash;bottom:5px;&quot;&gt;<br>
+                                            &lt;input type=&quot;text&quot; name=&quot;code&quot; id=&quot;add_item&quot; class=&quot;form&ndash;control&quot; placeholder=&quot;&lt;?=lang(&#39;search__scan&#39;)?&gt;&quot; /&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div id=&quot;printhead&quot; class=&quot;print&quot;&gt;<br>
+                                        &lt;?= $Settings&ndash;&gt;header; ?&gt;<br>
+                                        &lt;p&gt;&lt;?= lang(&#39;date&#39;); ?&gt;: &lt;?=date($Settings&ndash;&gt;dateformat)?&gt;&lt;/p&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div id=&quot;print&quot; class=&quot;fixed&ndash;table&ndash;container&quot;&gt;<br>
+                                        &lt;div id=&quot;list&ndash;table&ndash;div&quot;&gt;<br>
+                                            &lt;div class=&quot;fixed&ndash;table&ndash;header&quot;&gt;<br>
+                                                &lt;table class=&quot;table table&ndash;striped table&ndash;condensed table&ndash;hover list&ndash;table&quot; style=&quot;margin:0;&quot;&gt;<br>
+                                                    &lt;thead&gt;<br>
+                                                        &lt;tr class=&quot;success&quot;&gt;<br>
+                                                            &lt;th&gt;&lt;?=lang(&#39;product&#39;)?&gt;&lt;/th&gt;<br>
+                                                            &lt;th style=&quot;width: 15%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;price&#39;)?&gt;&lt;/th&gt;<br>
+                                                            &lt;th style=&quot;width: 15%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;qty&#39;)?&gt;&lt;/th&gt;<br>
+                                                            &lt;th style=&quot;width: 20%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;subtotal&#39;)?&gt;&lt;/th&gt;<br>
+                                                            &lt;th style=&quot;width: 20px;&quot; class=&quot;satu&quot;&gt;&lt;i class=&quot;fa fa&ndash;trash&ndash;o&quot;&gt;&lt;/i&gt;&lt;/th&gt;<br>
+                                                        &lt;/tr&gt;<br>
+                                                    &lt;/thead&gt;<br>
+                                                &lt;/table&gt;<br>
+                                            &lt;/div&gt;<br>
+                                            &lt;table id=&quot;posTable&quot; class=&quot;table table&ndash;striped table&ndash;condensed table&ndash;hover list&ndash;table&quot; style=&quot;margin:0px;&quot; data&ndash;height=&quot;100&quot;&gt;<br>
+                                                &lt;thead&gt;<br>
+                                                    &lt;tr class=&quot;success&quot;&gt;<br>
+                                                        &lt;th&gt;&lt;?=lang(&#39;product&#39;)?&gt;&lt;/th&gt;<br>
+                                                        &lt;th style=&quot;width: 15%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;price&#39;)?&gt;&lt;/th&gt;<br>
+                                                        &lt;th style=&quot;width: 15%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;qty&#39;)?&gt;&lt;/th&gt;<br>
+                                                        &lt;th style=&quot;width: 20%;text&ndash;align:center;&quot;&gt;&lt;?=lang(&#39;subtotal&#39;)?&gt;&lt;/th&gt;<br>
+                                                        &lt;th style=&quot;width: 20px;&quot; class=&quot;satu&quot;&gt;&lt;i class=&quot;fa fa&ndash;trash&ndash;o&quot;&gt;&lt;/i&gt;&lt;/th&gt;<br>
+                                                    &lt;/tr&gt;<br>
+                                                &lt;/thead&gt;<br>
+                                                &lt;tbody&gt;&lt;/tbody&gt;<br>
+                                            &lt;/table&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div style=&quot;clear:both;&quot;&gt;&lt;/div&gt;<br>
+                                        &lt;div id=&quot;totaldiv&quot;&gt;<br>
+                                            &lt;table id=&quot;totaltbl&quot; class=&quot;table table&ndash;condensed totals&quot; style=&quot;margin&ndash;bottom:10px;&quot;&gt;<br>
+                                                &lt;tbody&gt;<br>
+                                                    &lt;tr class=&quot;info&quot;&gt;<br>
+                                                        &lt;td width=&quot;25%&quot;&gt;&lt;?=lang(&#39;total_items&#39;)?&gt;&lt;/td&gt;<br>
+                                                        &lt;td class=&quot;text&ndash;right&quot; style=&quot;padding&ndash;right:10px;&quot;&gt;&lt;span id=&quot;count&quot;&gt;0&lt;/span&gt;&lt;/td&gt;<br>
+                                                        &lt;td width=&quot;25%&quot;&gt;&lt;?=lang(&#39;total&#39;)?&gt;&lt;/td&gt;<br>
+                                                        &lt;td class=&quot;text&ndash;right&quot; colspan=&quot;2&quot;&gt;&lt;span id=&quot;total&quot;&gt;0&lt;/span&gt;&lt;/td&gt;<br>
+                                                    &lt;/tr&gt;<br>
+                                                    &lt;tr class=&quot;info&quot;&gt;<br>
+                                                        &lt;td width=&quot;25%&quot;&gt;&lt;a href=&quot;#&quot; id=&quot;add_discount&quot;&gt;&lt;?=lang(&#39;discount&#39;)?&gt;&lt;/a&gt;&lt;/td&gt;<br>
+                                                        &lt;td class=&quot;text&ndash;right&quot; style=&quot;padding&ndash;right:10px;&quot;&gt;&lt;span id=&quot;ds_con&quot;&gt;0&lt;/span&gt;&lt;/td&gt;<br>
+                                                        &lt;td width=&quot;25%&quot;&gt;&lt;a href=&quot;#&quot; id=&quot;add_tax&quot;&gt;&lt;?=lang(&#39;order_tax&#39;)?&gt;&lt;/a&gt;&lt;/td&gt;<br>
+                                                        &lt;td class=&quot;text&ndash;right&quot;&gt;&lt;span id=&quot;ts_con&quot;&gt;0&lt;/span&gt;&lt;/td&gt;<br>
+                                                    &lt;/tr&gt;<br>
+                                                    &lt;tr class=&quot;success&quot;&gt;<br>
+                                                        &lt;td colspan=&quot;2&quot; style=&quot;font&ndash;weight:bold;&quot;&gt;<br>
+                                                            &lt;?=lang(&#39;total_payable&#39;)?&gt;<br>
+                                                            &lt;a role=&quot;button&quot; data&ndash;toggle=&quot;modal&quot; data&ndash;target=&quot;#noteModal&quot;&gt;<br>
+                                                                &lt;i class=&quot;fa fa&ndash;comment&quot;&gt;&lt;/i&gt;<br>
+                                                            &lt;/a&gt;<br>
+                                                        &lt;/td&gt;<br>
+                                                        &lt;td class=&quot;text&ndash;right&quot; colspan=&quot;2&quot; style=&quot;font&ndash;weight:bold;&quot;&gt;&lt;span id=&quot;total&ndash;payable&quot;&gt;0&lt;/span&gt;&lt;/td&gt;<br>
+                                                    &lt;/tr&gt;<br>
+                                                &lt;/tbody&gt;<br>
+                                            &lt;/table&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div id=&quot;botbuttons&quot; class=&quot;col&ndash;xs&ndash;12 text&ndash;center&quot;&gt;<br>
+                                        &lt;div class=&quot;row&quot;&gt;<br>
+                                            &lt;div class=&quot;col&ndash;xs&ndash;4&quot; style=&quot;padding: 0;&quot;&gt;<br>
+                                                &lt;div class=&quot;btn&ndash;group&ndash;vertical btn&ndash;block&quot;&gt;<br>
+                                                    &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;warning btn&ndash;block btn&ndash;flat&quot;<br>
+                                                    id=&quot;suspend&quot;&gt;&lt;?= lang(&#39;hold&#39;); ?&gt;&lt;/button&gt;<br>
+                                                    &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;danger btn&ndash;block btn&ndash;flat&quot;<br>
+                                                    id=&quot;reset&quot;&gt;&lt;?= lang(&#39;cancel&#39;); ?&gt;&lt;/button&gt;<br>
+                                                &lt;/div&gt;<br>
+<br>
+                                            &lt;/div&gt;<br>
+                                            &lt;div class=&quot;col&ndash;xs&ndash;4&quot; style=&quot;padding: 0 5px;&quot;&gt;<br>
+                                                &lt;div class=&quot;btn&ndash;group&ndash;vertical btn&ndash;block&quot;&gt;<br>
+                                                    &lt;button type=&quot;button&quot; class=&quot;btn bg&ndash;purple btn&ndash;block btn&ndash;flat&quot; id=&quot;print_order&quot;&gt;&lt;?= lang(&#39;print_order&#39;); ?&gt;&lt;/button&gt;<br>
+<br>
+                                                    &lt;button type=&quot;button&quot; class=&quot;btn bg&ndash;navy btn&ndash;block btn&ndash;flat&quot; id=&quot;print_bill&quot;&gt;&lt;?= lang(&#39;print_bill&#39;); ?&gt;&lt;/button&gt;<br>
+                                                &lt;/div&gt;<br>
+                                            &lt;/div&gt;<br>
+                                            &lt;div class=&quot;col&ndash;xs&ndash;4&quot; style=&quot;padding: 0;&quot;&gt;<br>
+                                                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;success btn&ndash;block btn&ndash;flat&quot; id=&quot;&lt;?= $eid ? &#39;submit&ndash;sale&#39; : &#39;payment&#39;; ?&gt;&quot; style=&quot;height:67px;&quot;&gt;&lt;?= $eid ? lang(&#39;submit&#39;) : lang(&#39;payment&#39;); ?&gt;&lt;/button&gt;<br>
+                                            &lt;/div&gt;<br>
+                                        &lt;/div&gt;<br>
+<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;<br>
+                                    &lt;span id=&quot;hidesuspend&quot;&gt;&lt;/span&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;spos_note&quot; value=&quot;&quot; id=&quot;spos_note&quot;&gt;<br>
+<br>
+                                    &lt;div id=&quot;payment&ndash;con&quot;&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; id=&quot;amount_val&quot; value=&quot;&lt;?= $eid ? $sale&ndash;&gt;paid : &#39;&#39;; ?&gt;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;balance_amount&quot; id=&quot;balance_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;paid_by&quot; id=&quot;paid_by_val&quot; value=&quot;cash&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_no&quot; id=&quot;cc_no_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;paying_gift_card_no&quot; id=&quot;paying_gift_card_no_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_holder&quot; id=&quot;cc_holder_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cheque_no&quot; id=&quot;cheque_no_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_month&quot; id=&quot;cc_month_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_year&quot; id=&quot;cc_year_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_type&quot; id=&quot;cc_type_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;cc_cvv2&quot; id=&quot;cc_cvv2_val&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;balance&quot; id=&quot;balance_v&quot; value=&quot;&quot;/&gt;<br>
+                                        &lt;input type=&quot;hidden&quot; name=&quot;payment_note&quot; id=&quot;payment_note_val&quot; value=&quot;&quot;/&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;customer&quot; id=&quot;customer&quot; value=&quot;&lt;?=$Settings&ndash;&gt;default_customer?&gt;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;order_tax&quot; id=&quot;tax_val&quot; value=&quot;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;order_discount&quot; id=&quot;discount_val&quot; value=&quot;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;count&quot; id=&quot;total_item&quot; value=&quot;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;did&quot; id=&quot;did_delete&quot; value=&quot;&lt;?=$sid;?&gt;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;eid&quot; id=&quot;eid_delete&quot; value=&quot;&lt;?=$eid;?&gt;&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;total_items&quot; id=&quot;total_items&quot; value=&quot;0&quot; /&gt;<br>
+                                    &lt;input type=&quot;hidden&quot; name=&quot;total_quantity&quot; id=&quot;total_quantity&quot; value=&quot;0&quot; /&gt;<br>
+                                    &lt;input type=&quot;submit&quot; id=&quot;submit&quot; value=&quot;Submit Sale&quot; style=&quot;display: none;&quot; /&gt;<br>
+                                &lt;/div&gt;<br>
+                                &lt;?=form_close();?&gt;<br>
+                            &lt;/div&gt;<br>
+<br>
+                        &lt;/td&gt;<br>
+                        &lt;td&gt;<br>
+                            &lt;div class=&quot;contents&quot; id=&quot;right&ndash;col&quot;&gt;<br>
+                                &lt;div id=&quot;item&ndash;list&quot;&gt;<br>
+                                    &lt;div class=&quot;items&quot;&gt;<br>
+                                        &lt;?php echo $products; ?&gt;<br>
+                                    &lt;/div&gt;<br>
+                                &lt;/div&gt;<br>
+                                &lt;div class=&quot;product&ndash;nav&quot;&gt;<br>
+                                    &lt;div class=&quot;btn&ndash;group btn&ndash;group&ndash;justified&quot;&gt;<br>
+                                        &lt;div class=&quot;btn&ndash;group&quot;&gt;<br>
+                                            &lt;button style=&quot;z&ndash;index:10002;&quot; class=&quot;btn btn&ndash;warning pos&ndash;tip btn&ndash;flat&quot; type=&quot;button&quot; id=&quot;previous&quot;&gt;&lt;i class=&quot;fa fa&ndash;chevron&ndash;left&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;btn&ndash;group&quot;&gt;<br>
+                                            &lt;button style=&quot;z&ndash;index:10003;&quot; class=&quot;btn btn&ndash;success pos&ndash;tip btn&ndash;flat&quot; type=&quot;button&quot; id=&quot;sellGiftCard&quot;&gt;&lt;i class=&quot;fa fa&ndash;credit&ndash;card&quot; id=&quot;addIcon&quot;&gt;&lt;/i&gt; &lt;?= lang(&#39;sell_gift_card&#39;) ?&gt;&lt;/button&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;btn&ndash;group&quot;&gt;<br>
+                                            &lt;button style=&quot;z&ndash;index:10004;&quot; class=&quot;btn btn&ndash;warning pos&ndash;tip btn&ndash;flat&quot; type=&quot;button&quot; id=&quot;next&quot;&gt;&lt;i class=&quot;fa fa&ndash;chevron&ndash;right&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                        &lt;/td&gt;<br>
+                    &lt;/tr&gt;<br>
+                &lt;/table&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+<br>
+        &lt;aside class=&quot;control&ndash;sidebar control&ndash;sidebar&ndash;dark&quot; id=&quot;categories&ndash;list&quot;&gt;<br>
+            &lt;div class=&quot;tab&ndash;content sb&quot;&gt;<br>
+                &lt;div class=&quot;tab&ndash;pane active sb&quot; id=&quot;control&ndash;sidebar&ndash;home&ndash;tab&quot;&gt;<br>
+                    &lt;div id=&quot;filter&ndash;categories&ndash;con&quot;&gt;<br>
+                        &lt;input type=&quot;text&quot; autocomplete=&quot;off&quot; data&ndash;list=&quot;.control&ndash;sidebar&ndash;menu&quot; name=&quot;filter&ndash;categories&quot; id=&quot;filter&ndash;categories&quot; class=&quot;form&ndash;control sb col&ndash;xs&ndash;12 kb&ndash;text&quot; placeholder=&quot;&lt;?= lang(&#39;filter_categories&#39;); ?&gt;&quot; style=&quot;margin&ndash;bottom: 20px;&quot;&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;div class=&quot;clearfix sb&quot;&gt;&lt;/div&gt;<br>
+                    &lt;div id=&quot;category&ndash;sidebar&ndash;menu&quot;&gt;<br>
+                        &lt;ul class=&quot;control&ndash;sidebar&ndash;menu&quot;&gt;<br>
+                            &lt;?php<br>
+                            foreach ($categories as $category) {<br>
+                                echo &#39;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;category&#39; . ($category&ndash;&gt;id == $Settings&ndash;&gt;default_category ? &#39; active&#39; : &#39;&#39;) . &#39;&quot; id=&quot;&#39; . $category&ndash;&gt;id . &#39;&quot;&gt;&#39;;<br>
+                                if ($category&ndash;&gt;image) {<br>
+                                    echo &#39;&lt;div class=&quot;menu&ndash;icon&quot;&gt;&lt;img src=&quot;&#39; . base_url(&#39;uploads/thumbs/&#39; . $category&ndash;&gt;image) . &#39;&quot; alt=&quot;&quot; class=&quot;img&ndash;thumbnail img&ndash;responsive&quot;&gt;&lt;/div&gt;&#39;;<br>
+                                } else {<br>
+                                    echo &#39;&lt;i class=&quot;menu&ndash;icon fa fa&ndash;folder&ndash;open bg&ndash;red&quot;&gt;&lt;/i&gt;&#39;;<br>
+                                }<br>
+                                echo &#39;&lt;div class=&quot;menu&ndash;info&quot;&gt;&lt;h4 class=&quot;control&ndash;sidebar&ndash;subheading&quot;&gt;&#39; . $category&ndash;&gt;code . &#39;&lt;/h4&gt;&lt;p&gt;&#39; . $category&ndash;&gt;name . &#39;&lt;/p&gt;&lt;/div&gt;<br>
+                            &lt;/a&gt;&lt;/li&gt;&#39;;<br>
+                            }<br>
+                        ?&gt;<br>
+                    &lt;/ul&gt;<br>
+                &lt;/div&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/aside&gt;<br>
+    &lt;div class=&quot;control&ndash;sidebar&ndash;bg sb&quot;&gt;&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;div id=&quot;order_tbl&quot; style=&quot;display:none;&quot;&gt;&lt;span id=&quot;order_span&quot;&gt;&lt;/span&gt;<br>
+    &lt;table id=&quot;order&ndash;table&quot; class=&quot;prT table table&ndash;condensed&quot; style=&quot;width:100%;margin&ndash;bottom:0;&quot;&gt;&lt;/table&gt;<br>
+&lt;/div&gt;<br>
+&lt;div id=&quot;bill_tbl&quot; style=&quot;display:none;&quot;&gt;&lt;span id=&quot;bill_span&quot;&gt;&lt;/span&gt;<br>
+    &lt;table id=&quot;bill&ndash;table&quot; width=&quot;100%&quot; class=&quot;prT table table&ndash;condensed&quot; style=&quot;width:100%;margin&ndash;bottom:0;&quot;&gt;&lt;/table&gt;<br>
+    &lt;table id=&quot;bill&ndash;total&ndash;table&quot; width=&quot;100%&quot; class=&quot;prT table table&ndash;condensed&quot; style=&quot;width:100%;margin&ndash;bottom:0;&quot;&gt;&lt;/table&gt;<br>
+&lt;/div&gt;<br>
+&lt;div style=&quot;width:435px;background:#FFF;display:block&quot;&gt;<br>
+    &lt;div id=&quot;order&ndash;data&quot; style=&quot;display:none;&quot; class=&quot;text&ndash;center&quot;&gt;<br>
+        &lt;h1&gt;&lt;?= $store&ndash;&gt;name; ?&gt;&lt;/h1&gt;<br>
+        &lt;h2&gt;&lt;?= lang(&#39;order&#39;); ?&gt;&lt;/h2&gt;<br>
+        &lt;div id=&quot;preo&quot; class=&quot;text&ndash;left&quot;&gt;&lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+    &lt;div id=&quot;bill&ndash;data&quot; style=&quot;display:none;&quot; class=&quot;text&ndash;center&quot;&gt;<br>
+        &lt;h1&gt;&lt;?= $store&ndash;&gt;name; ?&gt;&lt;/h1&gt;<br>
+        &lt;h2&gt;&lt;?= lang(&#39;bill&#39;); ?&gt;&lt;/h2&gt;<br>
+        &lt;div id=&quot;preb&quot; class=&quot;text&ndash;left&quot;&gt;&lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div id=&quot;ajaxCall&quot;&gt;&lt;i class=&quot;fa fa&ndash;spinner fa&ndash;pulse&quot;&gt;&lt;/i&gt;&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;gcModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;mModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;myModalLabel&quot;&gt;&lt;?= lang(&#39;sell_gift_card&#39;); ?&gt;&lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;p&gt;&lt;?= lang(&#39;enter_info&#39;); ?&gt;&lt;/p&gt;<br>
+<br>
+                &lt;div class=&quot;alert alert&ndash;danger gcerror&ndash;con&quot; style=&quot;display: none;&quot;&gt;<br>
+                    &lt;button data&ndash;dismiss=&quot;alert&quot; class=&quot;close&quot; type=&quot;button&quot;&gt;&#215;&lt;/button&gt;<br>
+                    &lt;span id=&quot;gcerror&quot;&gt;&lt;/span&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                    &lt;?= lang(&#39;card_no&#39;, &#39;gccard_no&#39;); ?&gt; *<br>
+                    &lt;div class=&quot;input&ndash;group&quot;&gt;<br>
+                        &lt;?php echo form_input(&#39;gccard_no&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control&quot; id=&quot;gccard_no&quot;&#39;); ?&gt;<br>
+                        &lt;div class=&quot;input&ndash;group&ndash;addon&quot; style=&quot;padding&ndash;left: 10px; padding&ndash;right: 10px;&quot;&gt;&lt;a href=&quot;#&quot; id=&quot;genNo&quot;&gt;&lt;i class=&quot;fa fa&ndash;cogs&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;input type=&quot;hidden&quot; name=&quot;gcname&quot; value=&quot;&lt;?= lang(&#39;gift_card&#39;) ?&gt;&quot; id=&quot;gcname&quot;/&gt;<br>
+                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                    &lt;?= lang(&#39;value&#39;, &#39;gcvalue&#39;); ?&gt; *<br>
+                    &lt;?php echo form_input(&#39;gcvalue&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control&quot; id=&quot;gcvalue&quot;&#39;); ?&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                    &lt;?= lang(&#39;price&#39;, &#39;gcprice&#39;); ?&gt; *<br>
+                    &lt;?php echo form_input(&#39;gcprice&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control&quot; id=&quot;gcprice&quot;&#39;); ?&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                    &lt;?= lang(&#39;expiry_date&#39;, &#39;gcexpiry&#39;); ?&gt;<br>
+                    &lt;?php echo form_input(&#39;gcexpiry&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control&quot; id=&quot;gcexpiry&quot;&#39;); ?&gt;<br>
+                &lt;/div&gt;<br>
+<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt;&lt;?=lang(&#39;close&#39;)?&gt;&lt;/button&gt;<br>
+                &lt;button type=&quot;button&quot; id=&quot;addGiftCard&quot; class=&quot;btn btn&ndash;primary&quot;&gt;&lt;?= lang(&#39;sell_gift_card&#39;) ?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;dsModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;dsModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog modal&ndash;sm&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;dsModalLabel&quot;&gt;&lt;?= lang(&#39;discount_title&#39;); ?&gt;&lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;input type=&#39;text&#39; class=&#39;form&ndash;control input&ndash;sm kb&ndash;pad&#39; id=&#39;get_ds&#39; onClick=&#39;this.select();&#39; value=&#39;&#39;&gt;<br>
+<br>
+                &lt;label class=&quot;checkbox&quot; for=&quot;apply_to_order&quot;&gt;<br>
+                    &lt;input type=&quot;radio&quot; name=&quot;apply_to&quot; value=&quot;order&quot; id=&quot;apply_to_order&quot; checked=&quot;checked&quot;/&gt;<br>
+                    &lt;?= lang(&#39;apply_to_order&#39;) ?&gt;<br>
+                &lt;/label&gt;<br>
+                &lt;label class=&quot;checkbox&quot; for=&quot;apply_to_products&quot;&gt;<br>
+                    &lt;input type=&quot;radio&quot; name=&quot;apply_to&quot; value=&quot;products&quot; id=&quot;apply_to_products&quot;/&gt;<br>
+                    &lt;?= lang(&#39;apply_to_products&#39;) ?&gt;<br>
+                &lt;/label&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default btn&ndash;sm pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt;&lt;?=lang(&#39;close&#39;)?&gt;&lt;/button&gt;<br>
+                &lt;button type=&quot;button&quot; id=&quot;updateDiscount&quot; class=&quot;btn btn&ndash;primary btn&ndash;sm&quot;&gt;&lt;?= lang(&#39;update&#39;) ?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;tsModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;tsModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog modal&ndash;sm&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;tsModalLabel&quot;&gt;&lt;?= lang(&#39;tax_title&#39;); ?&gt;&lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;input type=&#39;text&#39; class=&#39;form&ndash;control input&ndash;sm kb&ndash;pad&#39; id=&#39;get_ts&#39; onClick=&#39;this.select();&#39; value=&#39;&#39;&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default btn&ndash;sm pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt;&lt;?=lang(&#39;close&#39;)?&gt;&lt;/button&gt;<br>
+                &lt;button type=&quot;button&quot; id=&quot;updateTax&quot; class=&quot;btn btn&ndash;primary btn&ndash;sm&quot;&gt;&lt;?= lang(&#39;update&#39;) ?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;noteModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;noteModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog modal&ndash;sm&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;noteModalLabel&quot;&gt;&lt;?= lang(&#39;note&#39;); ?&gt;&lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;textarea name=&quot;snote&quot; id=&quot;snote&quot; class=&quot;pa form&ndash;control kb&ndash;text&quot;&gt;&lt;/textarea&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default btn&ndash;sm pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt;&lt;?=lang(&#39;close&#39;)?&gt;&lt;/button&gt;<br>
+                &lt;button type=&quot;button&quot; id=&quot;update&ndash;note&quot; class=&quot;btn btn&ndash;primary btn&ndash;sm&quot;&gt;&lt;?= lang(&#39;update&#39;) ?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;proModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;proModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header modal&ndash;primary&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;proModalLabel&quot;&gt;<br>
+                    &lt;?=lang(&#39;payment&#39;)?&gt;<br>
+                &lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;table class=&quot;table table&ndash;bordered table&ndash;striped&quot;&gt;<br>
+                    &lt;tr&gt;<br>
+                        &lt;th style=&quot;width:25%;&quot;&gt;&lt;?= lang(&#39;net_price&#39;); ?&gt;&lt;/th&gt;<br>
+                        &lt;th style=&quot;width:25%;&quot;&gt;&lt;span id=&quot;net_price&quot;&gt;&lt;/span&gt;&lt;/th&gt;<br>
+                        &lt;th style=&quot;width:25%;&quot;&gt;&lt;?= lang(&#39;product_tax&#39;); ?&gt;&lt;/th&gt;<br>
+                        &lt;th style=&quot;width:25%;&quot;&gt;&lt;span id=&quot;pro_tax&quot;&gt;&lt;/span&gt; &lt;span id=&quot;pro_tax_method&quot;&gt;&lt;/span&gt;&lt;/th&gt;<br>
+                    &lt;/tr&gt;<br>
+                &lt;/table&gt;<br>
+                &lt;input type=&quot;hidden&quot; id=&quot;row_id&quot; /&gt;<br>
+                &lt;input type=&quot;hidden&quot; id=&quot;item_id&quot; /&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;sm&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;?=lang(&#39;unit_price&#39;, &#39;nPrice&#39;)?&gt;<br>
+                            &lt;input type=&quot;text&quot; class=&quot;form&ndash;control input&ndash;sm kb&ndash;pad&quot; id=&quot;nPrice&quot; onClick=&quot;this.select();&quot; placeholder=&quot;&lt;?=lang(&#39;new_price&#39;)?&gt;&quot;&gt;<br>
+                        &lt;/div&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;?=lang(&#39;discount&#39;, &#39;nDiscount&#39;)?&gt;<br>
+                            &lt;input type=&quot;text&quot; class=&quot;form&ndash;control input&ndash;sm kb&ndash;pad&quot; id=&quot;nDiscount&quot; onClick=&quot;this.select();&quot; placeholder=&quot;&lt;?=lang(&#39;discount&#39;)?&gt;&quot;&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;div class=&quot;col&ndash;sm&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;?=lang(&#39;quantity&#39;, &#39;nQuantity&#39;)?&gt;<br>
+                            &lt;input type=&quot;text&quot; class=&quot;form&ndash;control input&ndash;sm kb&ndash;pad&quot; id=&quot;nQuantity&quot; onClick=&quot;this.select();&quot; placeholder=&quot;&lt;?=lang(&#39;current_quantity&#39;)?&gt;&quot;&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;sm&ndash;12&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;?=lang(&#39;comment&#39;, &#39;nComment&#39;)?&gt;<br>
+                            &lt;textarea class=&quot;form&ndash;control kb&ndash;text&quot; id=&quot;nComment&quot;&gt;&lt;/textarea&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt;&lt;?=lang(&#39;close&#39;)?&gt;&lt;/button&gt;<br>
+                &lt;button class=&quot;btn btn&ndash;success&quot; id=&quot;editItem&quot;&gt;&lt;?=lang(&#39;update&#39;)?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;susModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;susModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;susModalLabel&quot;&gt;&lt;?= lang(&#39;suspend_sale&#39;); ?&gt;&lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;p&gt;&lt;?= lang(&#39;type_reference_note&#39;); ?&gt;&lt;/p&gt;<br>
+<br>
+                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                    &lt;?= lang(&#39;reference_note&#39;, &#39;reference_note&#39;); ?&gt;<br>
+                    &lt;?php echo form_input(&#39;reference_note&#39;, $reference_note, &#39;class=&quot;form&ndash;control kb&ndash;text&quot; id=&quot;reference_note&quot;&#39;); ?&gt;<br>
+                &lt;/div&gt;<br>
+<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt; &lt;?=lang(&#39;close&#39;)?&gt; &lt;/button&gt;<br>
+                &lt;button type=&quot;button&quot; id=&quot;suspend_sale&quot; class=&quot;btn btn&ndash;primary&quot;&gt;&lt;?= lang(&#39;submit&#39;) ?&gt;&lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;saleModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;saleModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;/div&gt;<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;opModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;opModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;payModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;payModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog modal&ndash;success&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;payModalLabel&quot;&gt;<br>
+                    &lt;?=lang(&#39;payment&#39;)?&gt;<br>
+                &lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;9&quot;&gt;<br>
+                        &lt;div class=&quot;font16&quot;&gt;<br>
+                            &lt;table class=&quot;table table&ndash;bordered table&ndash;condensed&quot; style=&quot;margin&ndash;bottom: 0;&quot;&gt;<br>
+                                &lt;tbody&gt;<br>
+                                    &lt;tr&gt;<br>
+                                        &lt;td width=&quot;25%&quot; style=&quot;border&ndash;right&ndash;color: #FFF !important;&quot;&gt;&lt;?= lang(&#39;total_items&#39;); ?&gt;&lt;/td&gt;<br>
+                                        &lt;td width=&quot;25%&quot; class=&quot;text&ndash;right&quot;&gt;&lt;span id=&quot;item_count&quot;&gt;0.00&lt;/span&gt;&lt;/td&gt;<br>
+                                        &lt;td width=&quot;25%&quot; style=&quot;border&ndash;right&ndash;color: #FFF !important;&quot;&gt;&lt;?= lang(&#39;total_payable&#39;); ?&gt;&lt;/td&gt;<br>
+                                        &lt;td width=&quot;25%&quot; class=&quot;text&ndash;right&quot;&gt;&lt;span id=&quot;twt&quot;&gt;0.00&lt;/span&gt;&lt;/td&gt;<br>
+                                    &lt;/tr&gt;<br>
+                                    &lt;tr&gt;<br>
+                                        &lt;td style=&quot;border&ndash;right&ndash;color: #FFF !important;&quot;&gt;&lt;?= lang(&#39;total_paying&#39;); ?&gt;&lt;/td&gt;<br>
+                                        &lt;td class=&quot;text&ndash;right&quot;&gt;&lt;span id=&quot;total_paying&quot;&gt;0.00&lt;/span&gt;&lt;/td&gt;<br>
+                                        &lt;td style=&quot;border&ndash;right&ndash;color: #FFF !important;&quot;&gt;&lt;?= lang(&#39;balance&#39;); ?&gt;&lt;/td&gt;<br>
+                                        &lt;td class=&quot;text&ndash;right&quot;&gt;&lt;span id=&quot;balance&quot;&gt;0.00&lt;/span&gt;&lt;/td&gt;<br>
+                                    &lt;/tr&gt;<br>
+                                &lt;/tbody&gt;<br>
+                            &lt;/table&gt;<br>
+                            &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;<br>
+                        &lt;/div&gt;<br>
+                        &lt;div class=&quot;row&quot;&gt;<br>
+                            &lt;div class=&quot;col&ndash;xs&ndash;12&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                    &lt;?= lang(&#39;note&#39;, &#39;note&#39;); ?&gt;<br>
+                                    &lt;textarea name=&quot;note&quot; id=&quot;note&quot; class=&quot;pa form&ndash;control kb&ndash;text&quot;&gt;&lt;/textarea&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                        &lt;/div&gt;<br>
+                        &lt;div class=&quot;row&quot;&gt;<br>
+                            &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                    &lt;?= lang(&#39;amount&#39;, &#39;amount&#39;); ?&gt;<br>
+                                    &lt;input name=&quot;amount&quot; type=&quot;text&quot; id=&quot;amount&quot;<br>
+                                    class=&quot;pa form&ndash;control kb&ndash;pad amount&quot;/&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                            &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                    &lt;?= lang(&#39;paying_by&#39;, &#39;paid_by&#39;); ?&gt;<br>
+                                    &lt;select id=&quot;paid_by&quot; class=&quot;form&ndash;control paid_by select2&quot; style=&quot;width:100%;&quot;&gt;<br>
+                                        &lt;option value=&quot;cash&quot;&gt;&lt;?= lang(&#39;cash&#39;); ?&gt;&lt;/option&gt;<br>
+                                        &lt;option value=&quot;CC&quot;&gt;&lt;?= lang(&#39;cc&#39;); ?&gt;&lt;/option&gt;<br>
+                                        &lt;option value=&quot;cheque&quot;&gt;&lt;?= lang(&#39;cheque&#39;); ?&gt;&lt;/option&gt;<br>
+                                        &lt;option value=&quot;gift_card&quot;&gt;&lt;?= lang(&#39;gift_card&#39;); ?&gt;&lt;/option&gt;<br>
+                                        &lt;?= isset($Settings&ndash;&gt;stripe) ? &#39;&lt;option value=&quot;stripe&quot;&gt;&#39; . lang(&#39;stripe&#39;) . &#39;&lt;/option&gt;&#39; : &#39;&#39;; ?&gt;<br>
+                                        &lt;option value=&quot;other&quot;&gt;&lt;?= lang(&#39;other&#39;); ?&gt;&lt;/option&gt;<br>
+                                    &lt;/select&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                        &lt;/div&gt;<br>
+                        &lt;div class=&quot;row&quot;&gt;<br>
+                            &lt;div class=&quot;col&ndash;xs&ndash;12&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group gc&quot; style=&quot;display: none;&quot;&gt;<br>
+                                    &lt;?= lang(&#39;gift_card_no&#39;, &#39;gift_card_no&#39;); ?&gt;<br>
+                                    &lt;input type=&quot;text&quot; id=&quot;gift_card_no&quot;<br>
+                                    class=&quot;pa form&ndash;control kb&ndash;pad gift_card_no gift_card_input&quot;/&gt;<br>
+<br>
+                                    &lt;div id=&quot;gc_details&quot;&gt;&lt;/div&gt;<br>
+                                &lt;/div&gt;<br>
+                                &lt;div class=&quot;pcc&quot; style=&quot;display:none;&quot;&gt;<br>
+                                    &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                        &lt;input type=&quot;text&quot; id=&quot;swipe&quot; class=&quot;form&ndash;control swipe swipe_input&quot;<br>
+                                        placeholder=&quot;&lt;?= lang(&#39;focus_swipe_here&#39;) ?&gt;&quot;/&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div class=&quot;row&quot;&gt;<br>
+                                        &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                                            &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                                &lt;input type=&quot;text&quot; id=&quot;pcc_no&quot;<br>
+                                                class=&quot;form&ndash;control kb&ndash;pad&quot;<br>
+                                                placeholder=&quot;&lt;?= lang(&#39;cc_no&#39;) ?&gt;&quot;/&gt;<br>
+                                            &lt;/div&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                                            &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+<br>
+                                                &lt;input type=&quot;text&quot; id=&quot;pcc_holder&quot;<br>
+                                                class=&quot;form&ndash;control kb&ndash;text&quot;<br>
+                                                placeholder=&quot;&lt;?= lang(&#39;cc_holder&#39;) ?&gt;&quot;/&gt;<br>
+                                            &lt;/div&gt;<br>
+                                        &lt;/div&gt;<br>
+                                        &lt;div class=&quot;col&ndash;xs&ndash;3&quot;&gt;<br>
+                                            &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                                &lt;select id=&quot;pcc_type&quot;<br>
+                                                class=&quot;form&ndash;control pcc_type select2&quot;<br>
+                                                placeholder=&quot;&lt;?= lang(&#39;card_type&#39;) ?&gt;&quot;&gt;<br>
+                                                &lt;option value=&quot;Visa&quot;&gt;&lt;?= lang(&#39;Visa&#39;); ?&gt;&lt;/option&gt;<br>
+                                                &lt;option<br>
+                                                value=&quot;MasterCard&quot;&gt;&lt;?= lang(&#39;MasterCard&#39;); ?&gt;&lt;/option&gt;<br>
+                                                &lt;option value=&quot;Amex&quot;&gt;&lt;?= lang(&#39;Amex&#39;); ?&gt;&lt;/option&gt;<br>
+                                                &lt;option<br>
+                                                value=&quot;Discover&quot;&gt;&lt;?= lang(&#39;Discover&#39;); ?&gt;&lt;/option&gt;<br>
+                                            &lt;/select&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div class=&quot;col&ndash;xs&ndash;3&quot;&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                                            &lt;input type=&quot;text&quot; id=&quot;pcc_month&quot;<br>
+                                            class=&quot;form&ndash;control kb&ndash;pad&quot;<br>
+                                            placeholder=&quot;&lt;?= lang(&#39;month&#39;) ?&gt;&quot;/&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div class=&quot;col&ndash;xs&ndash;3&quot;&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+<br>
+                                            &lt;input type=&quot;text&quot; id=&quot;pcc_year&quot;<br>
+                                            class=&quot;form&ndash;control kb&ndash;pad&quot;<br>
+                                            placeholder=&quot;&lt;?= lang(&#39;year&#39;) ?&gt;&quot;/&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                    &lt;div class=&quot;col&ndash;xs&ndash;3&quot;&gt;<br>
+                                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+<br>
+                                            &lt;input type=&quot;text&quot; id=&quot;pcc_cvv2&quot;<br>
+                                            class=&quot;form&ndash;control kb&ndash;pad&quot;<br>
+                                            placeholder=&quot;&lt;?= lang(&#39;cvv2&#39;) ?&gt;&quot;/&gt;<br>
+                                        &lt;/div&gt;<br>
+                                    &lt;/div&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                            &lt;div class=&quot;pcheque&quot; style=&quot;display:none;&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group&quot;&gt;&lt;?= lang(&#39;cheque_no&#39;, &#39;cheque_no&#39;); ?&gt;<br>
+                                    &lt;input type=&quot;text&quot; id=&quot;cheque_no&quot;<br>
+                                    class=&quot;form&ndash;control cheque_no kb&ndash;text&quot;/&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                            &lt;div class=&quot;pcash&quot;&gt;<br>
+                                &lt;div class=&quot;form&ndash;group&quot;&gt;&lt;?= lang(&#39;payment_note&#39;, &#39;payment_note&#39;); ?&gt;<br>
+                                    &lt;input type=&quot;text&quot; id=&quot;payment_note&quot;<br>
+                                    class=&quot;form&ndash;control payment_note kb&ndash;text&quot;/&gt;<br>
+                                &lt;/div&gt;<br>
+                            &lt;/div&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;col&ndash;xs&ndash;3 text&ndash;center&quot;&gt;<br>
+                    &lt;!&ndash;&ndash; &lt;span style=&quot;font&ndash;size: 1.2em; font&ndash;weight: bold;&quot;&gt;&lt;?= lang(&#39;quick_cash&#39;); ?&gt;&lt;/span&gt; &ndash;&ndash;&gt;<br>
+<br>
+                    &lt;div class=&quot;btn&ndash;group btn&ndash;group&ndash;vertical&quot; style=&quot;width:100%;&quot;&gt;<br>
+                        &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;info btn&ndash;block quick&ndash;cash&quot; id=&quot;quick&ndash;payable&quot;&gt;0.00<br>
+                        &lt;/button&gt;<br>
+                        &lt;?php<br>
+                        foreach (lang(&#39;quick_cash_notes&#39;) as $cash_note_amount) {<br>
+                            echo &#39;&lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;block btn&ndash;warning quick&ndash;cash&quot;&gt;&#39; . $cash_note_amount . &#39;&lt;/button&gt;&#39;;<br>
+                        }<br>
+                        ?&gt;<br>
+                        &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;block btn&ndash;danger&quot;<br>
+                        id=&quot;clear&ndash;cash&ndash;notes&quot;&gt;&lt;?= lang(&#39;clear&#39;); ?&gt;&lt;/button&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+            &lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+        &lt;div class=&quot;modal&ndash;footer&quot;&gt;<br>
+            &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt; &lt;?=lang(&#39;close&#39;)?&gt; &lt;/button&gt;<br>
+            &lt;button class=&quot;btn btn&ndash;primary&quot; id=&quot;&lt;?= $eid ? &#39;&#39; : &#39;submit&ndash;sale&#39;; ?&gt;&quot;&gt;&lt;?=lang(&#39;submit&#39;)?&gt;&lt;/button&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;customerModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;cModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+            &lt;div class=&quot;modal&ndash;header modal&ndash;primary&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+                &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;cModalLabel&quot;&gt;<br>
+                    &lt;?=lang(&#39;add_customer&#39;)?&gt;<br>
+                &lt;/h4&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;?= form_open(&#39;pos/add_customer&#39;, &#39;id=&quot;customer&ndash;form&quot;&#39;); ?&gt;<br>
+            &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+                &lt;div id=&quot;c&ndash;alert&quot; class=&quot;alert alert&ndash;danger&quot; style=&quot;display:none;&quot;&gt;&lt;/div&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;12&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;label class=&quot;control&ndash;label&quot; for=&quot;code&quot;&gt;<br>
+                                &lt;?= lang(&#39;name&#39;); ?&gt;<br>
+                            &lt;/label&gt;<br>
+                            &lt;?= form_input(&#39;name&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control input&ndash;sm kb&ndash;text&quot; id=&quot;cname&quot;&#39;); ?&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;label class=&quot;control&ndash;label&quot; for=&quot;cemail&quot;&gt;<br>
+                                &lt;?= lang(&#39;email_address&#39;); ?&gt;<br>
+                            &lt;/label&gt;<br>
+                            &lt;?= form_input(&#39;email&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control input&ndash;sm kb&ndash;text&quot; id=&quot;cemail&quot;&#39;); ?&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;label class=&quot;control&ndash;label&quot; for=&quot;phone&quot;&gt;<br>
+                                &lt;?= lang(&#39;phone&#39;); ?&gt;<br>
+                            &lt;/label&gt;<br>
+                            &lt;?= form_input(&#39;phone&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control input&ndash;sm kb&ndash;pad&quot; id=&quot;cphone&quot;&#39;);?&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+                &lt;div class=&quot;row&quot;&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;label class=&quot;control&ndash;label&quot; for=&quot;cf1&quot;&gt;<br>
+                                &lt;?= lang(&#39;cf1&#39;); ?&gt;<br>
+                            &lt;/label&gt;<br>
+                            &lt;?= form_input(&#39;cf1&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control input&ndash;sm kb&ndash;text&quot; id=&quot;cf1&quot;&#39;); ?&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;div class=&quot;col&ndash;xs&ndash;6&quot;&gt;<br>
+                        &lt;div class=&quot;form&ndash;group&quot;&gt;<br>
+                            &lt;label class=&quot;control&ndash;label&quot; for=&quot;cf2&quot;&gt;<br>
+                                &lt;?= lang(&#39;cf2&#39;); ?&gt;<br>
+                            &lt;/label&gt;<br>
+                            &lt;?= form_input(&#39;cf2&#39;, &#39;&#39;, &#39;class=&quot;form&ndash;control input&ndash;sm kb&ndash;text&quot; id=&quot;cf2&quot;&#39;);?&gt;<br>
+                        &lt;/div&gt;<br>
+                    &lt;/div&gt;<br>
+                &lt;/div&gt;<br>
+<br>
+            &lt;/div&gt;<br>
+            &lt;div class=&quot;modal&ndash;footer&quot; style=&quot;margin&ndash;top:0;&quot;&gt;<br>
+                &lt;button type=&quot;button&quot; class=&quot;btn btn&ndash;default pull&ndash;left&quot; data&ndash;dismiss=&quot;modal&quot;&gt; &lt;?=lang(&#39;close&#39;)?&gt; &lt;/button&gt;<br>
+                &lt;button type=&quot;submit&quot; class=&quot;btn btn&ndash;primary&quot; id=&quot;add_customer&quot;&gt; &lt;?=lang(&#39;add_customer&#39;)?&gt; &lt;/button&gt;<br>
+            &lt;/div&gt;<br>
+            &lt;?= form_close(); ?&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;printModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;myModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;dialog&quot; style=&quot;width:400px;&quot;&gt;<br>
+    &lt;div class=&quot;modal&ndash;content&quot;&gt;<br>
+        &lt;div class=&quot;modal&ndash;header np&quot;&gt;<br>
+            &lt;button type=&quot;button&quot; class=&quot;close&quot; id=&quot;print&ndash;modal&ndash;close&quot; data&ndash;dismiss=&quot;modal&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;i class=&quot;fa fa&ndash;times&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+            &lt;button type=&quot;button&quot; class=&quot;close mr10&quot; onclick=&quot;window.print();&quot;&gt;&lt;i class=&quot;fa fa&ndash;print&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>
+            &lt;h4 class=&quot;modal&ndash;title&quot; id=&quot;print&ndash;title&quot;&gt;&lt;/h4&gt;<br>
+        &lt;/div&gt;<br>
+        &lt;div class=&quot;modal&ndash;body&quot;&gt;<br>
+            &lt;div id=&quot;print&ndash;body&quot;&gt;&lt;/div&gt;<br>
+        &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+    &lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;posModal&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;myModalLabel&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;/div&gt;<br>
+&lt;div class=&quot;modal&quot; data&ndash;easein=&quot;flipYIn&quot; id=&quot;posModal2&quot; tabindex=&quot;&ndash;1&quot; role=&quot;dialog&quot; aria&ndash;labelledby=&quot;myModalLabel2&quot; aria&ndash;hidden=&quot;true&quot;&gt;&lt;/div&gt;<br>
+<br>
+&lt;script type=&quot;text/javascript&quot;&gt;<br>
+    var base_url = &#39;&lt;?=base_url();?&gt;&#39;, assets = &#39;&lt;?= $assets ?&gt;&#39;;<br>
+    var dateformat = &#39;&lt;?=$Settings&ndash;&gt;dateformat;?&gt;&#39;, timeformat = &#39;&lt;?= $Settings&ndash;&gt;timeformat ?&gt;&#39;;<br>
+    &lt;?php unset($Settings&ndash;&gt;protocol, $Settings&ndash;&gt;smtp_host, $Settings&ndash;&gt;smtp_user, $Settings&ndash;&gt;smtp_pass, $Settings&ndash;&gt;smtp_port, $Settings&ndash;&gt;smtp_crypto, $Settings&ndash;&gt;mailpath, $Settings&ndash;&gt;timezone, $Settings&ndash;&gt;setting_id, $Settings&ndash;&gt;default_email, $Settings&ndash;&gt;version, $Settings&ndash;&gt;stripe, $Settings&ndash;&gt;stripe_secret_key, $Settings&ndash;&gt;stripe_publishable_key); ?&gt;<br>
+    var Settings = &lt;?= json_encode($Settings); ?&gt;;<br>
+    var sid = false, username = &#39;&lt;?=$this&ndash;&gt;session&ndash;&gt;userdata(&#39;username&#39;);?&gt;&#39;, spositems = {};<br>
+    $(window).load(function () {<br>
+        $(&#39;#mm_&lt;?=$m?&gt;&#39;).addClass(&#39;active&#39;);<br>
+        $(&#39;#&lt;?=$m?&gt;_&lt;?=$v?&gt;&#39;).addClass(&#39;active&#39;);<br>
+    });<br>
+    var pro_limit = &lt;?=$Settings&ndash;&gt;pro_limit?&gt;, java_applet = 0, count = 1, total = 0, an = 1, p_page = 0, page = 0, cat_id = &lt;?=$Settings&ndash;&gt;default_category?&gt;, tcp = &lt;?=$tcp?&gt;;<br>
+    var gtotal = 0, order_discount = 0, order_tax = 0, protect_delete = &lt;?= ($Admin) ? 0 : ($Settings&ndash;&gt;pin_code ? 1 : 0); ?&gt;;<br>
+    var order_data = {}, bill_data = {};<br>
+    var csrf_hash = &#39;&lt;?= $this&ndash;&gt;security&ndash;&gt;get_csrf_hash(); ?&gt;&#39;;<br>
+    &lt;?php<br>
+    if ($Settings&ndash;&gt;remote_printing == 2) {<br>
+        ?&gt;<br>
+        var ob_store_name = &quot;&lt;?= printText($store&ndash;&gt;name, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n&quot;;<br>
+        order_data.store_name = ob_store_name;<br>
+        bill_data.store_name = ob_store_name;<br>
+<br>
+        ob_header = &quot;&quot;;<br>
+        ob_header += &quot;&lt;?= printText($store&ndash;&gt;name . &#39; (&#39; . $store&ndash;&gt;code . &#39;)&#39;, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n&quot;;<br>
+        &lt;?php<br>
+        if ($store&ndash;&gt;address1) { ?&gt;<br>
+            ob_header += &quot;&lt;?= printText($store&ndash;&gt;address1, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;));?&gt;\r\n&quot;;<br>
+            &lt;?php<br>
+        }<br>
+        if ($store&ndash;&gt;address2) { ?&gt;<br>
+            ob_header += &quot;&lt;?= printText($store&ndash;&gt;address2, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;));?&gt;\r\n&quot;;<br>
+            &lt;?php<br>
+        }<br>
+        if ($store&ndash;&gt;city) { ?&gt;<br>
+            ob_header += &quot;&lt;?= printText($store&ndash;&gt;city, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;));?&gt;\r\n&quot;;<br>
+            &lt;?php<br>
+        } ?&gt;<br>
+        ob_header += &quot;&lt;?= printText(lang(&#39;tel&#39;) . &#39;: &#39; . $store&ndash;&gt;phone, (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n\r\n&quot;;<br>
+        ob_header += &quot;&lt;?= printText(str_replace([&quot;\n&quot;, &quot;\r&quot;], [&#39;\\n&#39;, &#39;\\r&#39;], $store&ndash;&gt;receipt_header), (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n\r\n&quot;;<br>
+<br>
+        order_data.header = ob_header + &quot;&lt;?= printText(lang(&#39;order&#39;), (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n\r\n&quot;;<br>
+        bill_data.header = ob_header + &quot;&lt;?= printText(lang(&#39;bill&#39;), (!empty($printer) ? $printer&ndash;&gt;char_per_line : &#39;&#39;)); ?&gt;\r\n\r\n&quot;;<br>
+        order_data.totals = &#39;&#39;;<br>
+        order_data.payments = &#39;&#39;;<br>
+        bill_data.payments = &#39;&#39;;<br>
+        order_data.footer = &#39;&#39;;<br>
+        bill_data.footer = &quot;&lt;?= lang(&#39;merchant_copy&#39;); ?&gt; \n&quot;;<br>
+        &lt;?php<br>
+    }<br>
+    ?&gt;<br>
+    var lang = new Array();<br>
+    lang[&#39;code_error&#39;] = &#39;&lt;?= lang(&#39;code_error&#39;); ?&gt;&#39;;<br>
+    lang[&#39;r_u_sure&#39;] = &#39;&lt;?= lang(&#39;r_u_sure&#39;); ?&gt;&#39;;<br>
+    lang[&#39;please_add_product&#39;] = &#39;&lt;?= lang(&#39;please_add_product&#39;); ?&gt;&#39;;<br>
+    lang[&#39;paid_less_than_amount&#39;] = &#39;&lt;?= lang(&#39;paid_less_than_amount&#39;); ?&gt;&#39;;<br>
+    lang[&#39;x_suspend&#39;] = &#39;&lt;?= lang(&#39;x_suspend&#39;); ?&gt;&#39;;<br>
+    lang[&#39;discount_title&#39;] = &#39;&lt;?= lang(&#39;discount_title&#39;); ?&gt;&#39;;<br>
+    lang[&#39;update&#39;] = &#39;&lt;?= lang(&#39;update&#39;); ?&gt;&#39;;<br>
+    lang[&#39;tax_title&#39;] = &#39;&lt;?= lang(&#39;tax_title&#39;); ?&gt;&#39;;<br>
+    lang[&#39;leave_alert&#39;] = &#39;&lt;?= lang(&#39;leave_alert&#39;); ?&gt;&#39;;<br>
+    lang[&#39;close&#39;] = &#39;&lt;?= lang(&#39;close&#39;); ?&gt;&#39;;<br>
+    lang[&#39;delete&#39;] = &#39;&lt;?= lang(&#39;delete&#39;); ?&gt;&#39;;<br>
+    lang[&#39;no_match_found&#39;] = &#39;&lt;?= lang(&#39;no_match_found&#39;); ?&gt;&#39;;<br>
+    lang[&#39;wrong_pin&#39;] = &#39;&lt;?= lang(&#39;wrong_pin&#39;); ?&gt;&#39;;<br>
+    lang[&#39;file_required_fields&#39;] = &#39;&lt;?= lang(&#39;file_required_fields&#39;); ?&gt;&#39;;<br>
+    lang[&#39;enter_pin_code&#39;] = &#39;&lt;?= lang(&#39;enter_pin_code&#39;); ?&gt;&#39;;<br>
+    lang[&#39;incorrect_gift_card&#39;] = &#39;&lt;?= lang(&#39;incorrect_gift_card&#39;); ?&gt;&#39;;<br>
+    lang[&#39;card_no&#39;] = &#39;&lt;?= lang(&#39;card_no&#39;); ?&gt;&#39;;<br>
+    lang[&#39;value&#39;] = &#39;&lt;?= lang(&#39;value&#39;); ?&gt;&#39;;<br>
+    lang[&#39;balance&#39;] = &#39;&lt;?= lang(&#39;balance&#39;); ?&gt;&#39;;<br>
+    lang[&#39;unexpected_value&#39;] = &#39;&lt;?= lang(&#39;unexpected_value&#39;); ?&gt;&#39;;<br>
+    lang[&#39;inclusive&#39;] = &#39;&lt;?= lang(&#39;inclusive&#39;); ?&gt;&#39;;<br>
+    lang[&#39;exclusive&#39;] = &#39;&lt;?= lang(&#39;exclusive&#39;); ?&gt;&#39;;<br>
+    lang[&#39;total&#39;] = &#39;&lt;?= lang(&#39;total&#39;); ?&gt;&#39;;<br>
+    lang[&#39;total_items&#39;] = &#39;&lt;?= lang(&#39;total_items&#39;); ?&gt;&#39;;<br>
+    lang[&#39;order_tax&#39;] = &#39;&lt;?= lang(&#39;order_tax&#39;); ?&gt;&#39;;<br>
+    lang[&#39;order_discount&#39;] = &#39;&lt;?= lang(&#39;order_discount&#39;); ?&gt;&#39;;<br>
+    lang[&#39;total_payable&#39;] = &#39;&lt;?= lang(&#39;total_payable&#39;); ?&gt;&#39;;<br>
+    lang[&#39;rounding&#39;] = &#39;&lt;?= lang(&#39;rounding&#39;); ?&gt;&#39;;<br>
+    lang[&#39;grand_total&#39;] = &#39;&lt;?= lang(&#39;grand_total&#39;); ?&gt;&#39;;<br>
+    lang[&#39;register_open_alert&#39;] = &#39;&lt;?= lang(&#39;register_open_alert&#39;); ?&gt;&#39;;<br>
+    lang[&#39;discount&#39;] = &#39;&lt;?= lang(&#39;discount&#39;); ?&gt;&#39;;<br>
+    lang[&#39;order&#39;] = &#39;&lt;?= lang(&#39;order&#39;); ?&gt;&#39;;<br>
+    lang[&#39;bill&#39;] = &#39;&lt;?= lang(&#39;bill&#39;); ?&gt;&#39;;<br>
+    lang[&#39;print&#39;] = &#39;&lt;?= lang(&#39;print&#39;); ?&gt;&#39;;<br>
+    lang[&#39;merchant_copy&#39;] = &#39;&lt;?= lang(&#39;merchant_copy&#39;); ?&gt;&#39;;<br>
+<br>
+    $(document).ready(function() {<br>
+        &lt;?php if ($this&ndash;&gt;session&ndash;&gt;userdata(&#39;rmspos&#39;)) { ?&gt;<br>
+            if (get(&#39;spositems&#39;)) { remove(&#39;spositems&#39;); }<br>
+            if (get(&#39;spos_discount&#39;)) { remove(&#39;spos_discount&#39;); }<br>
+            if (get(&#39;spos_tax&#39;)) { remove(&#39;spos_tax&#39;); }<br>
+            if (get(&#39;spos_note&#39;)) { remove(&#39;spos_note&#39;); }<br>
+            if (get(&#39;spos_customer&#39;)) { remove(&#39;spos_customer&#39;); }<br>
+            if (get(&#39;amount&#39;)) { remove(&#39;amount&#39;); }<br>
+            &lt;?php $this&ndash;&gt;tec&ndash;&gt;unset_data(&#39;rmspos&#39;); } ?&gt;<br>
+<br>
+            if (get(&#39;rmspos&#39;)) {<br>
+                if (get(&#39;spositems&#39;)) { remove(&#39;spositems&#39;); }<br>
+                if (get(&#39;spos_discount&#39;)) { remove(&#39;spos_discount&#39;); }<br>
+                if (get(&#39;spos_tax&#39;)) { remove(&#39;spos_tax&#39;); }<br>
+                if (get(&#39;spos_note&#39;)) { remove(&#39;spos_note&#39;); }<br>
+                if (get(&#39;spos_customer&#39;)) { remove(&#39;spos_customer&#39;); }<br>
+                if (get(&#39;amount&#39;)) { remove(&#39;amount&#39;); }<br>
+                remove(&#39;rmspos&#39;);<br>
+            }<br>
+            &lt;?php if ($sid) { ?&gt;<br>
+<br>
+                store(&#39;spositems&#39;, JSON.stringify(&lt;?=$items;?&gt;));<br>
+                store(&#39;spos_discount&#39;, &#39;&lt;?=$suspend_sale&ndash;&gt;order_discount_id;?&gt;&#39;);<br>
+                store(&#39;spos_tax&#39;, &#39;&lt;?=$suspend_sale&ndash;&gt;order_tax_id;?&gt;&#39;);<br>
+                store(&#39;spos_customer&#39;, &#39;&lt;?=$suspend_sale&ndash;&gt;customer_id;?&gt;&#39;);<br>
+                $(&#39;#spos_customer&#39;).select2().select2(&#39;val&#39;, &#39;&lt;?=$suspend_sale&ndash;&gt;customer_id;?&gt;&#39;);<br>
+                store(&#39;rmspos&#39;, &#39;1&#39;);<br>
+                $(&#39;#tax_val&#39;).val(&#39;&lt;?=$suspend_sale&ndash;&gt;order_tax_id;?&gt;&#39;);<br>
+                $(&#39;#discount_val&#39;).val(&#39;&lt;?=$suspend_sale&ndash;&gt;order_discount_id;?&gt;&#39;);<br>
+                &lt;?php } elseif ($eid) { ?&gt;<br>
+                    $(&#39;#date&#39;).inputmask(&quot;y&ndash;m&ndash;d h:s:s&quot;, { &quot;placeholder&quot;: &quot;YYYY/MM/DD HH:mm:ss&quot; });<br>
+                    store(&#39;spositems&#39;, JSON.stringify(&lt;?=$items;?&gt;));<br>
+                    store(&#39;spos_discount&#39;, &#39;&lt;?=$sale&ndash;&gt;order_discount_id;?&gt;&#39;);<br>
+                    store(&#39;spos_tax&#39;, &#39;&lt;?=$sale&ndash;&gt;order_tax_id;?&gt;&#39;);<br>
+                    store(&#39;spos_customer&#39;, &#39;&lt;?=$sale&ndash;&gt;customer_id;?&gt;&#39;);<br>
+                    store(&#39;sale_date&#39;, &#39;&lt;?=$sale&ndash;&gt;date;?&gt;&#39;);<br>
+                    $(&#39;#spos_customer&#39;).select2().select2(&#39;val&#39;, &#39;&lt;?=$sale&ndash;&gt;customer_id;?&gt;&#39;);<br>
+                    $(&#39;#date&#39;).val(&#39;&lt;?=$sale&ndash;&gt;date;?&gt;&#39;);<br>
+                    store(&#39;rmspos&#39;, &#39;1&#39;);<br>
+                    $(&#39;#tax_val&#39;).val(&#39;&lt;?=$sale&ndash;&gt;order_tax_id;?&gt;&#39;);<br>
+                    $(&#39;#discount_val&#39;).val(&#39;&lt;?=$sale&ndash;&gt;order_discount_id;?&gt;&#39;);<br>
+                    &lt;?php } else { ?&gt;<br>
+                        if (! get(&#39;spos_discount&#39;)) {<br>
+                            store(&#39;spos_discount&#39;, &#39;&lt;?=$Settings&ndash;&gt;default_discount;?&gt;&#39;);<br>
+                            $(&#39;#discount_val&#39;).val(&#39;&lt;?=$Settings&ndash;&gt;default_discount;?&gt;&#39;);<br>
+                        }<br>
+                        if (! get(&#39;spos_tax&#39;)) {<br>
+                            store(&#39;spos_tax&#39;, &#39;&lt;?=$Settings&ndash;&gt;default_tax_rate;?&gt;&#39;);<br>
+                            $(&#39;#tax_val&#39;).val(&#39;&lt;?=$Settings&ndash;&gt;default_tax_rate;?&gt;&#39;);<br>
+                        }<br>
+                        &lt;?php } ?&gt;<br>
+<br>
+                        if (ots = get(&#39;spos_tax&#39;)) {<br>
+                            $(&#39;#tax_val&#39;).val(ots);<br>
+                        }<br>
+                        if (ods = get(&#39;spos_discount&#39;)) {<br>
+                            $(&#39;#discount_val&#39;).val(ods);<br>
+                        }<br>
+                        bootbox.addLocale(&#39;bl&#39;,{OK:&#39;&lt;?= lang(&#39;ok&#39;); ?&gt;&#39;,CANCEL:&#39;&lt;?= lang(&#39;no&#39;); ?&gt;&#39;,CONFIRM:&#39;&lt;?= lang(&#39;yes&#39;); ?&gt;&#39;});<br>
+                        bootbox.setDefaults({closeButton:false,locale:&quot;bl&quot;});<br>
+                        &lt;?php if ($eid) { ?&gt;<br>
+                            $(&#39;#suspend&#39;).attr(&#39;disabled&#39;, true);<br>
+                            $(&#39;#print_order&#39;).attr(&#39;disabled&#39;, true);<br>
+                            $(&#39;#print_bill&#39;).attr(&#39;disabled&#39;, true);<br>
+                            &lt;?php } ?&gt;<br>
+                        });<br>
+                    &lt;/script&gt;<br>
+<br>
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br>
+                        var socket = null;<br>
+                        &lt;?php<br>
+                        if ($Settings&ndash;&gt;remote_printing == 2) {<br>
+                            ?&gt;<br>
+                            try {<br>
+                                socket = new WebSocket(&#39;ws://127.0.0.1:6441&#39;);<br>
+                                socket.onopen = function () {<br>
+                                    console.log(&#39;Connected&#39;);<br>
+                                    return;<br>
+                                };<br>
+                                socket.onclose = function () {<br>
+                                    console.log(&#39;Connection closed&#39;);<br>
+                                    return;<br>
+                                };<br>
+                            } catch (e) {<br>
+                                console.log(e);<br>
+                            }<br>
+                            &lt;?php<br>
+                        }<br>
+                        ?&gt;<br>
+                        function printBill(bill) {<br>
+                            if (Settings.remote_printing == 1) {<br>
+                                Popup($(&#39;#bill_tbl&#39;).html(), &#39;bill&#39;);<br>
+                            } else if (Settings.remote_printing == 2) {<br>
+                                if (socket.readyState == 1) {<br>
+                                    if (Settings.print_img == 1) {<br>
+                                        $(&#39;#bill&ndash;data&#39;).show();<br>
+                                        $(&#39;#preb&#39;).html(<br>
+                                            &#39;&lt;pre style=&quot;background:#FFF;font&ndash;size:20px;margin:0;border:0;color:#000 !important;&quot;&gt;&#39; +<br>
+                                            bill_data.info +<br>
+                                            bill_data.items +<br>
+                                            &#39;\n&#39; +<br>
+                                            bill_data.totals +<br>
+                                            &#39;&lt;/pre&gt;&#39;<br>
+                                            );<br>
+                                        var element = $(&#39;#bill&ndash;data&#39;).get(0);<br>
+                                        html2canvas(element, {scrollY: 0, scale: 1.7}).then(function(canvas) {<br>
+                                            var dataURL = canvas.toDataURL();<br>
+                                            var socket_data = {<br>
+                                                &#39;printer&#39;: &lt;?= $Settings&ndash;&gt;local_printers ? &quot;&#39;&#39;&quot; : json_encode($printer); ?&gt;,<br>
+                                                &#39;text&#39;: dataURL, &#39;cash_drawer&#39;: 0<br>
+                                            };<br>
+                                            socket.send(JSON.stringify({<br>
+                                                type: &#39;print&ndash;img&#39;,<br>
+                                                data: socket_data<br>
+                                            }));<br>
+                                            // return Canvas2Image.saveAsPNG(canvas);<br>
+                                        });<br>
+                                        setTimeout(function() {<br>
+                                            $(&#39;#bill&ndash;data&#39;).hide();<br>
+                                        }, 500);<br>
+                                    } else {<br>
+                                        var socket_data = {&#39;printer&#39;: &lt;?= $Settings&ndash;&gt;local_printers ? &quot;&#39;&#39;&quot; : json_encode($printer); ?&gt;, &#39;logo&#39;: &#39;&lt;?= !empty($store&ndash;&gt;logo) ? base_url(&#39;uploads/&#39; . $store&ndash;&gt;logo) : &#39;&#39;; ?&gt;&#39;, &#39;text&#39;: bill};<br>
+                                        socket.send(JSON.stringify({<br>
+                                            type: &#39;print&ndash;receipt&#39;,<br>
+                                            data: socket_data<br>
+                                        }));<br>
+                                    }<br>
+                                    return false;<br>
+                                } else {<br>
+                                    bootbox.alert(&#39;&lt;?= lang(&#39;pos_print_error&#39;); ?&gt;&#39;);<br>
+                                    return false;<br>
+                                }<br>
+                            }<br>
+                        }<br>
+                        var order_printers = &lt;?= $Settings&ndash;&gt;local_printers ? &quot;&#39;&#39;&quot; : json_encode($order_printers); ?&gt;;<br>
+                        function printOrder(order) {<br>
+                            if (Settings.remote_printing == 1) {<br>
+                                Popup($(&#39;#order_tbl&#39;).html(), &#39;order&#39;);<br>
+                            } else if (Settings.remote_printing == 2) {<br>
+                                if (socket.readyState == 1) {<br>
+                                    if (Settings.print_img == 1) {<br>
+                                        $(&#39;#order&ndash;data&#39;).show();<br>
+                                        $(&#39;#preo&#39;).html(<br>
+                                            &#39;&lt;pre style=&quot;background:#FFF;font&ndash;size:20px;margin:0;border:0;color:#000 !important;&quot;&gt;&#39; + order_data.info + order_data.items + &#39;&lt;/pre&gt;&#39;<br>
+                                            );<br>
+                                        var element = $(&#39;#order&ndash;data&#39;).get(0);<br>
+                                        html2canvas(element, {scrollY: 0, scale: 1.7}).then(function(canvas) {<br>
+                                            var dataURL = canvas.toDataURL();<br>
+                                            var socket_data = {<br>
+                                                &#39;printer&#39;: &lt;?= $Settings&ndash;&gt;local_printers ? &quot;&#39;&#39;&quot; : json_encode($printer); ?&gt;,<br>
+                                                &#39;text&#39;: dataURL, &#39;order&#39;: 1, &#39;cash_drawer&#39;: 0<br>
+                                            };<br>
+                                            socket.send(JSON.stringify({<br>
+                                                type: &#39;print&ndash;img&#39;,<br>
+                                                data: socket_data<br>
+                                            }));<br>
+                                            // return Canvas2Image.saveAsPNG(canvas);<br>
+                                        });<br>
+                                        setTimeout(function() {<br>
+                                            $(&#39;#order&ndash;data&#39;).hide();<br>
+                                        }, 500);<br>
+                                    } else {<br>
+                                        if (order_printers == &#39;&#39;) {<br>
+                                            var socket_data = { &#39;printer&#39;: false, &#39;order&#39;: true,<br>
+                                            &#39;logo&#39;: &#39;&lt;?= !empty($store&ndash;&gt;logo) ? base_url(&#39;uploads/&#39; . $store&ndash;&gt;logo) : &#39;&#39;; ?&gt;&#39;,<br>
+                                            &#39;text&#39;: order };<br>
+                                            socket.send(JSON.stringify({type: &#39;print&ndash;receipt&#39;, data: socket_data}));<br>
+                                        } else {<br>
+                                            $.each(order_printers, function() {<br>
+                                                var socket_data = {&#39;printer&#39;: this, &#39;logo&#39;: &#39;&lt;?= !empty($store&ndash;&gt;logo) ? base_url(&#39;uploads/&#39; . $store&ndash;&gt;logo) : &#39;&#39;; ?&gt;&#39;, &#39;text&#39;: order};<br>
+                                                socket.send(JSON.stringify({type: &#39;print&ndash;receipt&#39;, data: socket_data}));<br>
+                                            });<br>
+                                        }<br>
+                                    }<br>
+                                    return false;<br>
+                                } else {<br>
+                                    bootbox.alert(&#39;&lt;?= lang(&#39;pos_print_error&#39;); ?&gt;&#39;);<br>
+                                    return false;<br>
+                                }<br>
+                            }<br>
+                        }<br>
+                    &lt;/script&gt;<br>
+                    &lt;?php<br>
+                    if (isset($print) &amp;&amp; !empty($print)) {<br>
+                        /* include FCPATH.&#39;themes&#39;.DIRECTORY_SEPARATOR.$Settings&ndash;&gt;theme.DIRECTORY_SEPARATOR.&#39;views&#39;.DIRECTORY_SEPARATOR.&#39;pos&#39;.DIRECTORY_SEPARATOR.&#39;remote_printing.php&#39;; */<br>
+                        include &#39;remote_printing.php&#39;;<br>
+                    }<br>
+                    ?&gt;<br>
+<br>
+                    &lt;script src=&quot;&lt;?= $assets ?&gt;dist/js/libraries.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br>
+                    &lt;script src=&quot;&lt;?= $assets ?&gt;dist/js/scripts.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br>
+                    &lt;script src=&quot;&lt;?= $assets ?&gt;dist/js/pos.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br>
+                    &lt;?php if ($Settings&ndash;&gt;remote_printing != 1 &amp;&amp; $Settings&ndash;&gt;print_img) { ?&gt;<br>
+                    &lt;script src=&quot;&lt;?= $assets ?&gt;dist/js/htmlimg.js&quot;&gt;&lt;/script&gt;<br>
+                    &lt;?php } ?&gt;<br>
+                &lt;/body&gt;<br>
+                &lt;/html&gt;</body></html>
