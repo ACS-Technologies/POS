@@ -556,6 +556,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Merchant Copy.
+        /// </summary>
+        internal static string merchant_copy {
+            get {
+                return ResourceManager.GetString("merchant_copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string name {
@@ -664,6 +673,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to connect to socket, please make sure that server is up and running fine..
+        /// </summary>
+        internal static string pos_print_error {
+            get {
+                return ResourceManager.GetString("pos_print_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         internal static string price {
@@ -714,6 +732,15 @@ namespace Resources {
         internal static string print_order {
             get {
                 return ResourceManager.GetString("print_order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to product.
+        /// </summary>
+        internal static string product {
+            get {
+                return ResourceManager.GetString("product", resourceCulture);
             }
         }
         
@@ -777,6 +804,15 @@ namespace Resources {
         internal static string sales {
             get {
                 return ResourceManager.GetString("sales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search product by code or name, you can scan barcode too.
+        /// </summary>
+        internal static string search__scan {
+            get {
+                return ResourceManager.GetString("search__scan", resourceCulture);
             }
         }
         

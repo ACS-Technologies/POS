@@ -54,8 +54,8 @@ function loadItems() {
       var hr = '<h5>R: ' + $('#hold_ref').val() + '</h5>';
       var user = '<h5>U: ' + username + '</h5>';
       var pos_curr_time = '<h5>T: ' + date(Settings.dateformat + ' ' + Settings.timeformat, time) + '</h5>';
-      $('#order_span').prepend(style + pos_head + '<h4>' + lang.order + '</h4></span>' + pos_customer + hr + user + pos_curr_time);
-      $('#bill_span').prepend(style + pos_head + '<h4>' + lang.bill + '</h4></span>' + pos_customer + hr + user + pos_curr_time);
+      $('#order_span').prepend(style + pos_head + '<h4>' + "order" + '</h4></span>' + pos_customer + hr + user + pos_curr_time);
+      $('#bill_span').prepend(style + pos_head + '<h4>' + "bill" + '</h4></span>' + pos_customer + hr + user + pos_curr_time);
       $('#order-table').empty();
       $('#bill-table').empty();
     }
@@ -99,10 +99,10 @@ function loadItems() {
         if (item_tax_method == 0) {
           pr_tax_val = inclusiveTax(net_price, pr_tax);
           net_price -= pr_tax_val;
-          tax = lang.inclusive;
+            tax = "inclusive";
         } else {
           pr_tax_val = exlusiveTax(net_price, pr_tax);
-          tax = lang.exclusive;
+            tax = "exclusive";
         }
       }
       product_tax += formatDecimal(pr_tax_val * item_qty, 4);
@@ -276,53 +276,53 @@ function loadItems() {
       order_data.items = o_items;
       bill_data.items = b_items;
       var b_totals = '';
-      b_totals += printLine(lang.total + ': ' + formatMoney(total)) + '\n';
+        b_totals += printLine("total" + ': ' + formatMoney(total)) + '\n';
       if (order_discount > 0 || product_discount > 0) {
-        b_totals += printLine(lang.discount + ': ' + formatMoney(order_discount + product_discount)) + '\n';
+          b_totals += printLine("discount" + ': ' + formatMoney(order_discount + product_discount)) + '\n';
       }
       if (order_tax != 0) {
-        b_totals += printLine(lang.order_tax + ': ' + formatMoney(order_tax)) + '\n';
+          b_totals += printLine("order tax" + ': ' + formatMoney(order_tax)) + '\n';
       }
-      b_totals += printLine(lang.grand_total + ': ' + formatMoney(g_total)) + '\n';
+        b_totals += printLine("grand total" + ': ' + formatMoney(g_total)) + '\n';
       if (Settings.rounding != 0) {
         round_total = roundNumber(g_total, parseInt(Settings.rounding));
         var rounding = formatDecimal(round_total - g_total, 4);
-        b_totals += printLine(lang.rounding + ': ' + formatMoney(rounding)) + '\n';
-        b_totals += printLine(lang.total_payable + ': ' + formatMoney(round_total)) + '\n';
+          b_totals += printLine("rounding" + ': ' + formatMoney(rounding)) + '\n';
+          b_totals += printLine("total payable" + ': ' + formatMoney(round_total)) + '\n';
       }
-      b_totals += '\n' + lang.total_items + ': ' + (an - 1) + ' (' + (parseFloat(count) - 1) + ')' + '\n';
+        b_totals += '\n' + "total items" + ': ' + (an - 1) + ' (' + (parseFloat(count) - 1) + ')' + '\n';
       bill_data.totals = b_totals;
     } else {
       var bill_totals = '';
       bill_totals +=
         '<tr class="bb"><td>' +
-        lang.total_items +
+      "total items" +
         '</td><td style="text-align:right;">' +
         (an - 1) +
         ' (' +
         (parseFloat(count) - 1) +
         ')</td></tr>';
-      bill_totals += '<tr class="bb"><td>' + lang.total + '</td><td style="text-align:right;">' + formatMoney(total) + '</td></tr>';
+        bill_totals += '<tr class="bb"><td>' + "total" + '</td><td style="text-align:right;">' + formatMoney(total) + '</td></tr>';
       if (order_discount > 0 || product_discount > 0) {
         bill_totals +=
           '<tr class="bb"><td>' +
-          lang.discount +
+          "discount" +
           '</td><td style="text-align:right;">' +
           formatMoney(order_discount + product_discount) +
           '</td></tr>';
       }
       if (order_tax != 0) {
         bill_totals +=
-          '<tr class="bb"><td>' + lang.order_tax + '</td><td style="text-align:right;">' + formatMoney(order_tax) + '</td></tr>';
+            '<tr class="bb"><td>' + "order tax" + '</td><td style="text-align:right;">' + formatMoney(order_tax) + '</td></tr>';
       }
-      bill_totals += '<tr class="bb"><td>' + lang.grand_total + '</td><td style="text-align:right;">' + formatMoney(g_total) + '</td></tr>';
+        bill_totals += '<tr class="bb"><td>' + "grand total" + '</td><td style="text-align:right;">' + formatMoney(g_total) + '</td></tr>';
       if (Settings.rounding != 0) {
         round_total = roundNumber(g_total, parseInt(Settings.rounding));
         var rounding = formatDecimal(round_total - g_total, 4);
-        bill_totals += '<tr class="bb"><td>' + lang.rounding + '</td><td style="text-align:right;">' + formatMoney(rounding) + '</td></tr>';
-        bill_totals += '<tr><td>' + lang.total_payable + '</td><td style="text-align:right;">' + formatMoney(round_total) + '</td></tr>';
+          bill_totals += '<tr class="bb"><td>' + "rounding" + '</td><td style="text-align:right;">' + formatMoney(rounding) + '</td></tr>';
+          bill_totals += '<tr><td>' + "total payable" + '</td><td style="text-align:right;">' + formatMoney(round_total) + '</td></tr>';
       }
-      bill_totals += '<tr><td colspan="2" style="text-align:center;">' + lang.merchant_copy + '</td></tr>';
+        bill_totals += '<tr><td colspan="2" style="text-align:center;">' + "merchant copy" + '</td></tr>';
       $('#bill-total-table').empty();
       $('#bill-total-table').append(bill_totals);
     }
@@ -349,7 +349,7 @@ $(document).ready(function () {
   });
 
   $('#filter-categories').hideseek({
-    nodata: lang.no_match_found,
+    nodata: "no_match_found",
   });
 
   $(document).on('click', '.suspended_sales .dropdown-menu .header', function (e) {
@@ -357,7 +357,7 @@ $(document).ready(function () {
   });
 
   $('#filter-suspended-sales').hideseek({
-    nodata: lang.no_match_found,
+    nodata: "no_match_found",
   });
 
   $('#suspended_sales').on('shown.bs.dropdown', function () {
@@ -399,10 +399,10 @@ $(document).ready(function () {
       if (parseFloat(item.row.tax_method) == 0) {
         pr_tax_val = formatDecimal((net_price * parseFloat(pr_tax)) / (100 + parseFloat(pr_tax)));
         net_price -= pr_tax_val;
-        tax = lang.inclusive;
+          tax = "inclusive";
       } else {
         pr_tax_val = formatDecimal((net_price * parseFloat(pr_tax)) / 100);
-        tax = lang.exclusive;
+          tax = "exclusive";
       }
     }
 
@@ -439,10 +439,10 @@ $(document).ready(function () {
       if (parseFloat(item.row.tax_method) == 0) {
         pr_tax_val = formatDecimal((net_price * parseFloat(pr_tax)) / (100 + parseFloat(pr_tax)));
         net_price -= pr_tax_val;
-        tax = lang.inclusive;
+        tax = "inclusive";
       } else {
         pr_tax_val = formatDecimal((net_price * parseFloat(pr_tax)) / 100);
-        tax = lang.exclusive;
+        tax = "exclusive";
       }
     }
 
@@ -457,7 +457,7 @@ $(document).ready(function () {
     var item_id = $('#item_id').val();
     var price = parseFloat($('#nPrice').val());
     if (!is_valid_discount($('#nDiscount').val())) {
-      bootbox.alert(lang.unexpected_value);
+      bootbox.alert("unexpected_value");
       return false;
     }
     (spositems[item_id].row.qty = parseFloat($('#nQuantity').val())),
@@ -478,7 +478,7 @@ $(document).ready(function () {
     var row = $(this).closest('tr');
     if (!is_numeric($(this).val()) || $(this).val() == 0) {
       loadItems();
-      bootbox.alert(lang.unexpected_value);
+      bootbox.alert("unexpected value");
       return false;
     }
     var new_qty = parseFloat($(this).val()),
@@ -494,17 +494,17 @@ $(document).ready(function () {
     }
     if (protect_delete == 1) {
       var boxd = bootbox.dialog({
-        title: lang.enter_pin_code,
+        title: "enter pin code",
         closeButton: true,
         message: '<input id="pos_pin" name="pos_pin" type="password" placeholder="Pin Code" class="form-control kb-pad"> ',
         buttons: {
           danger: {
-            label: lang.close,
+            label: "close",
             className: 'btn-default pull-left',
             callback: function () {},
           },
           success: {
-            label: "<i class='fa fa-tick'></i> " + lang.delete,
+            label: "<i class='fa fa-tick'></i> " + "delete",
             className: 'btn-warning verify_pin',
             callback: function () {
               var pos_pin = md5($('#pos_pin').val());
@@ -523,7 +523,7 @@ $(document).ready(function () {
                 }
                 window.location.href = base_url + 'pos';
               } else {
-                bootbox.alert(lang.wrong_pin);
+                bootbox.alert("wrong pin");
               }
             },
           },
@@ -544,7 +544,7 @@ $(document).ready(function () {
           });
       });
     } else {
-      bootbox.confirm(lang.r_u_sure, function (result) {
+      bootbox.confirm("Are you sure", function (result) {
         if (result) {
           if (get('spositems')) {
             remove('spositems');
@@ -567,7 +567,7 @@ $(document).ready(function () {
   $('#print_order').click(function (e) {
     e.preventDefault();
     if (count <= 1) {
-      bootbox.alert(lang.please_add_product);
+      bootbox.alert("please add product");
     } else {
       if (Settings.remote_printing == 0) {
         $('#order-data').show();
@@ -604,7 +604,7 @@ $(document).ready(function () {
   $('#print_bill').click(function (e) {
     e.preventDefault();
     if (count <= 1) {
-      bootbox.alert(lang.please_add_product);
+      bootbox.alert("please add product");
     } else {
       if (Settings.remote_printing == 0) {
         $('#bill-data').show();
@@ -746,13 +746,13 @@ $(document).ready(function () {
     code = $(this).val();
     $.ajax({
       type: 'get',
-      url: base_url + 'pos/get_product/' + code,
+      url:  'pos/get_product/' + code,
       dataType: 'json',
       success: function (data) {
         if (data !== null) {
           add_invoice_item(data);
         } else {
-          bootbox.alert(lang.no_match_found);
+          bootbox.alert("no match found");
         }
       },
     });
@@ -833,7 +833,7 @@ $(document).ready(function () {
     delay: 200,
     response: function (event, ui) {
       if ($(this).val().length >= 16 && ui.content[0] && ui.content[0].id == 0) {
-        bootbox.alert(lang.no_match_found, function () {
+        bootbox.alert("no match found", function () {
           $('#add_item').focus();
         });
         $(this).val('');
@@ -842,7 +842,7 @@ $(document).ready(function () {
         $(this).data('ui-autocomplete')._trigger('select', 'autocompleteselect', ui);
         $(this).autocomplete('close');
       } else if (ui.content.length == 1 && ui.content[0] && ui.content[0].id == 0) {
-        bootbox.alert(lang.no_match_found, function () {
+        bootbox.alert("no match found", function () {
           $('#add_item').focus();
         });
         $(this).val('');
@@ -854,7 +854,7 @@ $(document).ready(function () {
         var row = add_invoice_item(ui.item);
         if (row) $(this).val('');
       } else {
-        bootbox.alert(lang.no_match_found);
+          bootbox.alert("no match found");
       }
     },
   });
@@ -891,7 +891,7 @@ $(document).ready(function () {
       gcprice = parseFloat($('#gcprice').val());
     gcexpiry = $('#gcexpiry').val();
     if (gccode == '' || gcvalue == '' || gcprice == '' || gcvalue == 0 || gcprice == 0) {
-      $('#gcerror').text(lang.file_required_fields);
+        $('#gcerror').text("file required fields");
       $('.gcerror-con').show();
       return false;
     }
@@ -955,17 +955,17 @@ $(document).ready(function () {
     var item_id = row.attr('data-item-id');
     if (protect_delete == 1) {
       var boxd = bootbox.dialog({
-        title: lang.enter_pin_code,
+          title: "enter pin code",
         closeButton: true,
         message: '<input id="pos_pin" name="pos_pin" type="password" placeholder="Pin Code" class="form-control kb-pad"> ',
         buttons: {
           danger: {
-            label: lang.close,
+            label: "close",
             className: 'btn-default pull-left',
             callback: function () {},
           },
           success: {
-            label: "<i class='fa fa-tick'></i> " + lang.delete,
+            label: "<i class='fa fa-tick'></i> " + "delete",
             className: 'btn-warning verify_pin',
             callback: function () {
               var pos_pin = md5($('#pos_pin').val());
@@ -978,7 +978,7 @@ $(document).ready(function () {
                   loadItems();
                 }
               } else {
-                bootbox.alert(lang.wrong_pin);
+                  bootbox.alert("wrong pin");
               }
             },
           },
@@ -1012,7 +1012,7 @@ $(document).ready(function () {
 
   $('#suspend').click(function () {
     if (count <= 1) {
-      bootbox.alert(lang.please_add_product);
+        bootbox.alert("please add product");
       return false;
     } else {
       $('#susModal').modal({ backdrop: 'static' });
@@ -1022,7 +1022,7 @@ $(document).ready(function () {
   $('#suspend_sale').click(function () {
     ref = $('#reference_note').val();
     if (!ref || ref == '') {
-      bootbox.alert(lang.type_reference_note);
+        bootbox.alert("type_reference_note");
       return false;
     } else {
       suspend = $('<span></span>');
@@ -1044,7 +1044,7 @@ $(document).ready(function () {
 
   $('#payment').click(function () {
     if (count <= 1) {
-      bootbox.alert(lang.please_add_product);
+        bootbox.alert("please_add_product");
       return false;
     } else {
       if (sid) {
@@ -1174,10 +1174,10 @@ $(document).ready(function () {
         success: function (data) {
           if (data === false || data.balance < 0) {
             $('#gift_card_no').parent('.form-group').addClass('has-error');
-            bootbox.alert(lang.incorrect_gift_card);
+              bootbox.alert("incorrect gift card");
           } else {
             $('#gc_details').html(
-              lang.card_no + ': ' + data.card_no + '<br>' + lang.value + ': ' + data.value + ' - ' + lang.balance + ': ' + data.balance
+                "card no" + ': ' + data.card_no + '<br>' + "value" + ': ' + data.value + ' - ' + "balance" + ': ' + data.balance
             );
             $('#gift_card_no').parent('.form-group').removeClass('has-error');
             var paying = gtotal > data.balance ? data.balance : gtotal;
@@ -1340,7 +1340,7 @@ $(document).ready(function () {
         }
       },
       error: function () {
-        bootbox.alert(lang.customer_request_failed);
+          bootbox.alert("customer request failed");
         return false;
       },
     });
@@ -1439,7 +1439,7 @@ $(document).ready(function () {
   });
 });
 function Popup(data, type) {
-  $('#print-title').text(lang.print + ' ' + lang[type]);
+  $('#print-title').text("print");
   $('#print-body').html(data);
   $('#printModal').show();
   //   createWin(data).then(function (w) {
@@ -1580,7 +1580,7 @@ $(document).ready(function () {
     $(this).removeData('bs.modal');
   });
   $('#clearLS').click(function (event) {
-    bootbox.confirm(lang.r_u_sure, function (result) {
+    bootbox.confirm("Are you sure?", function (result) {
       if (result == true) {
         localStorage.clear();
         location.reload();

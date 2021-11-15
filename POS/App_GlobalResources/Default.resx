@@ -282,6 +282,9 @@
   <data name="master_card" xml:space="preserve">
     <value>Master Card</value>
   </data>
+  <data name="merchant_copy" xml:space="preserve">
+    <value>Merchant Copy</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -318,6 +321,9 @@
   <data name="POS" xml:space="preserve">
     <value>POS</value>
   </data>
+  <data name="pos_print_error" xml:space="preserve">
+    <value>Unable to connect to socket, please make sure that server is up and running fine.</value>
+  </data>
   <data name="price" xml:space="preserve">
     <value>Price</value>
   </data>
@@ -335,6 +341,9 @@
   </data>
   <data name="print_order" xml:space="preserve">
     <value>Print Order</value>
+  </data>
+  <data name="product" xml:space="preserve">
+    <value>product</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
@@ -356,6 +365,9 @@
   </data>
   <data name="sales" xml:space="preserve">
     <value>Sales</value>
+  </data>
+  <data name="search__scan" xml:space="preserve">
+    <value>Search product by code or name, you can scan barcode too</value>
   </data>
   <data name="sell_gift_card" xml:space="preserve">
     <value>Sell Gift Card</value>
