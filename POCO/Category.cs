@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace POS.Models
+namespace POCO
 {
     public class Category
     {
@@ -17,12 +18,8 @@ namespace POS.Models
         public TaxType CategoryTaxType { get; set; }
         public bool CategoryService { get; set; }
         public bool IsActive { get; set; }
-
-
         public int CompanyId { get; set; }
-
         public int BranchId { get; set; }
-
         public int CreatedBy { get; set; }
         public int ModifiedBy { get; set; }
         public int TaxClassificationNo { get; set; }
