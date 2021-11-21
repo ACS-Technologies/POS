@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using POCO;
 using POS.Models;
 using POS.Utilities;
 using System;
@@ -10,7 +11,7 @@ using System.Web.Mvc;
 
 namespace POS.Controllers
 {
-    public class POSController : Controller
+    public class POSController : BaseController
     {
         // GET: POS
         public ActionResult Index()
@@ -70,5 +71,7 @@ namespace POS.Controllers
 
 
         }
+    
+  
     }
 }

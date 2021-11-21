@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace POS.Models
+namespace POCO
 {
     public class Group
     {
@@ -11,7 +12,6 @@ namespace POS.Models
         public string GroupPrimaryName { get; set; }
         public string GroupSecondaryName { get; set; }
         public string GroupName { get; set; }
-
         public int CompanyId { get; set; }
         public int BranchId { get; set; }
     }
