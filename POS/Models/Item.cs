@@ -41,5 +41,6 @@ namespace POS.Models
         public string ItemUnitToSave { get; set; }
         public decimal MinQuantity { get; set; }
         public string BarcodeSymbolog { get; set; }
+        public decimal Qty { get; set; }
     }
 }

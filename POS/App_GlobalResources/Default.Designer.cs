@@ -736,7 +736,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to product.
+        ///   Looks up a localized string similar to Product.
         /// </summary>
         internal static string product {
             get {
@@ -772,7 +772,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Qty.
+        ///   Looks up a localized string similar to Quantity.
         /// </summary>
         internal static string qty {
             get {

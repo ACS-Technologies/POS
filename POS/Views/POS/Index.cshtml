@@ -136,52 +136,54 @@
     }
     <script src="@(assets)plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <style>
-        .tabs {
-            font-size: 15px;
-            padding: 0px;
-            list-style: none;
-            background: #fff;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
-            display: inline-block;
-            border-radius: 50px;
-            position: relative;
+        input.form-control {
+            border-radius: 7px !important
+        }
+        .list-table .success {
+            background-color: #b19dce !important;
+            color: #fff
+        }
+            .list-table .success th {
+                background-color: #987bc3 !important
+            }
+        .pos .contents {
+            padding: 15px !important
+        }
+        .text-white {
+            color: #fff !important
+        }
+        .pos .contents {
+            background-color: #fff !important
+        }
+        .nav-tabs-buttons {
+            width: 75%;
+            margin: auto;
+            background-color: #605ca8;
+            border-radius:10px;
+            margin-bottom:2rem
+        }
+        .nav-tabs-buttons li{
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-            .tabs a {
-                text-decoration: none;
-                color: #777;
-                text-transform: uppercase;
-                padding: 10px 20px;
-                display: inline-block;
-                position: relative;
-                z-index: 1;
-                transition-duration: 0.6s;
+        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover {
+            background-color: #4e499d;
+            color: #fff
+        }
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+            background-color: #4e499d
+        }
+            .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+                border-top-color: #4e499d;
             }
-
-                .tabs a.active {
-                    color: #fff;
-                }
-
-                .tabs a i {
-                    margin-right: 5px;
-                }
-
-            .tabs .selector {
-                height: 100%;
-                display: inline-block;
-                position: absolute;
-                left: 0px;
-                top: 0px;
-                z-index: 1;
-                border-radius: 50px;
-                transition-duration: 0.6s;
-                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                background: #05abe0;
-                background: -moz-linear-gradient(45deg, #05abe0 0%, #8200f4 100%);
-                background: -webkit-linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
-                background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#05abe0', endColorstr='#8200f4',GradientType=1 );
-            }
+        .real-tabs li a:hover {
+            background-color: #eee !important;
+            color: #4e499d !important
+        }
+        #item-list .slimScrollDiv{
+            height:690px !important
+        }
     </style>
 </head>
 <body class="skin-@theme_style sidebar-collapse sidebar-mini pos">
@@ -267,231 +269,15 @@
                 </div>
             </nav>
         </header>
-        @*
-            <aside class="main-sidebar">
-            <section class="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="mm_welcome"><a href="<?= site_url(); ?>"><i class="fa fa-dashboard"></i> <span>@Resources.Default.Dashboard</span></a></li>
-                    <?php if (@multi_store && !$this->session->userdata('store_id')) { ?>
-                    <li class="mm_stores"><a href="<?= site_url('stores'); ?>"><i class="fa fa-building-o"></i> <span>@Resources.Default.Stores</span></a></li>
-                    <?php } ?>
-                    <li class="mm_pos"><a href="@Url.Action("POS")"><i class="fa fa-th"></i> <span>@Resources.Default.POS</span></a></li>
-
-                    <?php if ($Admin) { ?>
-                    <li class="treeview mm_products">
-                        <a href="#">
-                            <i class="fa fa-barcode"></i>
-                            <span>@Resources.Default.Products</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="products_index"><a href="@Url.Action("Products")"><i class="fa fa-circle-o"></i> @Resources.Default.list_products</a></li>
-                            <li id="products_add"><a href="@Url.Action("Add","Products")"><i class="fa fa-circle-o"></i> @Resources.Default.add_product</a></li>
-                            <li id="products_import"><a href="@Url.Action("import","Products")"><i class="fa fa-circle-o"></i> @Resources.Default.import_products</a></li>
-                            <li class="divider"></li>
-                            <li id="products_print_barcodes"><a href="@Url.Action("print_barcodes","Products")" data-toggle="ajax"><i class="fa fa-circle-o"></i> @Resources.Default.print_barcodes</a></li>
-                            <li id="products_print_labels"><a href="@Url.Action("print_labels","Products")" data-toggle="ajax"><i class="fa fa-circle-o"></i> @Resources.Default.print_labels</a></li>
-                            <!-- <li id="products_print_barcodes">
-                                <a onclick="window.open('<?= site_url('products/print_barcodes'); ?>', 'pos_popup', 'width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0'); return false;" href="#"><i class="fa fa-circle-o"></i> <?= lang('print_barcodes'); ?></a>
-                            </li>
-                            <li id="products_print_labels">
-                                <a onclick="window.open('<?= site_url('products/print_labels'); ?>', 'pos_popup', 'width=900,height=600,menubar=yes,scrollbars=yes,status=no,resizable=yes,screenx=0,screeny=0'); return false;" href="#"><i class="fa fa-circle-o"></i> <?= lang('print_labels'); ?></a>
-                            </li> -->
-                        </ul>
-                    </li>
-                    <li class="treeview mm_categories">
-                        <a href="#">
-                            <i class="fa fa-folder"></i>
-                            <span>@Resources.Default.categories</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="categories_index"><a href="@Url.Action("categories")"><i class="fa fa-circle-o"></i> @Resources.Default.list_categories</a></li>
-                            <li id="categories_add"><a href="@Url.Action("add","categories")"><i class="fa fa-circle-o"></i> @Resources.Default.add_category</a></li>
-                            <li id="categories_import"><a href="@Url.Action("import","categories")"><i class="fa fa-circle-o"></i> @Resources.Default.import_categories</a></li>
-                        </ul>
-                    </li>
-                    <?php if ($this->session->userdata('store_id')) { ?>
-                    <li class="treeview mm_sales">
-                        <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>@Resources.Default.sales</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="sales_index"><a href="@Url.Action("sales")"><i class="fa fa-circle-o"></i> @Resources.Default.list_sales</a></li>
-                            <li id="sales_opened"><a href="@Url.Action("opened","sales")"><i class="fa fa-circle-o"></i> @Resources.Default.list_opened_bills</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview mm_purchases">
-                        <a href="#">
-                            <i class="fa fa-plus"></i>
-                            <span>@Resources.Default.purchases</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="purchases_index"><a href="@Url.Action("purchases")"><i class="fa fa-circle-o"></i> @Resources.Default.list_purchases</a></li>
-                            <li id="purchases_add"><a href="@Url.Action("Add","purchases")"><i class="fa fa-circle-o"></i> @Resources.Default.add_purchase</a></li>
-                            <li class="divider"></li>
-                            <li id="purchases_expenses"><a href="@Url.Action("expenses","purchases")"><i class="fa fa-circle-o"></i> @Resources.Default.list_expenses</a></li>
-                            <li id="purchases_add_expense"><a href="@Url.Action("add_expense","purchases")"><i class="fa fa-circle-o"></i> @Resources.Default.add_expense</a></li>
-                        </ul>
-                    </li>
-                    <?php } ?>
-                    <li class="treeview mm_gift_cards">
-                        <a href="#">
-                            <i class="fa fa-credit-card"></i>
-                            <span>@Resources.Default.gift_cards</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="gift_cards_index"><a href="@Url.Action("gift_cards")"><i class="fa fa-circle-o"></i> @Resources.Default.list_gift_cards</a></li>
-                            <li id="gift_cards_add"><a href="@Url.Action("add","gift_cards")"><i class="fa fa-circle-o"></i> @Resources.Default.add_gift_card</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="treeview mm_auth mm_customers mm_suppliers">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span>@Resources.Default.people</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="auth_users"><a href="@Url.Action("users")"><i class="fa fa-circle-o"></i> @Resources.Default.list_users</a></li>
-                            <li id="auth_add"><a href="@Url.Action("add","users")"><i class="fa fa-circle-o"></i> @Resources.Default.add_user</a></li>
-                            <li class="divider"></li>
-                            <li id="customers_index"><a href="@Url.Action("customers")"><i class="fa fa-circle-o"></i> @Resources.Default.list_customers</a></li>
-                            <li id="customers_add"><a href="@Url.Action("add","customers")"><i class="fa fa-circle-o"></i> @Resources.Default.add_customer</a></li>
-                            <li class="divider"></li>
-                            <li id="suppliers_index"><a href="@Url.Action("suppliers")"><i class="fa fa-circle-o"></i> @Resources.Default.list_suppliers</a></li>
-                            <li id="suppliers_add"><a href="@Url.Action("add","suppliers")"><i class="fa fa-circle-o"></i> @Resources.Default.add_supplier</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="treeview mm_settings">
-                        <a href="#">
-                            <i class="fa fa-cogs"></i>
-                            <span>@Resources.Default.settings</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="settings_index"><a href="@Url.Action("settings")"><i class="fa fa-circle-o"></i> @Resources.Default.settings</a></li>
-                            <li class="divider"></li>
-                            @if (multi_store)
-                            {
-                                <li id="settings_stores"><a href="@Url.Action("stores","settings")"><i class="fa fa-circle-o"></i> @Resources.Default.Stores</a></li>
-                                <li id="settings_add_store"><a href="@Url.Action("add_store","settings")"><i class="fa fa-circle-o"></i> @Resources.Default.add_store</a></li>
-                                <li class="divider"></li>
-                            }
-                            <li id="settings_printers"><a href="@Url.Action("printers","settings")"><i class="fa fa-circle-o"></i> @Resources.Default.printers</a></li>
-                            <li id="settings_add_printer"><a href="@Url.Action("add_printer","settings")"><i class="fa fa-circle-o"></i> @Resources.Default.add_printer</a></li>
-                            <li class="divider"></li>
-                            <?php if ($this->db->dbdriver != 'sqlite3') { ?>
-                            <li id="settings_backups"><a href="@Url.Action("backups","settings")"><i class="fa fa-circle-o"></i> @Resources.Default.backups</a></li>
-                            <?php } ?>
-                            <!-- <li id="settings_updates"><a href="<?= site_url('settings/updates'); ?>"><i class="fa fa-circle-o"></i> <?= lang('updates'); ?></a></li> -->
-                        </ul>
-                    </li>
-                    <li class="treeview mm_reports">
-                        <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
-                            <span><?= lang('reports'); ?></span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="reports_daily_sales"><a href="<?= site_url('reports/daily_sales'); ?>"><i class="fa fa-circle-o"></i> <?= lang('daily_sales'); ?></a></li>
-                            <li id="reports_monthly_sales"><a href="<?= site_url('reports/monthly_sales'); ?>"><i class="fa fa-circle-o"></i> <?= lang('monthly_sales'); ?></a></li>
-                            <li id="reports_index"><a href="<?= site_url('reports'); ?>"><i class="fa fa-circle-o"></i> <?= lang('sales_report'); ?></a></li>
-                            <li class="divider"></li>
-                            <li id="reports_payments"><a href="<?= site_url('reports/payments'); ?>"><i class="fa fa-circle-o"></i> <?= lang('payments_report'); ?></a></li>
-                            <li class="divider"></li>
-                            <li id="reports_registers"><a href="<?= site_url('reports/registers'); ?>"><i class="fa fa-circle-o"></i> <?= lang('registers_report'); ?></a></li>
-                            <li class="divider"></li>
-                            <li id="reports_top_products"><a href="<?= site_url('reports/top_products'); ?>"><i class="fa fa-circle-o"></i> <?= lang('top_products'); ?></a></li>
-                            <li id="reports_products"><a href="<?= site_url('reports/products'); ?>"><i class="fa fa-circle-o"></i> <?= lang('products_report'); ?></a></li>
-                        </ul>
-                    </li>
-                    <?php } else { ?>
-                    <li class="mm_products"><a href="<?= site_url('products'); ?>"><i class="fa fa-barcode"></i> <span><?= lang('products'); ?></span></a></li>
-                    <li class="mm_categories"><a href="<?= site_url('categories'); ?>"><i class="fa fa-folder-open"></i> <span><?= lang('categories'); ?></span></a></li>
-                    <?php if ($this->session->userdata('store_id')) { ?>
-                    <li class="treeview mm_sales">
-                        <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span><?= lang('sales'); ?></span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="sales_index"><a href="<?= site_url('sales'); ?>"><i class="fa fa-circle-o"></i> <?= lang('list_sales'); ?></a></li>
-                            <li id="sales_opened"><a href="<?= site_url('sales/opened'); ?>"><i class="fa fa-circle-o"></i> <?= lang('list_opened_bills'); ?></a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview mm_purchases">
-                        <a href="#">
-                            <i class="fa fa-plus"></i>
-                            <span><?= lang('expenses'); ?></span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="purchases_expenses"><a href="<?= site_url('purchases/expenses'); ?>"><i class="fa fa-circle-o"></i> <?= lang('list_expenses'); ?></a></li>
-                            <li id="purchases_add_expense"><a href="<?= site_url('purchases/add_expense'); ?>"><i class="fa fa-circle-o"></i> <?= lang('add_expense'); ?></a></li>
-                        </ul>
-                    </li>
-                    <?php } ?>
-                    <li class="treeview mm_gift_cards">
-                        <a href="#">
-                            <i class="fa fa-credit-card"></i>
-                            <span><?= lang('gift_cards'); ?></span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="gift_cards_index"><a href="<?= site_url('gift_cards'); ?>"><i class="fa fa-circle-o"></i> <?= lang('list_gift_cards'); ?></a></li>
-                            <li id="gift_cards_add"><a href="<?= site_url('gift_cards/add'); ?>"><i class="fa fa-circle-o"></i> <?= lang('add_gift_card'); ?></a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview mm_customers">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span><?= lang('customers'); ?></span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li id="customers_index"><a href="<?= site_url('customers'); ?>"><i class="fa fa-circle-o"></i> <?= lang('list_customers'); ?></a></li>
-                            <li id="customers_add"><a href="<?= site_url('customers/add'); ?>"><i class="fa fa-circle-o"></i> <?= lang('add_customer'); ?></a></li>
-                        </ul>
-                    </li>
-                    <?php } ?>
-                </ul>
-            </section>
-        </aside>
-        *@
-
-
+        
     <div class="content-wrapper">
-        @*
-
-                    <div class="col-lg-12 alerts">
-            <?php if ($error) { ?>
-            <div class="alert alert-danger alert-dismissable">
-                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <h4><i class="icon fa fa-ban"></i> <?= lang('error'); ?></h4>
-                <?= $error; ?>
-            </div>
-            <?php } if ($message) { ?>
-            <div class="alert alert-success alert-dismissable">
-                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-                <h4><i class="icon fa fa-check"></i> <?= lang('Success'); ?></h4>
-                <?= $message; ?>
-            </div>
-            <?php } ?>
-        </div>*@
 
 
         <table style="width:100%;" class="layout-table">
-            <tr>
-                <td style="width: 460px;">
+            <tr style="width:100%;">
+                <td style="width: 35%;">
 
-                    <div id="pos">
+                    <div id="pos" style="background-color:#fff">
                         <div class="well well-sm" id="leftdiv">
                             <div id="lefttop" style="margin-bottom:5px;">
                                 <div class="form-group" style="margin-bottom:5px;">
@@ -535,57 +321,57 @@
                                 </div>
                                 <div style="clear:both;"></div>
                                 <div id="totaldiv">
-                                    <table id="totaltbl" class="table table-condensed totals" style="margin-bottom:10px;">
+                                    <table class="table-condensed totals" style="margin-bottom:10px;width:100%">
                                         <tbody>
-                                            <tr class="info">
-                                                <td width="25%">@Resources.Default.total_items</td>
-                                                <td class="text-right" style="padding-right:10px;"><span id="count">0</span></td>
-                                                <td width="25%">@Resources.Default.total</td>
-                                                <td class="text-right" colspan="2"><span id="total">0</span></td>
+                                            <tr style="border-bottom:1px solid #605ca8;border-top:1px solid #605ca8;">
+                                                <td width="20%" style="font-size:16px;font-weight:bold">@Resources.Default.total_items</td>
+                                                <td class="text-right" style="padding-right:10px;font-size:16px;font-weight:bold"><span id="count">0</span></td>
+                                                <td width="20%" style="font-size:16px;font-weight:bold">@Resources.Default.total</td>
+                                                <td class="text-right" colspan="2"><span id="total" style="font-size:16px;font-weight:bold">0</span></td>
                                             </tr>
-                                            <tr class="info">
-                                                <td width="25%"><a href="#" id="add_discount">@Resources.Default.discount</a></td>
-                                                <td class="text-right" style="padding-right:10px;"><span id="ds_con">0</span></td>
-                                                <td width="25%"><a href="#" id="add_tax">@Resources.Default.order_tax</a></td>
-                                                <td class="text-right"><span id="ts_con">0</span></td>
+                                            <tr style="border-bottom:1px solid #605ca8;border-top:1px solid #605ca8;">
+                                                <td width="20%"><a href="#" id="add_discount" style="font-size:16px;font-weight:bold;color:#1A73E8">@Resources.Default.discount</a></td>
+                                                <td class="text-right" style="padding-right:10px;font-size:16px;font-weight:bold;color:#1A73E8"><span id="ds_con">0</span></td>
+                                                <td width="20%"><a href="#" id="add_tax" style="font-size:16px;font-weight:bold;color:#1A73E8">@Resources.Default.order_tax</a></td>
+                                                <td class="text-right"><span id="ts_con" style="font-size:16px;font-weight:bold;color:#1A73E8">0</span></td>
                                             </tr>
-                                            <tr class="success">
-                                                <td colspan="2" style="font-weight:bold;">
+
+                                            <tr>
+                                                <td colspan="2" style="font-size:25px;font-weight:bold;color:#00a65a">
                                                     @Resources.Default.total_payable
-                                                    <a role="button" data-toggle="modal" data-target="#noteModal">
+                                                    @*<a role="button" data-toggle="modal" data-target="#noteModal">
                                                         <i class="fa fa-comment"></i>
-                                                    </a>
+                                                    </a>*@
                                                 </td>
-                                                <td class="text-right" colspan="2" style="font-weight:bold;"><span id="total-payable">0</span></td>
+                                                <td class="text-right" colspan="2" style="font-size:25px;font-weight:bold;color:#00a65a"><span id="total-payable">0</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div id="botbuttons" class="col-xs-12 text-center">
-                                <div class="row">
-                                    <div class="col-xs-4" style="padding: 0;">
-                                        <div class="btn-group-vertical btn-block">
-                                            <button type="button" class="btn btn-warning btn-block btn-flat"
-                                                    id="suspend">
+                            <div id="botbuttons">
+                                <div style="width:100%">
+                                    <div style="width:49%;display:inline-block;padding:10px">
+                                            <button type="button" class="btn btn-warning" id="suspend" style="border-radius:15px;width:100%;height:40px">
                                                 @Resources.Default.hold
                                             </button>
-                                            <button type="button" class="btn btn-danger btn-block btn-flat"
-                                                    id="reset">
-                                                @Resources.Default.cancel
-                                            </button>
-                                        </div>
 
                                     </div>
-                                    <div class="col-xs-4" style="padding: 0 5px;">
-                                        <div class="btn-group-vertical btn-block">
-                                            <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order">@Resources.Default.print_order</button>
-
-                                            <button type="button" class="btn bg-navy btn-block btn-flat" id="print_bill">@Resources.Default.print_bill</button>
-                                        </div>
+                                    <div style="width:49%;display:inline-block;padding:10px">
+                                        <button type="button" class="btn btn-danger" id="reset" style="border-radius:15px;width:100%;height:40px">
+                                            @Resources.Default.cancel
+                                        </button>
                                     </div>
-                                    <div class="col-xs-4" style="padding: 0;">
-                                        <button type="button" class="btn btn-success btn-block btn-flat" id="<?= $eid ? 'submit-sale' : 'payment'; ?>" style="height:67px;"><?= $eid ? @Resources.Default.submit : @Resources.Default.payment; ?></button>
+                                    <div style="width:49%;display:inline-block;padding:10px">
+                                            <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_order</button>
+
+                                            
+                                    </div>
+                                    <div style="width:49%;display:inline-block;padding:10px">
+                                        <button type="button" class="btn bg-navy" id="print_bill" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_bill</button>
+                                    </div>
+                                    <div style="width:100%;display:inline-block;padding:10px">
+                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" id="<?= $eid ? 'submit-sale' : 'payment'; ?>">@Resources.Default.payment</button>
                                     </div>
                                 </div>
 
@@ -622,76 +408,36 @@
                     </div>
 
                 </td>
-                <td>
+                <td style="width:65%;">
                     <div class="contents">
-                        <nav class="tabs nav-tabs">
-                            <div class="selector"></div>
+                        
+                        <ul class="nav nav-pills nav-justified nav-tabs-buttons">
                             @foreach (var item in Model.Group)
                             {
-                                <a data-toggle="tab" href="#@item.Id">@item.GroupName</a>
+                                <li><a data-toggle="tab" href="#@item.Id" class="text-white">@item.GroupName</a></li>
+
                             }
-                        </nav>
+                        </ul>
+                        <div class="tab-content">
+                            <ul class="nav nav-tabs real-tabs nav-justified">
+                                @foreach (var item in Model.Category)
+                                {
+                                    <li><a data-toggle="tab" href="#@item.CategoryId" id="@item.GroupId" onclick="myfunction(@item.CategoryId)">@item.CategoryName</a></li>
+
+                                }
+                            </ul>
+
+                        </div>
                         <br />
-                        <nav class="tabs nav-tabs">
-                            <div class="selector"></div>
-                            @foreach (var item in Model.Category)
-                            {
-                                <a data-toggle="tab" href="#@item.CategoryId">@item.CategoryName</a>
-                            }
-                        </nav>
 
                         <div id="item-list">
-                            <div class="items">
-                                @foreach (var item in Model.Item)
-                                {
-                                    if (item.Image != "")
-                                    {
-                                        <button type="button" data-name="@item.ItemName" id="@item.ItemId" value="@item.ItemBarcode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/@item.Image" alt="@item.ItemName" style="width: 100px; height: 100px;"></span><span><span>@item.ItemName<br>@item.Price</span></span></button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" data-name="@item.ItemName" id="@item.ItemId" value="@item.ItemBarcode" class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt="@item.ItemName" style="width: 100px; height: 100px;"></span><span><span>@item.ItemName<br>@item.Price</span></span></button>
-                                    }
-                                }
-
-                            </div>
+                            <div class="items" id="emptyitems" style="width:100%"></div>
                         </div>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
-
-    @*<aside class="control-sidebar control-sidebar-dark" id="categories-list">
-        <div class="tab-content sb">
-            <div class="tab-pane active sb" id="control-sidebar-home-tab">
-                <div id="filter-categories-con">
-                    <input type="text" autocomplete="off" data-list=".control-sidebar-menu" name="filter-categories" id="filter-categories" class="form-control sb col-xs-12 kb-text" placeholder="<?= lang('filter_categories'); ?>" style="margin-bottom: 20px;">
-                </div>
-                <div class="clearfix sb"></div>
-                <div id="category-sidebar-menu">
-                    <ul class="control-sidebar-menu">
-                        <?php
-                        foreach ($categories as $category) {
-                        echo '
-                        <li>
-                            <a href="#" class="category' . ($category->id == @default_category ? ' active' : '') . '" id="' . $category->id . '">
-                                ';
-                                if ($category->image) {
-                                echo '<div class="menu-icon"><img src="' . base_url('uploads/thumbs/' . $category->image) . '" alt="" class="img-thumbnail img-responsive"></div>';
-                                } else {
-                                echo '<i class="menu-icon fa fa-folder-open bg-red"></i>';
-                                }
-                                echo '<div class="menu-info"><h4 class="control-sidebar-subheading">' . $category->code . '</h4><p>' . $category->name . '</p></div>
-                            </a>
-                        </li>';
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </aside>*@
     <div class="control-sidebar-bg sb"></div>
     <div id="order_tbl" style="display:none;">
         <span id="order_span"></span>
@@ -830,7 +576,7 @@
                 <div class="modal-header modal-primary">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                     <h4 class="modal-title" id="proModalLabel">
-                        <?=lang('payment')?>
+                        @Resources.Default.payment
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -1165,30 +911,57 @@
     <div class="modal" data-easein="flipYIn" id="posModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"></div>
 
     <script type="text/javascript">
-        //start tabs code
-        var tabs = $('.tabs');
-        var selector = $('.tabs').find('a').length;
-        //var selector = $(".tabs").find(".selector");
-        var activeItem = tabs.find('.active');
-        var activeWidth = activeItem.innerWidth();
-        $(".selector").css({
-            "left": activeItem.position.left + "px",
-            "width": activeWidth + "px"
-        });
+        jsonObj = [];
+        $(document).ready(function () {
+                        $.ajax({
+                              type: 'get',
+                              url: "http://localhost:54688/Items/Get_Items?CompanyId=1158&BranchId=307&Language=en",
+                              contentType: 'application/json',
+                              dataType: 'json',
+                              data: {},
+                                success: function (data) {
+                                
 
-        $(".tabs").on("click", "a", function (e) {
-            e.preventDefault();
-            $('.tabs a').removeClass("active");
-            $(this).addClass('active');
-            var activeWidth = $(this).innerWidth();
-            var itemPos = $(this).position();
-            $(".selector").css({
-                "left": itemPos.left + "px",
-                "width": activeWidth + "px"
-            });
+                                    for (var i = 0; i < data.ResponseDetails.length; i++) {
+
+                                        var item=[];
+                                        item["id"] = data.ResponseDetails[i].ItemId;
+                                        item["ItemId"] = data.ResponseDetails[i].ItemId;
+                                        item["ItemName"] = data.ResponseDetails[i].ItemPrimaryName + "-" + data.ResponseDetails[i].ItemBarcode  ;
+                                        item["label"] = data.ResponseDetails[i].ItemPrimaryName +"-"+ data.ResponseDetails[i].ItemBarcode ;
+                                        item["Qty"] = typeof data.ResponseDetails[i].Qty !== 'undefined'? data.ResponseDetails[i].Qty :0;
+                                        item["ItemBarcode"] = data.ResponseDetails[i].ItemBarcode;
+                                        item["Price"] = data.ResponseDetails[i].Price;
+                                        item["taxRate"] = data.ResponseDetails[i].taxRate;
+                                         
+                                      jsonObj.push(item);
+                                
+                                    }
+                                }
+                    });
         });
-        //end tabs code
-        var Settings = {theme : "default",
+        function myfunction(id) {
+            $("#emptyitems").empty();
+            $.ajax({
+              type: 'get',
+              url: "@Url.Action("GetItemsByCategoryId", "POS")?Id=" + id ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: {},
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Image != "") {
+                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                        } else {
+                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName +'</span><span style="float:left;text-align:left;width:29%">'+data[i].Price+'</span></span></button>');
+                        }
+                    }
+                        }
+                    });
+        }
+
+        var Settings = {
+            theme: "default",
             theme_style : "purple-light",
                 site_name : "SimplePOS",
                 language : "english",
@@ -1273,17 +1046,18 @@
                                                 price_divide_by : 0,
                                                 weight_start : 8,
                                                 weight_chars : 5,
-            weight_divide_by : 100};
-    
-         
+            weight_divide_by: 100
+        };
 
-    var base_url = '~/', assets = '@(assets)';
+
+
+    var base_url = '@Request.Url.GetLeftPart(UriPartial.Authority)', assets = '@(assets)';
     var dateformat = '@(dateformat)', timeformat = '@(timeformat)';
     @*<?php unset(@protocol, @smtp_host, @smtp_user, @smtp_pass, @smtp_port, @smtp_crypto, @mailpath, @timezone, @setting_id, @default_email, @version, @stripe, @stripe_secret_key, @stripe_publishable_key); ?>*@
     var sid = false, username = '@Session["user_name"]', spositems = {};
 
         var pro_limit = @pro_limit, java_applet = 0, count = 1, total = 0, an = 1, p_page = 0, page = 0, cat_id = @default_category, tcp = '588';
-    var gtotal = 0, order_discount = 0, order_tax = 0, protect_delete =(@pin_code ? 1 : 0);
+        var gtotal = 0, order_discount = 0, order_tax = 0, protect_delete = (Settings.pin_code);@*To add popup again just add  ? 1 : 0 after Settings.pin_code*@
     var order_data = {}, bill_data = {};
         var csrf_hash = 'csrf';/*<?= $this -> security -> get_csrf_hash(); ?>*/
     if (@remote_printing == 2) {
@@ -1403,7 +1177,7 @@
                             
                         }*@
                        
-        function printBill(bill) {
+        @*function printBill(bill) {
            
                             if (@remote_printing == 1) {
                                 Popup($('#bill_tbl').html(), 'bill');
@@ -1441,15 +1215,16 @@
                                             type: 'print-receipt',
                                             data: socket_data
                                         }));
+
                                     }
                                     return false;
                                 } else {
                                     bootbox.alert('@Resources.Default.pos_print_error');
                                     return false;
                                 }
-                            }
-                        }
-                        var order_printers = <?= @local_printers ? "''" : json_encode($order_printers); ?>;
+                            }*@
+                        
+                        @*var order_printers = <?= @local_printers ? "''" : json_encode($order_printers); ?>;
                         function printOrder(order) {
                             if (Settings.remote_printing == 1) {
                                 Popup($('#order_tbl').html(), 'order');
@@ -1463,14 +1238,14 @@
                                         var element = $('#order-data').get(0);
                                         html2canvas(element, {scrollY: 0, scale: 1.7}).then(function(canvas) {
                                             var dataURL = canvas.toDataURL();
-                                            @*var socket_data = {
+                                            var socket_data = {
                                                 'printer': <?= @local_printers ? "''" : json_encode($printer); ?>,
                                                 'text': dataURL, 'order': 1, 'cash_drawer': 0
                                             };
                                             socket.send(JSON.stringify({
                                                 type: 'print-img',
                                                 data: socket_data
-                                            }));*@
+                                            }));
                                             // return Canvas2Image.saveAsPNG(canvas);
                                         });
                                         setTimeout(function() {
@@ -1497,7 +1272,7 @@
                                     return false;
                                 }
                             }
-                        }
+                        }*@
     </script>
 
 

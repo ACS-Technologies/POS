@@ -231,6 +231,8 @@
     <Content Include="Content\themes\default\assets\dev\js\pages\purchases.js" />
     <Content Include="Content\themes\default\assets\dev\js\parse-track-data.js" />
     <Content Include="Content\themes\default\assets\dev\js\pos.js" />
+    <Content Include="Content\themes\default\assets\dist\app.bundle.css" />
+    <Content Include="Content\themes\default\assets\dist\app.bundle.js" />
     <Content Include="Content\themes\default\assets\dist\css\blue%402x.png" />
     <Content Include="Content\themes\default\assets\dist\css\blue.png" />
     <Content Include="Content\themes\default\assets\dist\css\rtl.css" />
@@ -245,6 +247,8 @@
     <Content Include="Content\themes\default\assets\dist\js\scripts.min.js" />
     <Content Include="Content\themes\default\assets\dist\js\spos_ad.min.js" />
     <Content Include="Content\themes\default\assets\dist\styles\styles.css" />
+    <Content Include="Content\themes\default\assets\dist\vendors.bundle.css" />
+    <Content Include="Content\themes\default\assets\dist\vendors.bundle.js" />
     <Content Include="Content\themes\default\assets\images\ajax-loader.gif" />
     <Content Include="Content\themes\default\assets\images\arabic.png" />
     <Content Include="Content\themes\default\assets\images\card.png" />
@@ -708,6 +712,7 @@
     <Content Include="Content\themes\default\assets\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\themes\default\assets\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Content\themes\default\assets\plugins\redactor\redactor-font.eot" />
+    <None Include="Content\themes\default\assets\dist\css\tabs.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

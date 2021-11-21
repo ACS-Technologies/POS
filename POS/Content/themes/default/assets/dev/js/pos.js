@@ -742,7 +742,8 @@ $(document).ready(function () {
     $('#snote').focusToEnd();
   });
 
-  $(document).on('click', '.product', function (e) {
+    $(document).on('click', '.product', function (e) {
+      debugger
     code = $(this).val();
     $.ajax({
       type: 'get',
