@@ -8,6 +8,7 @@ namespace POCO
 {
     public class Settings
     {
+        public int BranchId { get; set; }
         public int Setting_id { get; set; }
         public string Logo { get; set; }
         public string Site_name { get; set; }
