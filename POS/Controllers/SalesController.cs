@@ -1,6 +1,7 @@
 ﻿using DBL;
 using POCO;
 using POS.Models;
+using System;
 using System.Web.Mvc;
 
 namespace POS.Controllers
@@ -95,7 +96,36 @@ namespace POS.Controllers
             {
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
+                PoSales.Created_by = SessionManager.GetSessionUserInfo.UserID;
+                PoSales.Date = DateTime.Now;
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
+                return Json(result);
+
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result);
+            }
+        }
+
+        /// <summary>
+        /// Update
+        /// </summary>
+        /// <param name="PoSales"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Update(Sales PoSales)
+        {
+            result = new ResultJson();
+
+            try
+            {
+                oSalesDBL = new SalesDBL();
+                result.IsSuccess = true;
+                PoSales.Updated_by = SessionManager.GetSessionUserInfo.UserID;
+                PoSales.Updated_at = DateTime.Now;
+                result.Data = oSalesDBL.M_Store_Update(PoSales);
                 return Json(result);
 
             }

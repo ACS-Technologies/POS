@@ -61,7 +61,7 @@ namespace DAL
         /// <returns></returns>
         public DataSet M_Sales_Update(int Id, DateTime? Updated_at, int Customer_id, string Customer_name, decimal Total, decimal? Product_discount, string Order_discount_id, decimal? Order_discount,
             decimal? Total_discount, decimal? Product_tax, string Order_tax_id, decimal Order_tax, decimal? Total_tax, decimal Grand_total, int? Total_items, decimal? Total_quantity,
-            decimal? Paid, int? Updated_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref)
+            decimal? Paid, int? Updated_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref, DataTable SaleItems)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_Update";
@@ -88,6 +88,8 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Rounding", Rounding);
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
+            cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+
             return ExDataBase_returnDataSet(cmd);
         }
 

@@ -283,6 +283,75 @@ namespace DBL
             return oSales;
         }
 
+        public Sales M_Store_Update(Sales PoSales)
+        {
+            DataSet ds = new DataSet();
+            Sales oSales = new Sales();
+            ds = oSalesDAL.M_Sales_Update(PoSales.Id,PoSales.Updated_at, PoSales.Customer_id, PoSales.Customer_name, PoSales.Total, PoSales.Product_discount, PoSales.Order_discount_id, PoSales.Order_discount,
+            PoSales.Total_discount, PoSales.Product_tax, PoSales.Order_tax_id, PoSales.Order_tax, PoSales.Total_tax, PoSales.Grand_total, PoSales.Total_items, PoSales.Total_quantity,
+            PoSales.Paid, PoSales.Updated_by, PoSales.Note, PoSales.Status, PoSales.Rounding, PoSales.Store_id, PoSales.Hold_ref, ToDataTable(PoSales.SaleItems));
 
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    oSales.Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
+                    oSales.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                    oSales.Customer_id = int.Parse(ds.Tables[0].Rows[0]["Customer_id"].ToString());
+                    oSales.Customer_name = ds.Tables[0].Rows[0]["Customer_name"].ToString();
+                    oSales.Total = decimal.Parse(ds.Tables[0].Rows[0]["Total"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Product_discount"].ToString()))
+                        oSales.Product_discount = decimal.Parse(ds.Tables[0].Rows[0]["Product_discount"].ToString());
+
+                    oSales.Order_discount_id = ds.Tables[0].Rows[0]["Order_discount_id"].ToString();
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Order_discount"].ToString()))
+                        oSales.Order_discount = decimal.Parse(ds.Tables[0].Rows[0]["Order_discount"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Total_discount"].ToString()))
+                        oSales.Total_discount = decimal.Parse(ds.Tables[0].Rows[0]["Total_discount"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Product_tax"].ToString()))
+                        oSales.Product_tax = decimal.Parse(ds.Tables[0].Rows[0]["Product_tax"].ToString());
+
+                    oSales.Order_tax_id = ds.Tables[0].Rows[0]["Order_tax_id"].ToString();
+                    oSales.Order_tax = decimal.Parse(ds.Tables[0].Rows[0]["Order_tax"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Total_tax"].ToString()))
+                        oSales.Total_tax = decimal.Parse(ds.Tables[0].Rows[0]["Total_tax"].ToString());
+
+                    oSales.Grand_total = decimal.Parse(ds.Tables[0].Rows[0]["Grand_total"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Total_items"].ToString()))
+                        oSales.Total_items = int.Parse(ds.Tables[0].Rows[0]["Total_items"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Total_quantity"].ToString()))
+                        oSales.Total_quantity = decimal.Parse(ds.Tables[0].Rows[0]["Total_quantity"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Paid"].ToString()))
+                        oSales.Paid = decimal.Parse(ds.Tables[0].Rows[0]["Paid"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Created_by"].ToString()))
+                        oSales.Created_by = int.Parse(ds.Tables[0].Rows[0]["Created_by"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Updated_by"].ToString()))
+                        oSales.Updated_by = int.Parse(ds.Tables[0].Rows[0]["Updated_by"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Updated_at"].ToString()))
+                        oSales.Updated_at = DateTime.Parse(ds.Tables[0].Rows[0]["Updated_at"].ToString());
+                    oSales.Note = ds.Tables[0].Rows[0]["Note"].ToString();
+                    oSales.Status = ds.Tables[0].Rows[0]["Status"].ToString();
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Rounding"].ToString()))
+                        oSales.Rounding = decimal.Parse(ds.Tables[0].Rows[0]["Rounding"].ToString());
+
+                    oSales.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
+                    oSales.Hold_ref = ds.Tables[0].Rows[0]["Hold_ref"].ToString();
+                }
+
+            }
+            return oSales;
+        }
     }
 }

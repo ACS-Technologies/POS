@@ -149,6 +149,7 @@
     <Compile Include="Controllers\POSController.cs" />
     <Compile Include="Controllers\RegistersController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="CORS\AllowCrossSiteAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -745,6 +746,7 @@
     <Folder Include="Views\Language\" />
     <Folder Include="Views\Registers\" />
     <Folder Include="Views\Sales\" />
+    <Folder Include="Views\Settings\" />
     <Folder Include="Views\Store\" />
   </ItemGroup>
   <ItemGroup>
