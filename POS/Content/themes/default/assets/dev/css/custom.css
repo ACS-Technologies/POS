@@ -222,7 +222,7 @@ body.pos {
   padding-right: 65px;
 }
 .pos .contents #item-list .btn {
-  width: 120px;
+  width: 100% !important;
   text-align: center;
 }
 .pos .contents #item-list .items {
@@ -248,7 +248,7 @@ body.pos {
 }
 .pos .contents #item-list .btn-both .bg-img {
   background: #fff;
-  height: 110px;
+  height: 200px;
   padding: 5px;
 }
 .pos .contents #item-list .btn-both span {

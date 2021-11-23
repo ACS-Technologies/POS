@@ -36,13 +36,40 @@ namespace POS.Controllers
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
             }
-            Response responseItem = APICall.Get<Response>(string.Format("{0}/Items/Get_Items?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, "en"), authorization.TokenType, authorization.AccessToken);
-            if (responseItem.IsScusses)
-            {
-                main.Item = JsonConvert.DeserializeObject<List<Item>>(JsonConvert.SerializeObject(responseItem.ResponseDetails));
-            }
+            //Response responseItem = APICall.Get<Response>(string.Format("{0}/Items/Get_Items?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, "en"), authorization.TokenType, authorization.AccessToken);
+            //if (responseItem.IsScusses)
+            //{
+            //    main.Item = JsonConvert.DeserializeObject<List<Item>>(JsonConvert.SerializeObject(responseItem.ResponseDetails));
+            //}
+            main.Item = new List<Item>();
             main.store = new Store();
             return View(main);
+        }
+        public JsonResult GetItemsByCategoryId(int Id)
+        {
+            List<Item> LItem = new List<Item>();
+            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Items/Get_Items_ByCategoryId?Id={1}&Language={2}", (object)ConfigurationManager.AppSettings["APIURL"], Id, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responseGroup.IsScusses)
+            {
+               LItem = JsonConvert.DeserializeObject<List<Item>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
+            }
+            return Json(LItem, JsonRequestBehavior.AllowGet);
+
+
+        }
+        public JsonResult GetItemsById(int Id)
+        {
+            Item oItem = new Item();
+            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Items/Get_ItemsById?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], Id,1158,307, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responseGroup.IsScusses)
+            {
+                oItem = JsonConvert.DeserializeObject<Item>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
+            }
+            return Json(oItem, JsonRequestBehavior.AllowGet);
+
+
         }
     
   
