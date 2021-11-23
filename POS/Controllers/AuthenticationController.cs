@@ -18,30 +18,25 @@ namespace POS.Controllers
         // GET: Authentication
         public ActionResult Index()
         {
-            if (Request.Cookies["Remember"] == null || Request.Cookies["Remember"].Value == "")
-            {
-                return View();
-            }
-            else
-            {
-                string language;
-                if (Request.Cookies["Language"] != null)
-                {
-                    language = Request.Cookies["Language"].Value;
-                }
-                else
-                {
-                    language = "en";
-                }
+            //if (Request.Cookies["Remember"] == null || Request.Cookies["Remember"].Value == "")
+            //{
+             return View();
+            //}
+            //else
+            //{
+            //    string language;
+            //    if (Request.Cookies["Language"] != null)
+            //    {
+            //        language = Request.Cookies["Language"].Value;
+            //    }
+            //    else
+            //    {
+            //        language = "en";
+            //    }
 
-                APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
-                Response responseGroup = APICall.Get<Response>(string.Format("{0}/Authentication/User_GetById?Id={1}", (object)ConfigurationManager.AppSettings["APIURL"], SessionManager.GetSessionUserInfo.UserID), authorization.TokenType, authorization.AccessToken);
-                if (responseGroup.IsScusses)
-                {
-                    Session["UserInfo"] = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
-                }
-                return RedirectToAction("Index", "POS");
-            }
+                
+            //    return RedirectToAction("Index", "POS");
+            //}
 
 
         }
@@ -49,6 +44,7 @@ namespace POS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(User PoUser)
+        
         {
             User oUser = new User();
             string language;

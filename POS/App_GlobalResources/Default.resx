@@ -279,6 +279,9 @@
   <data name="list_users" xml:space="preserve">
     <value>List Users</value>
   </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>LogIn</value>
+  </data>
   <data name="master_card" xml:space="preserve">
     <value>Master Card</value>
   </data>
@@ -369,6 +372,9 @@
   <data name="search__scan" xml:space="preserve">
     <value>Search product by code or name, you can scan barcode too</value>
   </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Select Language</value>
+  </data>
   <data name="sell_gift_card" xml:space="preserve">
     <value>Sell Gift Card</value>
   </data>
@@ -414,10 +420,19 @@
   <data name="update" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="UserPassword" xml:space="preserve">
+    <value>User Password</value>
+  </data>
   <data name="view_all" xml:space="preserve">
     <value>View All</value>
   </data>
   <data name="visa" xml:space="preserve">
     <value>Visa</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
   </data>
 </root>

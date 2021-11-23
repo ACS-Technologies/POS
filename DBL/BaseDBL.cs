@@ -15,10 +15,19 @@ namespace DBL
 
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
             DataTable table = new DataTable();
-            for (int i = 0; i < props.Count; i++)
+            try
             {
-                PropertyDescriptor prop = props[i];
-                table.Columns.Add(prop.Name, prop.PropertyType);
+                for (int i = 0; i < props.Count; i++)
+                {
+                    PropertyDescriptor prop = props[i];
+                    //table.Columns.Add(prop.Name, prop.PropertyType);
+                    table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(
+            prop.PropertyType) ?? prop.PropertyType);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             object[] values = new object[props.Count];
             foreach (T item in data)
@@ -30,7 +39,6 @@ namespace DBL
                 table.Rows.Add(values);
             }
             return table;
-
         }
     }
 }

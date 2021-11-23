@@ -1,6 +1,7 @@
 ﻿using DBL;
 using POCO;
 using POS.Models;
+using System;
 using System.Web.Mvc;
 
 namespace POS.Controllers
@@ -99,7 +100,7 @@ namespace POS.Controllers
                 return Json(result);
 
             }
-            catch
+            catch(Exception ex)
             {
                 result.IsSuccess = false;
                 return Json(result);
