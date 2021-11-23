@@ -16,7 +16,7 @@ namespace POS
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "POS", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Authentication", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

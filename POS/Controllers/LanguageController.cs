@@ -19,5 +19,16 @@ namespace POS.Controllers
         {
             return View();
         }
+
+        [NonAction]
+        public static bool IsRighToLeft()
+        {
+            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.IsRightToLeft;
+        }
+        [NonAction]
+        public static string GetCurrentLanguage()
+        {
+            return System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+        }
     }
 }

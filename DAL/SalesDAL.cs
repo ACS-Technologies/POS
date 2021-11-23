@@ -125,7 +125,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_Insert";
-            cmd.Parameters.AddWithValue("@Date", Date);
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now/*Date*/);
             cmd.Parameters.AddWithValue("@Customer_id", Customer_id);
             cmd.Parameters.AddWithValue("@Customer_name", Customer_name);
             cmd.Parameters.AddWithValue("@Total", Total);
@@ -147,7 +147,7 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Rounding", Rounding);
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
-            cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+            //cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
 
             return ExDataBase_returnDataSet(cmd);
         }

@@ -1,4 +1,4 @@
-﻿@model POS.Models.Main
+﻿@model POCO.Main
 
 @{
     Layout = null;
@@ -123,7 +123,7 @@
         //End Printers Table
     }
 
-  
+
 
     <meta charset="UTF-8">
     <title>POS</title>
@@ -139,137 +139,145 @@
         input.form-control {
             border-radius: 7px !important
         }
+
         .list-table .success {
             background-color: #b19dce !important;
             color: #fff
         }
+
             .list-table .success th {
                 background-color: #987bc3 !important
             }
+
         .pos .contents {
             padding: 15px !important
         }
+
         .text-white {
             color: #fff !important
         }
+
         .pos .contents {
             background-color: #fff !important
         }
+
         .nav-tabs-buttons {
             width: 75%;
             margin: auto;
             background-color: #605ca8;
-            border-radius:10px;
-            margin-bottom:2rem
-        }
-        .nav-tabs-buttons li{
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 2rem
         }
 
-        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover {
-            background-color: #4e499d;
-            color: #fff
+            .nav-tabs-buttons li {
+                border-right: 1px solid rgba(0, 0, 0, 0.1);
+                border-left: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover, .nav-tabs.nav-justified > li > a:hover {
+            background-color: #4e499d !important;
+            color: #fff !important
         }
+
         .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
             background-color: #4e499d
         }
-            .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+
+            .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover{
                 border-top-color: #4e499d;
             }
+
         .real-tabs li a:hover {
             background-color: #eee !important;
             color: #4e499d !important
         }
-        #item-list .slimScrollDiv{
-            height:690px !important
+
+        #item-list .slimScrollDiv {
+            height: 690px !important
         }
     </style>
 </head>
-<body class="skin-@theme_style sidebar-collapse sidebar-mini pos">
-        <header class="main-header">
-            <a href="@Url.Action("Index","Home")" class="logo">
-                <span class="logo-mini">POS</span>
-            </a>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <ul class="nav navbar-nav pull-left">
-                    <li class="dropdown">
-                        <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)/images/@(selected_language).png" alt="@selected_language"></a>
+<body class="skin-@theme_style sidebar-collapse sidebar-mini pos" style="background-color:#fff !important">
+    <header class="main-header">
+        <a href="@Url.Action("Index","Home")" class="logo">
+            <span class="logo-mini">POS</span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <ul class="nav navbar-nav pull-left">
+                <li class="dropdown">
+                    <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)/images/@(selected_language).png" alt="@selected_language"></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("SetLanguage","Language")?lang=en">
+                                <img src="@assets/images/en.png"
+                                     class="language-img"> English
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li><a href="#" class="clock"></a></li>
+                    <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i></a></li>
+                    <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
+                    <li><a href="@Url.Action("view_bill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
+                    <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
+                    <li><a href="@Url.Action("register_details","POS")" data-toggle="ajax">@Resources.Default.register_details</a></li>
+                    <li><a href="@Url.Action("today_sale","POS")" data-toggle="ajax">@Resources.Default.today_sale</a></li>
+                    <li><a href="@Url.Action("close_register","POS")" data-toggle="ajax">@Resources.Default.close_register</a></li>
+                    <li class="dropdown notifications-menu" id="suspended_sales">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning"><?=sizeof($suspended_sales);?></span>
+                        </a>
                         <ul class="dropdown-menu">
+                            <li class="header">
+                                <input type="text" autocomplete="off" data-list=".list-suspended-sales" name="filter-suspended-sales" id="filter-suspended-sales" class="form-control input-sm kb-text clearfix" placeholder="@Resources.Default.filter_by_reference">
+                            </li>
                             <li>
-                                <a href="@Url.Action("SetLanguage","Language")?lang=en">
-                                    <img src="@assets/images/en.png"
-                                         class="language-img"> English
-                                </a>
+                                <ul class="menu">
+                                    <li class="list-suspended-sales">
+                                        <?php
+                                        foreach ($suspended_sales as $ss) {
+                                        echo '<a href="' . site_url('pos/?hold=' . $ss->id) . '" class="load_suspended">' . $this->tec->hrld($ss->date) . ' (' . $ss->customer_name . ')<br><div class="bold">' . $ss->hold_ref . '</div></a>';
+                                        }
+                                        ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>
+                        </ul>
+                    </li>
+                    <?php } ?>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
+                            <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header">
+                                <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
+                                <p>
+                                    <?= $this->session->userdata('email'); ?>
+                                    <small><?= lang('member_since') . ' ' . $this->session->userdata('created_on'); ?></small>
+                                </p>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="<?= site_url('users/profile/' . $this->session->userdata('user_id')); ?>" class="btn btn-default btn-flat"><?= lang('profile'); ?></a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="<?= site_url('logout'); ?>" class="btn btn-default btn-flat<?= $this->session->userdata('register_id') ? ' sign_out' : ''; ?>"><?= lang('sign_out'); ?></a>
+                                </div>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#" class="clock"></a></li>
-                        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i></a></li>
-                        <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
-                        <li><a href="@Url.Action("view_bill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
-                        <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
-                        <li><a href="@Url.Action("register_details","POS")" data-toggle="ajax">@Resources.Default.register_details</a></li>
-                        <li><a href="@Url.Action("today_sale","POS")" data-toggle="ajax">@Resources.Default.today_sale</a></li>
-                        <li><a href="@Url.Action("close_register","POS")" data-toggle="ajax">@Resources.Default.close_register</a></li>
-                        <li class="dropdown notifications-menu" id="suspended_sales">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning"><?=sizeof($suspended_sales);?></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">
-                                    <input type="text" autocomplete="off" data-list=".list-suspended-sales" name="filter-suspended-sales" id="filter-suspended-sales" class="form-control input-sm kb-text clearfix" placeholder="@Resources.Default.filter_by_reference">
-                                </li>
-                                <li>
-                                    <ul class="menu">
-                                        <li class="list-suspended-sales">
-                                            <?php
-                                            foreach ($suspended_sales as $ss) {
-                                            echo '<a href="' . site_url('pos/?hold=' . $ss->id) . '" class="load_suspended">' . $this->tec->hrld($ss->date) . ' (' . $ss->customer_name . ')<br><div class="bold">' . $ss->hold_ref . '</div></a>';
-                                            }
-                                            ?>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>
-                            </ul>
-                        </li>
-                        <?php } ?>
-                        <li class="dropdown user user-menu"> 
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
-                                <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="user-header">
-                                    <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
-                                    <p>
-                                        <?= $this->session->userdata('email'); ?>
-                                        <small><?= lang('member_since') . ' ' . $this->session->userdata('created_on'); ?></small>
-                                    </p>
-                                </li>
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="<?= site_url('users/profile/' . $this->session->userdata('user_id')); ?>" class="btn btn-default btn-flat"><?= lang('profile'); ?></a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="<?= site_url('logout'); ?>" class="btn btn-default btn-flat<?= $this->session->userdata('register_id') ? ' sign_out' : ''; ?>"><?= lang('sign_out'); ?></a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="control-sidebar" class="sidebar-icon"><i class="fa fa-folder sidebar-icon"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        
+            </div>
+        </nav>
+    </header>
+
     <div class="content-wrapper">
 
 
@@ -321,29 +329,31 @@
                                 </div>
                                 <div style="clear:both;"></div>
                                 <div id="totaldiv">
-                                    <table class="table-condensed totals" style="margin-bottom:10px;width:100%">
+                                    <table class="table table-condensed totals" style="margin-bottom:10px;width:100%">
                                         <tbody>
-                                            <tr style="border-bottom:1px solid #605ca8;border-top:1px solid #605ca8;">
-                                                <td width="20%" style="font-size:16px;font-weight:bold">@Resources.Default.total_items</td>
-                                                <td class="text-right" style="padding-right:10px;font-size:16px;font-weight:bold"><span id="count">0</span></td>
-                                                <td width="20%" style="font-size:16px;font-weight:bold">@Resources.Default.total</td>
-                                                <td class="text-right" colspan="2"><span id="total" style="font-size:16px;font-weight:bold">0</span></td>
+                                            <tr class="info">
+                                                <td width="20%">@Resources.Default.total_items</td>
+                                                <td class="text-right"><span id="count">0.00</span></td>
+                                                <td width="20%">@Resources.Default.total</td>
+                                                <td class="text-right" colspan="2"><span id="total">0.00</span></td>
                                             </tr>
-                                            <tr style="border-bottom:1px solid #605ca8;border-top:1px solid #605ca8;">
-                                                <td width="20%"><a href="#" id="add_discount" style="font-size:16px;font-weight:bold;color:#1A73E8">@Resources.Default.discount</a></td>
-                                                <td class="text-right" style="padding-right:10px;font-size:16px;font-weight:bold;color:#1A73E8"><span id="ds_con">0</span></td>
-                                                <td width="20%"><a href="#" id="add_tax" style="font-size:16px;font-weight:bold;color:#1A73E8">@Resources.Default.order_tax</a></td>
-                                                <td class="text-right"><span id="ts_con" style="font-size:16px;font-weight:bold;color:#1A73E8">0</span></td>
+                                            <tr class="info">
+                                                <td width="20%"><a href="#" id="add_discount">@Resources.Default.discount</a></td>
+                                                <td class="text-right"><span id="ds_con">0.00</span></td>
+                                                <td width="20%"><a href="#" id="add_tax">@Resources.Default.order_tax</a></td>
+                                                <td class="text-right"><span id="ts_con">0.00</span></td>
                                             </tr>
 
-                                            <tr>
-                                                <td colspan="2" style="font-size:25px;font-weight:bold;color:#00a65a">
+                                            <tr class="success">
+                                                <td colspan="2" style="font-size:20px;font-weight:bold">
                                                     @Resources.Default.total_payable
-                                                    @*<a role="button" data-toggle="modal" data-target="#noteModal">
-                                                        <i class="fa fa-comment"></i>
-                                                    </a>*@
+                                                    @*
+                                                        <a role="button" data-toggle="modal" data-target="#noteModal">
+                                                            <i class="fa fa-comment"></i>
+                                                        </a>
+                                                        *@
                                                 </td>
-                                                <td class="text-right" colspan="2" style="font-size:25px;font-weight:bold;color:#00a65a"><span id="total-payable">0</span></td>
+                                                <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00 JOD</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -352,9 +362,9 @@
                             <div id="botbuttons">
                                 <div style="width:100%">
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                            <button type="button" class="btn btn-warning" id="suspend" style="border-radius:15px;width:100%;height:40px">
-                                                @Resources.Default.hold
-                                            </button>
+                                        <button type="button" class="btn btn-warning" id="suspend" style="border-radius:15px;width:100%;height:40px">
+                                            @Resources.Default.hold
+                                        </button>
 
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
@@ -363,15 +373,15 @@
                                         </button>
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                            <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_order</button>
+                                        <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_order</button>
 
-                                            
+
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
                                         <button type="button" class="btn bg-navy" id="print_bill" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_bill</button>
                                     </div>
                                     <div style="width:100%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" id="<?= $eid ? 'submit-sale' : 'payment'; ?>">@Resources.Default.payment</button>
+                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" onclick="InsertFunction()">@Resources.Default.payment</button>
                                     </div>
                                 </div>
 
@@ -410,7 +420,7 @@
                 </td>
                 <td style="width:65%;">
                     <div class="contents">
-                        
+
                         <ul class="nav nav-pills nav-justified nav-tabs-buttons">
                             @foreach (var item in Model.Group)
                             {
@@ -637,6 +647,7 @@
 
                     <div class="form-group">
                         @Resources.Default.reference_note
+                        <textarea class="form-control kb-text" id="reference_note"></textarea>
                         <?php echo form_input('reference_note', $reference_note, 'class="form-control kb-text" id="reference_note"'); ?>
                     </div>
 
@@ -710,8 +721,8 @@
                                             <option value="cheque">@Resources.Default.cheque</option>
                                             <option value="gift_card">@Resources.Default.gift_card</option>
                                             <?= isset(@stripe) ? '
-                                        <option value="stripe">' . @Resources.Default.stripe . '</option>' : ''; ?>
-                                        <option value="other">@Resources.Default.other</option>
+                                            <option value="stripe">' . @Resources.Default.stripe . '</option>' : ''; ?>
+                                            <option value="other">@Resources.Default.other</option>
                                         </select>
                                     </div>
                                 </div>
@@ -804,10 +815,10 @@
                                 echo '<button type="button" class="btn btn-block btn-warning quick-cash">' . $cash_note_amount . '</button>';
                                 }
                                 ?>
-                                      <button type="button" class="btn btn-block btn-danger"
-                                              id="clear-cash-notes">
-                                          @Resources.Default.payment_note
-                                      </button>
+                                <button type="button" class="btn btn-block btn-danger"
+                                        id="clear-cash-notes">
+                                    @Resources.Default.payment_note
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -920,7 +931,7 @@
                               dataType: 'json',
                               data: {},
                                 success: function (data) {
-                                
+
 
                                     for (var i = 0; i < data.ResponseDetails.length; i++) {
 
@@ -933,9 +944,9 @@
                                         item["ItemBarcode"] = data.ResponseDetails[i].ItemBarcode;
                                         item["Price"] = data.ResponseDetails[i].Price;
                                         item["taxRate"] = data.ResponseDetails[i].taxRate;
-                                         
+
                                       jsonObj.push(item);
-                                
+
                                     }
                                 }
                     });
@@ -951,15 +962,51 @@
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
-                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
                         } else {
-                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName +'</span><span style="float:left;text-align:left;width:29%">'+data[i].Price+'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName +'</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">'+data[i].Price+'</span></span></button>');
                         }
                     }
                         }
                     });
         }
+        function InsertFunction() {
+            debugger;
+            var result = {
+                "Customer_name": "The Labib",
+                "Customer_id": 1,
+                "Store_id":1,
+                "SaleItems": [{
+                    "Sale_id": 1,
+                    "Product_id": 1,
+                    "Quantity": $(".input-qty").val(),
+                    "Unit_price": $("#total").html(),
+                    "Net_unit_price": 1,
+                    "Discount": $("#ds_con").html(),
+                    "Item_discount": 1,
+                    "Tax": $("#ts_con").html(),
+                    "Item_tax": 5,
+                    "Subtotal": $(".ssubtotal").html(),
+                    "Real_unit_price": $(".real_unit_price").html(),
+                    "Cost": $("#total-payable").html(),
+                    "Product_code": $(".product-code").html(),
+                    "Product_name": $(".product-name").html(),
+                    "Comment": $("#hold_ref").val()
+                }]
+            };
 
+            $.ajax({
+                        
+              type: 'post',
+              url: "@Url.Action("Insert", "Sales")",
+              contentType: 'application/json',
+              dataType: 'json',
+                data: JSON.stringify(result),
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
+        }
         var Settings = {
             theme: "default",
             theme_style : "purple-light",
@@ -1158,9 +1205,9 @@
 
     <script type="text/javascript">
                         var socket = null;
-                   
+
                         @*if (@remote_printing == 2) {
-                          
+
                             try {
                                 socket = new WebSocket('ws://127.0.0.1:6441');
                                 socket.onopen = function () {
@@ -1174,11 +1221,11 @@
                             } catch (e) {
                                 console.log(e);
                             }
-                            
+
                         }*@
-                       
+
         @*function printBill(bill) {
-           
+
                             if (@remote_printing == 1) {
                                 Popup($('#bill_tbl').html(), 'bill');
                             } else if (@remote_printing == 2) {
@@ -1223,7 +1270,7 @@
                                     return false;
                                 }
                             }*@
-                        
+
                         @*var order_printers = <?= @local_printers ? "''" : json_encode($order_printers); ?>;
                         function printOrder(order) {
                             if (Settings.remote_printing == 1) {
@@ -1279,8 +1326,9 @@
     <script src="@(assets)dist/js/libraries.min.js" type="text/javascript"></script>
     <script src="@(assets)dist/js/scripts.min.js" type="text/javascript"></script>
     <script src="@(assets)dist/js/pos.min.js" type="text/javascript"></script>
-  @if (@remote_printing != 1 ) {
-    <script src="@(assets)dist/js/htmlimg.js"></script>
-   }
+    @if (@remote_printing != 1)
+    {
+        <script src="@(assets)dist/js/htmlimg.js"></script>
+    }
 </body>
 </html>
