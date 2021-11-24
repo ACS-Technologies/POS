@@ -151,6 +151,7 @@
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Controllers\SuspendedSalesController.cs" />
     <Compile Include="CORS\AllowCrossSiteAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -2113,6 +2114,7 @@
     <Folder Include="Views\Sales\" />
     <Folder Include="Views\Settings\" />
     <Folder Include="Views\Store\" />
+    <Folder Include="Views\Suppliers\" />
     <Folder Include="Views\SuspendedSales\" />
   </ItemGroup>
   <ItemGroup>
