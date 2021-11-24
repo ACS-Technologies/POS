@@ -144,6 +144,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\GiftCardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\POSController.cs" />
@@ -2109,6 +2110,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\css\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\GiftCards\" />
     <Folder Include="Views\Language\" />
     <Folder Include="Views\Registers\" />
     <Folder Include="Views\Sales\" />
