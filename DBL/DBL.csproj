@@ -46,6 +46,8 @@
     <Compile Include="RegistersDBL.cs" />
     <Compile Include="SaleItemsDBL.cs" />
     <Compile Include="SalesDBL.cs" />
+    <Compile Include="Security\APICredentialDBL.cs" />
+    <Compile Include="Security\SecurityHelper.cs" />
     <Compile Include="SettingsDBL.cs" />
     <Compile Include="StoreDBL.cs" />
     <Compile Include="SupplierDBL.cs" />
@@ -62,5 +64,6 @@
       <Name>POCO</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

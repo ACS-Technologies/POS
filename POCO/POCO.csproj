@@ -45,10 +45,12 @@
     <Compile Include="Group.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Payments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registers.cs" />
     <Compile Include="SaleItems.cs" />
     <Compile Include="Sales.cs" />
+    <Compile Include="Security\APICredential.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Supplier.cs" />

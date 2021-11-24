@@ -95,7 +95,7 @@ namespace POS.Controllers
             try
             {
                 oSalesDBL = new SalesDBL();
-                result.IsSuccess = true;
+                result.IsSuccess = true; 
                 PoSales.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSales.Date = DateTime.Now;
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);

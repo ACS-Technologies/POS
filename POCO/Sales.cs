@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace POCO
 {
@@ -11,6 +8,7 @@ namespace POCO
         public Sales()
         {
             SaleItems = new List<SaleItems>();
+            Payments = new Payments();
         }
              
         public int Id { get; set; }
@@ -38,6 +36,7 @@ namespace POCO
         public decimal? Rounding { get; set; }
         public int Store_id { get; set; }
         public string Hold_ref { get; set; }
+        public Payments Payments { get; set; }
         public List<SaleItems> SaleItems { get; set; }
 
     }

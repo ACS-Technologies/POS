@@ -218,7 +218,9 @@ namespace DBL
             Sales oSales = new Sales();
             ds = oSalesDAL.M_Sales_Insert(PoSales.Date, PoSales.Customer_id, PoSales.Customer_name, PoSales.Total, PoSales.Product_discount, PoSales.Order_discount_id, PoSales.Order_discount,
             PoSales.Total_discount, PoSales.Product_tax, PoSales.Order_tax_id, PoSales.Order_tax, PoSales.Total_tax, PoSales.Grand_total, PoSales.Total_items, PoSales.Total_quantity,
-            PoSales.Paid, PoSales. Created_by, PoSales.Note, PoSales.Status, PoSales.Rounding, PoSales.Store_id, PoSales.Hold_ref, ToDataTable(PoSales.SaleItems));
+            PoSales.Paid, PoSales. Created_by, PoSales.Note, PoSales.Status, PoSales.Rounding, PoSales.Store_id, PoSales.Hold_ref, ToDataTable(PoSales.SaleItems),
+            PoSales.Payments.Amount, PoSales.Payments.Paid_by, PoSales.Payments.Cheque_no, PoSales.Payments.Cc_no, PoSales.Payments.Gc_no, PoSales.Payments.Cc_holder, PoSales.Payments.Cc_month,
+            PoSales.Payments.Cc_year, PoSales.Payments.Cc_type, PoSales.Payments.Note, PoSales.Payments.Pos_paid, PoSales.Payments.Pos_balance);
 
             if (ds.Tables.Count > 0)
             {

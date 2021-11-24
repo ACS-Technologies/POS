@@ -65,6 +65,8 @@
     <Compile Include="RegistersDAL.cs" />
     <Compile Include="SaleItemsDAL.cs" />
     <Compile Include="SalesDAL.cs" />
+    <Compile Include="Security\APICredentialDAL.cs" />
+    <Compile Include="Security\SecurityHelper.cs" />
     <Compile Include="SettingsDAL.cs" />
     <Compile Include="StoreDAL.cs" />
     <Compile Include="SupplierDAL.cs" />

@@ -118,10 +118,26 @@ namespace DAL
         /// <param name="Rounding"></param>
         /// <param name="Store_id"></param>
         /// <param name="Hold_ref"></param>
+        /// <param name="SaleItems"></param>
+        /// <param name="Amount"></param>
+        /// <param name="paid_by"></param>
+        /// <param name="cheque_no"></param>
+        /// <param name="cc_no"></param>
+        /// <param name="gc_no"></param>
+        /// <param name="cc_holder"></param>
+        /// <param name="cc_month"></param>
+        /// <param name="cc_year"></param>
+        /// <param name="cc_type"></param>
+        /// <param name="cc_cvv2"></param>
+        /// <param name="paymentNote"></param>
+        /// <param name="pos_paid"></param>
+        /// <param name="pos_balance"></param>
         /// <returns></returns>
         public DataSet M_Sales_Insert(DateTime Date, int Customer_id, string Customer_name, decimal Total, decimal? Product_discount, string Order_discount_id, decimal? Order_discount,
             decimal? Total_discount, decimal? Product_tax, string Order_tax_id, decimal Order_tax, decimal? Total_tax, decimal Grand_total, int? Total_items, decimal? Total_quantity,
-            decimal? Paid, int? Created_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref, DataTable SaleItems)
+            decimal? Paid, int? Created_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref, DataTable SaleItems,
+            decimal Amount , string paid_by ,string cheque_no , string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
+            string paymentNote, decimal? pos_paid, decimal? pos_balance)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_Insert";
@@ -148,6 +164,18 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
             cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+            cmd.Parameters.AddWithValue("@Amount", Amount);
+            cmd.Parameters.AddWithValue("@Paid_by", paid_by);
+            cmd.Parameters.AddWithValue("@Cheque_no", cheque_no);
+            cmd.Parameters.AddWithValue("@Cc_no", cc_no);
+            cmd.Parameters.AddWithValue("@Gc_no", gc_no);
+            cmd.Parameters.AddWithValue("@Cc_holder", cc_holder);
+            cmd.Parameters.AddWithValue("@Cc_month", cc_month);
+            cmd.Parameters.AddWithValue("@Cc_year", cc_year);
+            cmd.Parameters.AddWithValue("@Cc_type", cc_type);
+            cmd.Parameters.AddWithValue("@PaymentNote", paymentNote);
+            cmd.Parameters.AddWithValue("@Pos_paid", pos_paid);
+            cmd.Parameters.AddWithValue("@Pos_balance", pos_balance);
 
             return ExDataBase_returnDataSet(cmd);
         }
