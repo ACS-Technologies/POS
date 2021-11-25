@@ -147,7 +147,7 @@ namespace POS.Controllers
                 result.IsSuccess = true;
                 PoPayment.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoPayment.Date = DateTime.Now;
-                result.Data = oSalesDBL.M_Store_Update(PoSales);
+                result.Data = oSalesDBL.M_Payment_Insert(PoPayment);
                 return Json(result);
 
             }
