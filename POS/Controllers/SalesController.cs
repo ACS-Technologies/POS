@@ -135,5 +135,27 @@ namespace POS.Controllers
                 return Json(result);
             }
         }
+
+        [HttpPost]
+        public ActionResult AddPayment(Payments PoPayment)
+        {
+            result = new ResultJson();
+
+            try
+            {
+                oSalesDBL = new SalesDBL();
+                result.IsSuccess = true;
+                PoPayment.Created_by = SessionManager.GetSessionUserInfo.UserID;
+                PoPayment.Date = DateTime.Now;
+                result.Data = oSalesDBL.M_Store_Update(PoSales);
+                return Json(result);
+
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result);
+            }
+        }
     }
 }

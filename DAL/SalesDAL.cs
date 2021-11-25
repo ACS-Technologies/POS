@@ -141,7 +141,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_Insert";
-            cmd.Parameters.AddWithValue("@Date", DateTime.Now/*Date*/);
+            cmd.Parameters.AddWithValue("@Date", Date);
             cmd.Parameters.AddWithValue("@Customer_id", Customer_id);
             cmd.Parameters.AddWithValue("@Customer_name", Customer_name);
             cmd.Parameters.AddWithValue("@Total", Total);
@@ -192,5 +192,54 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Id", Id);
             return ExDataBase_returnDataSet(cmd);
         }
+
+        #region Payments
+
+        /// <summary>
+        /// M_Payments_Insert
+        /// </summary>
+        /// <param name="Date"></param>
+        /// <param name="Sale_id"></param>
+        /// <param name="Customer_id"></param>
+        /// <param name="Reference"></param>
+        /// <param name="Amount"></param>
+        /// <param name="paid_by"></param>
+        /// <param name="cheque_no"></param>
+        /// <param name="cc_no"></param>
+        /// <param name="gc_no"></param>
+        /// <param name="cc_holder"></param>
+        /// <param name="cc_month"></param>
+        /// <param name="cc_year"></param>
+        /// <param name="cc_type"></param>
+        /// <param name="Note"></param>
+        /// <param name="Created_by"></param>
+        /// <param name="Store_id"></param>
+        /// <returns></returns>
+        public DataSet M_Payments_Insert(DateTime Date,int? Sale_id , int? Customer_id, string Reference,
+            decimal Amount, string paid_by, string cheque_no, string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
+            string Note, int? Created_by, int Store_id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_POS_Payments_Insert";
+            cmd.Parameters.AddWithValue("@Date", Date);
+            cmd.Parameters.AddWithValue("@Customer_id", Customer_id);
+            cmd.Parameters.AddWithValue("@Sale_id", Sale_id);
+            cmd.Parameters.AddWithValue("@Store_id", Store_id);
+            cmd.Parameters.AddWithValue("@Amount", Amount);
+            cmd.Parameters.AddWithValue("@Paid_by", paid_by);
+            cmd.Parameters.AddWithValue("@Cheque_no", cheque_no);
+            cmd.Parameters.AddWithValue("@Cc_no", cc_no);
+            cmd.Parameters.AddWithValue("@Gc_no", gc_no);
+            cmd.Parameters.AddWithValue("@Cc_holder", cc_holder);
+            cmd.Parameters.AddWithValue("@Cc_month", cc_month);
+            cmd.Parameters.AddWithValue("@Cc_year", cc_year);
+            cmd.Parameters.AddWithValue("@Cc_type", cc_type);
+            cmd.Parameters.AddWithValue("@Note", Note);
+            cmd.Parameters.AddWithValue("@Created_by", Created_by);
+            cmd.Parameters.AddWithValue("@Reference", Reference);
+
+            return ExDataBase_returnDataSet(cmd);
+        }
+        #endregion
     }
 }

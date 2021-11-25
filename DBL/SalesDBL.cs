@@ -202,7 +202,7 @@ namespace DBL
         }
 
         /// <summary>
-        /// M_Sales_GetById
+        /// M_Sales_Delete
         /// </summary>
         /// <param name="Id"></param>
         public void M_Sales_Delete(int Id)
@@ -212,6 +212,11 @@ namespace DBL
             ds = oSalesDAL.M_Sales_Delete(Id);
         }
 
+        /// <summary>
+        /// M_Store_Insert
+        /// </summary>
+        /// <param name="PoSales"></param>
+        /// <returns></returns>
         public Sales M_Store_Insert(Sales PoSales)
         {
             DataSet ds = new DataSet();
@@ -285,6 +290,11 @@ namespace DBL
             return oSales;
         }
 
+        /// <summary>
+        /// M_Store_Update
+        /// </summary>
+        /// <param name="PoSales"></param>
+        /// <returns></returns>
         public Sales M_Store_Update(Sales PoSales)
         {
             DataSet ds = new DataSet();
@@ -355,5 +365,56 @@ namespace DBL
             }
             return oSales;
         }
+
+        #region Payments
+
+        /// <summary>
+        /// M_Store_Insert
+        /// </summary>
+        /// <param name="PoSales"></param>
+        /// <returns></returns>
+        public Payments M_Payment_Insert(Payments PoPayments)
+        {
+            DataSet ds = new DataSet();
+            Payments oPayments = new Payments();
+            ds = oSalesDAL.M_Payments_Insert(PoPayments.Date, PoPayments.Sale_id, PoPayments.Customer_id, PoPayments.Reference,
+            PoPayments.Amount, PoPayments.Paid_by, PoPayments.Cheque_no, PoPayments.Cc_no, PoPayments.Gc_no, PoPayments.Cc_holder, PoPayments.Cc_month,
+            PoPayments.Cc_year, PoPayments.Cc_type, PoPayments.Note,PoPayments.Created_by,PoPayments.Store_id);
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    oPayments.Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
+                    oPayments.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                    oPayments.Customer_id = int.Parse(ds.Tables[0].Rows[0]["Customer_id"].ToString());
+                    
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Sale_id"].ToString()))
+                        oPayments.Sale_id = int.Parse(ds.Tables[0].Rows[0]["Sale_id"].ToString());
+
+                    oPayments.Reference = ds.Tables[0].Rows[0]["Reference"].ToString();
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Amount"].ToString()))
+                        oPayments.Amount = decimal.Parse(ds.Tables[0].Rows[0]["Amount"].ToString());
+
+                    oPayments.Paid_by = ds.Tables[0].Rows[0]["Paid_by"].ToString();
+                    oPayments.Cheque_no = ds.Tables[0].Rows[0]["Cheque_no"].ToString();
+                    oPayments.Cc_no = ds.Tables[0].Rows[0]["Cc_no"].ToString();
+                    oPayments.Gc_no = ds.Tables[0].Rows[0]["Gc_no"].ToString();
+                    oPayments.Cc_holder = ds.Tables[0].Rows[0]["Cc_holder"].ToString();
+                    oPayments.Cc_month = ds.Tables[0].Rows[0]["Cc_month"].ToString();
+                    oPayments.Cc_year = ds.Tables[0].Rows[0]["Cc_year"].ToString();
+                    oPayments.Cc_type = ds.Tables[0].Rows[0]["Cc_type"].ToString();
+                    oPayments.Note = ds.Tables[0].Rows[0]["Note"].ToString();
+                    oPayments.Created_by = int.Parse(ds.Tables[0].Rows[0]["Created_by"].ToString());
+                    oPayments.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
+
+                }
+
+            }
+            return oPayments;
+        }
+
+        #endregion
     }
 }
