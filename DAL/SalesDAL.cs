@@ -163,19 +163,7 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Rounding", Rounding);
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
-            cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
-            cmd.Parameters.AddWithValue("@Amount", Amount);
-            cmd.Parameters.AddWithValue("@Paid_by", paid_by);
-            cmd.Parameters.AddWithValue("@Cheque_no", cheque_no);
-            cmd.Parameters.AddWithValue("@Cc_no", cc_no);
-            cmd.Parameters.AddWithValue("@Gc_no", gc_no);
-            cmd.Parameters.AddWithValue("@Cc_holder", cc_holder);
-            cmd.Parameters.AddWithValue("@Cc_month", cc_month);
-            cmd.Parameters.AddWithValue("@Cc_year", cc_year);
-            cmd.Parameters.AddWithValue("@Cc_type", cc_type);
-            cmd.Parameters.AddWithValue("@PaymentNote", paymentNote);
-            cmd.Parameters.AddWithValue("@Pos_paid", pos_paid);
-            cmd.Parameters.AddWithValue("@Pos_balance", pos_balance);
+            //cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
 
             return ExDataBase_returnDataSet(cmd);
         }
