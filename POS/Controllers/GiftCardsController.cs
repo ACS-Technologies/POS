@@ -12,6 +12,25 @@ namespace POS.Controllers
         ResultJson result;
 
         /// <summary>
+        /// View
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult View(int Id)
+        {
+            try
+            {
+                oGiftCardDBL = new GiftCardDBL();
+                var model  = oGiftCardDBL.M_GiftCards_GetById(Id);
+                return View(model);
+            }
+            catch
+            {
+                return View(new GiftCard());
+            }
+        }
+
+        /// <summary>
         /// GetById
         /// </summary>
         /// <param name="Id"></param>
