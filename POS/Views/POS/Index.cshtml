@@ -381,7 +381,7 @@
                                         <button type="button" class="btn bg-navy" id="print_bill" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_bill</button>
                                     </div>
                                     <div style="width:100%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" onclick="InsertFunction()">@Resources.Default.payment</button>
+                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" id="payment">@Resources.Default.payment</button>
                                     </div>
                                 </div>
 
@@ -810,11 +810,12 @@
                                 <button type="button" class="btn btn-info btn-block quick-cash" id="quick-payable">
                                     0.00
                                 </button>
-                                <?php
-                                foreach (lang('quick_cash_notes') as $cash_note_amount) {
-                                echo '<button type="button" class="btn btn-block btn-warning quick-cash">' . $cash_note_amount . '</button>';
-                                }
-                                ?>
+
+                                <button type="button" class="btn btn-block btn-warning quick-cash">1</button>
+                                <button type="button" class="btn btn-block btn-warning quick-cash">5</button>
+                                <button type="button" class="btn btn-block btn-warning quick-cash">10</button>
+                                <button type="button" class="btn btn-block btn-warning quick-cash">20</button>
+                                <button type="button" class="btn btn-block btn-warning quick-cash">50</button>
                                 <button type="button" class="btn btn-block btn-danger"
                                         id="clear-cash-notes">
                                     @Resources.Default.payment_note
@@ -825,7 +826,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">@Resources.Default.close</button>
-                    <button class="btn btn-primary" id="<?= $eid ? '' : 'submit-sale'; ?>">@Resources.Default.submit</button>
+                    <button class="btn btn-primary" id="submit-sale">@Resources.Default.submit</button>
                 </div>
             </div>
         </div>
@@ -923,6 +924,7 @@
 
     <script type="text/javascript">
         jsonObj = [];
+        sale_items = [];
         $(document).ready(function () {
                         $.ajax({
                               type: 'get',
@@ -962,24 +964,20 @@
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
-                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
                         } else {
-                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName +'</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">'+data[i].Price+'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src=src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
                         }
                     }
                         }
                     });
         }
-        function InsertFunction() {
-            debugger;
-            var result = {
-                "Customer_name": "The Labib",
-                "Customer_id": 1,
-                "Store_id":1,
-                "SaleItems": [{
+        @*function InsertFunction() {
+            $("#posTable tbody tr").each(function () {
+                var result_items = {
                     "Sale_id": 1,
                     "Product_id": 1,
-                    "Quantity": $(".input-qty").val(),
+                    "Quantity": $(this).children().next().next().children().next().val(),
                     "Unit_price": $("#total").html(),
                     "Net_unit_price": 1,
                     "Discount": $("#ds_con").html(),
@@ -989,10 +987,19 @@
                     "Subtotal": $(".ssubtotal").html(),
                     "Real_unit_price": $(".real_unit_price").html(),
                     "Cost": $("#total-payable").html(),
-                    "Product_code": $(".product-code").html(),
-                    "Product_name": $(".product-name").html(),
+                    "Product_code": $(this).children().find("button").children().children().next().html(),
+                    "Product_name": $(this).children().find("button").children().children().html(),
                     "Comment": $("#hold_ref").val()
-                }]
+                };
+                sale_items.push(result_items)
+            });
+
+
+            var result = {
+                "Customer_name": "The Labib",
+                "Customer_id": 1,
+                "Store_id":1,
+                "SaleItems": sale_items
             };
 
             $.ajax({
@@ -1005,8 +1012,9 @@
                         success: function (data) {
                             console.log(data);
                         }
-                    });
-        }
+            });
+            
+        }*@
         var Settings = {
             theme: "default",
             theme_style : "purple-light",

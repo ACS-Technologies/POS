@@ -147,7 +147,7 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Rounding", Rounding);
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
-            //cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+            cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
 
             return ExDataBase_returnDataSet(cmd);
         }
