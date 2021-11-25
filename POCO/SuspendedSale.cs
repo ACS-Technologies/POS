@@ -8,6 +8,10 @@ namespace POCO
 {
     public class SuspendedSale
     {
+        public SuspendedSale()
+        {
+            SuspendedItems = new List<SuspendedItem>();
+        }
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Customer_id { get; set; }
@@ -31,5 +35,6 @@ namespace POCO
         public string Note { get; set; }
         public int Store_id { get; set; }
         public string Hold_ref { get; set; }
+        public List<SuspendedItem> SuspendedItems { get; set; }
     }
 }
