@@ -36,11 +36,11 @@ namespace POS.Controllers
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
             }
-            //Response responseItem = APICall.Get<Response>(string.Format("{0}/Items/Get_Items?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, "en"), authorization.TokenType, authorization.AccessToken);
-            //if (responseItem.IsScusses)
-            //{
-            //    main.Item = JsonConvert.DeserializeObject<List<Item>>(JsonConvert.SerializeObject(responseItem.ResponseDetails));
-            //}
+            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Users/Get_POSUsers", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+            if (responseUsers.IsScusses)
+            {
+                main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
+            }
             main.Item = new List<Item>();
             main.store = new Store();
             return View(main);
