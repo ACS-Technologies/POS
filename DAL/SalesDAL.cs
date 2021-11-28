@@ -136,7 +136,7 @@ namespace DAL
         public DataSet M_Sales_Insert(DateTime Date, int Customer_id, string Customer_name, decimal Total, decimal? Product_discount, string Order_discount_id, decimal? Order_discount,
             decimal? Total_discount, decimal? Product_tax, string Order_tax_id, decimal Order_tax, decimal? Total_tax, decimal Grand_total, int? Total_items, decimal? Total_quantity,
             decimal? Paid, int? Created_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref, DataTable SaleItems,
-            decimal Amount , string paid_by ,string cheque_no , string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
+            decimal Amount, string paid_by, string cheque_no, string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
             string paymentNote, decimal? pos_paid, decimal? pos_balance)
         {
             SqlCommand cmd = new SqlCommand();
@@ -163,7 +163,19 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Rounding", Rounding);
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
-            //cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+            cmd.Parameters.AddWithValue("@SaleItemsType", SaleItems);
+            cmd.Parameters.AddWithValue("@Amount", Amount);
+            cmd.Parameters.AddWithValue("@Paid_by", paid_by);
+            cmd.Parameters.AddWithValue("@Cheque_no", cheque_no);
+            cmd.Parameters.AddWithValue("@Cc_no", cc_no);
+            cmd.Parameters.AddWithValue("@Gc_no", gc_no);
+            cmd.Parameters.AddWithValue("@Cc_holder", cc_holder);
+            cmd.Parameters.AddWithValue("@Cc_month", cc_month);
+            cmd.Parameters.AddWithValue("@Cc_year", cc_year);
+            cmd.Parameters.AddWithValue("@Cc_type", cc_type);
+            cmd.Parameters.AddWithValue("@PaymentNote", paymentNote);
+            cmd.Parameters.AddWithValue("@Pos_paid", pos_paid);
+            cmd.Parameters.AddWithValue("@Pos_balance", pos_balance);
 
             return ExDataBase_returnDataSet(cmd);
         }
@@ -203,7 +215,7 @@ namespace DAL
         /// <param name="Created_by"></param>
         /// <param name="Store_id"></param>
         /// <returns></returns>
-        public DataSet M_Payments_Insert(DateTime Date,int? Sale_id , int? Customer_id, string Reference,
+        public DataSet M_Payments_Insert(DateTime Date, int? Sale_id, int? Customer_id, string Reference,
             decimal Amount, string paid_by, string cheque_no, string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
             string Note, int? Created_by, int Store_id)
         {

@@ -2,6 +2,7 @@
 using POCO;
 using POS.Models;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace POS.Controllers
@@ -98,6 +99,16 @@ namespace POS.Controllers
                 result.IsSuccess = true; 
                 PoSales.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSales.Date = DateTime.Now;
+        
+                PoSales.Product_discount = PoSales.SaleItems.Sum(x => x.Item_discount) ;
+                PoSales.Total_discount = PoSales.Product_discount;
+                PoSales.Product_tax = PoSales.SaleItems.Sum(x => x.Item_tax) ;
+                PoSales.Total = PoSales.SaleItems.Sum(x => x.Net_unit_price) + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
+                PoSales.Grand_total = PoSales.Total + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
+                PoSales.Order_tax_id = "15%";
+                PoSales.Order_tax = 0;
+                PoSales.Total_tax = PoSales.Product_tax + PoSales.Order_tax;
+                PoSales.Total_items = PoSales.SaleItems.Count;
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
                 return Json(result);
 
