@@ -178,6 +178,7 @@ function read_card() {
 }
 
 function get(name) {
+    debugger
     if (typeof Storage !== 'undefined') {
         return localStorage.getItem(name);
     } else {
