@@ -13,6 +13,7 @@ namespace POCO
         public List<Item> Item { get; set; }
         public List<Group> Group { get; set; }
         public List<Category> Category { get; set; }
+        public List<SuspendedSale> SuspendedSale { get; set; }
         public List<User> User { get; set; }
 
     }

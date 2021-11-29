@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DBL;
+using Newtonsoft.Json;
 using POCO;
 using POS.Models;
 using POS.Utilities;
@@ -16,6 +17,7 @@ namespace POS.Controllers
         // GET: POS
         public ActionResult Index()
         {
+         var   oSuspendedSaleDBL = new SuspendedSaleDBL();
             Main main = new Main();
             Session["user_name"] = "Abdallah Labib";
             Session["first_name"] = "Haya";
@@ -42,6 +44,8 @@ namespace POS.Controllers
                 main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
             main.Item = new List<Item>();
+            int userId = SessionManager.GetSessionUserInfo.UserID;
+            main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
             main.store = new Store();
             return View(main);
         }
@@ -70,6 +74,10 @@ namespace POS.Controllers
             return Json(oItem, JsonRequestBehavior.AllowGet);
 
 
+        } 
+        public ActionResult ViewBill()
+        {
+            return View("view_bill");
         }
     
   

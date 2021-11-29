@@ -2105,6 +2105,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\POS\Index.cshtml" />
     <Content Include="Views\Authentication\Index.cshtml" />
+    <Content Include="Views\POS\view_bill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

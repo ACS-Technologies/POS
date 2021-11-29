@@ -417,6 +417,9 @@
   <data name="type_reference_note" xml:space="preserve">
     <value>Type Reference Note</value>
   </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
   <data name="update" xml:space="preserve">
     <value>Update</value>
   </data>

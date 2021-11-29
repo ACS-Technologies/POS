@@ -2,11 +2,12 @@
 using POCO;
 using POS.Models;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace POS.Controllers
 {
-    public class SuspendedSuspendedSaleController : BaseController
+    public class SuspendedSaleController : BaseController
     {
         SuspendedSaleDBL oSuspendedSaleDBL;
         ResultJson result;
@@ -97,6 +98,15 @@ namespace POS.Controllers
                 result.IsSuccess = true;
                 PoSuspendedSale.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSuspendedSale.Date = DateTime.Now;
+                PoSuspendedSale.Product_discount = PoSuspendedSale.SuspendedItems.Sum(x => x.Item_discount);
+                PoSuspendedSale.Total_discount = PoSuspendedSale.Product_discount;
+                PoSuspendedSale.Product_tax = PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
+                PoSuspendedSale.Total = PoSuspendedSale.SuspendedItems.Sum(x => x.Net_unit_price) + (decimal)PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
+                PoSuspendedSale.Grand_total = PoSuspendedSale.Total + (decimal)PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
+                PoSuspendedSale.Order_tax_id = "15%";
+                PoSuspendedSale.Order_tax = 0;
+                PoSuspendedSale.Total_tax = PoSuspendedSale.Product_tax + PoSuspendedSale.Order_tax;
+                PoSuspendedSale.Total_items = PoSuspendedSale.SuspendedItems.Count;
                 result.Data = oSuspendedSaleDBL.M_Store_Insert(PoSuspendedSale);
                 return Json(result);
 

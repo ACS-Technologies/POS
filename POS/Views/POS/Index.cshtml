@@ -165,8 +165,9 @@
             width: 75%;
             margin: auto;
             background-color: #605ca8;
-            border-radius: 10px;
-            margin-bottom: 2rem
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            overflow:hidden
         }
 
             .nav-tabs-buttons li {
@@ -205,12 +206,12 @@
         <nav class="navbar navbar-static-top" role="navigation">
             <ul class="nav navbar-nav pull-left">
                 <li class="dropdown">
-                    <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)/images/@(selected_language).png" alt="@selected_language"></a>
+                    <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)images/@(selected_language).png" alt="@selected_language"></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="@Url.Action("SetLanguage","Language")?lang=en">
-                                <img src="@assets/images/en.png"
-                                     class="language-img"> English
+                                <img src="@assets/images/en.png" class="language-img">
+                                English
                             </a>
                         </li>
                     </ul>
@@ -221,7 +222,7 @@
                     <li><a href="#" class="clock"></a></li>
                     <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i></a></li>
                     <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
-                    <li><a href="@Url.Action("view_bill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
+                    <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
                     <li><a href="@Url.Action("register_details","POS")" data-toggle="ajax">@Resources.Default.register_details</a></li>
                     <li><a href="@Url.Action("today_sale","POS")" data-toggle="ajax">@Resources.Default.today_sale</a></li>
@@ -229,7 +230,7 @@
                     <li class="dropdown notifications-menu" id="suspended_sales">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning"><?=sizeof($suspended_sales);?></span>
+                            <span class="label label-warning">@Model.SuspendedSale.Count</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">
@@ -238,15 +239,14 @@
                             <li>
                                 <ul class="menu">
                                     <li class="list-suspended-sales">
-                                        <?php
-                                        foreach ($suspended_sales as $ss) {
-                                        echo '<a href="' . site_url('pos/?hold=' . $ss->id) . '" class="load_suspended">' . $this->tec->hrld($ss->date) . ' (' . $ss->customer_name . ')<br><div class="bold">' . $ss->hold_ref . '</div></a>';
+                                        @foreach (var item in Model.SuspendedSale)
+                                        {
+                                            <a href="#" value="@item.Id" class="load_suspended">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
                                         }
-                                        ?>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>
+                            @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
                         </ul>
                     </li>
                     <?php } ?>
@@ -297,7 +297,7 @@
                             </div>
                             <div id="printhead" class="print">
                                 @header
-                                <p><?= lang('date'); ?>: <?=date(@dateformat)?></p>
+                                <p>Date :@DateTime.Now</p>
                             </div>
                             <div id="print" class="fixed-table-container">
                                 <div id="list-table-div">
@@ -306,9 +306,10 @@
                                             <thead>
                                                 <tr class="success">
                                                     <th>@Resources.Default.product</th>
-                                                    <th style="width: 15%;text-align:center;">@Resources.Default.price</th>
                                                     <th style="width: 15%;text-align:center;">@Resources.Default.qty</th>
-                                                    <th style="width: 20%;text-align:center;">@Resources.Default.subtotal</th>
+                                                    <th style="width: 15%;text-align:center;">@Resources.Default.UnitPrice</th>
+                                                    <th style="width: 15%;text-align:center;">VAT</th>
+                                                    <th style="width: 20%;text-align:center;">@Resources.Default.total</th>
                                                     <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
                                                 </tr>
                                             </thead>
@@ -318,9 +319,10 @@
                                         <thead>
                                             <tr class="success">
                                                 <th>@Resources.Default.product</th>
-                                                <th style="width: 15%;text-align:center;">@Resources.Default.price</th>
                                                 <th style="width: 15%;text-align:center;">@Resources.Default.qty</th>
-                                                <th style="width: 20%;text-align:center;">@Resources.Default.subtotal</th>
+                                                <th style="width: 15%;text-align:center;">@Resources.Default.UnitPrice</th>
+                                                <th style="width: 15%;text-align:center;">VAT</th>
+                                                <th style="width: 20%;text-align:center;">@Resources.Default.total</th>
                                                 <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
                                             </tr>
                                         </thead>
@@ -351,9 +353,9 @@
                                                         <a role="button" data-toggle="modal" data-target="#noteModal">
                                                             <i class="fa fa-comment"></i>
                                                         </a>
-                                                        *@
+                                                    *@
                                                 </td>
-                                                <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00 JOD</span></td>
+                                                <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -362,26 +364,26 @@
                             <div id="botbuttons">
                                 <div style="width:100%">
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn btn-warning" id="suspend" style="border-radius:15px;width:100%;height:40px">
+                                        <button type="button" class="btn btn-warning" id="suspend" style="border-radius:15px;width:100%;height:50px">
                                             @Resources.Default.hold
                                         </button>
 
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn btn-danger" id="reset" style="border-radius:15px;width:100%;height:40px">
+                                        <button type="button" class="btn btn-danger" id="reset" style="border-radius:15px;width:100%;height:50px">
                                             @Resources.Default.cancel
                                         </button>
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_order</button>
+                                        <button type="button" class="btn bg-purple btn-block btn-flat" id="print_order" style="border-radius:15px;width:100%;height:50px">@Resources.Default.print_order</button>
 
 
                                     </div>
                                     <div style="width:49%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn bg-navy" id="print_bill" style="border-radius:15px;width:100%;height:40px">@Resources.Default.print_bill</button>
+                                        <button type="button" class="btn bg-navy" id="print_bill" style="border-radius:15px;width:100%;height:50px">@Resources.Default.print_bill</button>
                                     </div>
                                     <div style="width:100%;display:inline-block;padding:10px">
-                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:50px" id="payment">@Resources.Default.payment</button>
+                                        <button type="button" class="btn btn-success" style="border-radius:15px;width:100%;height:60px" id="payment">@Resources.Default.payment</button>
                                     </div>
                                 </div>
 
@@ -389,7 +391,7 @@
                             <div class="clearfix"></div>
                             <span id="hidesuspend"></span>
                             <input type="hidden" name="spos_note" value="" id="spos_note">
-
+                            <input type="hidden" name="spos_note" value="" id="spos_note">
                             <div id="payment-con">
                                 <input type="hidden" name="amount" id="amount_val" value="<?= $eid ? $sale->paid : ''; ?>" />
                                 <input type="hidden" name="balance_amount" id="balance_val" value="" />
@@ -472,7 +474,29 @@
     </div>
 
     <div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
+    <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Open Register</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        Cash in hand
+                        <div class="form-group">
+                            <input class="form-control" id="open_reg" />
+                        </div>
+                    </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button type="button" id="addGiftCard" class="btn btn-primary">Open Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal" data-easein="flipYIn" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -803,25 +827,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-3 text-center">
-                            <!-- <span style="font-size: 1.2em; font-weight: bold;"><?= lang('quick_cash'); ?></span> -->
 
-                            <div class="btn-group btn-group-vertical" style="width:100%;">
-                                <button type="button" class="btn btn-info btn-block quick-cash" id="quick-payable">
-                                    0.00
-                                </button>
-
-                                <button type="button" class="btn btn-block btn-warning quick-cash">1</button>
-                                <button type="button" class="btn btn-block btn-warning quick-cash">5</button>
-                                <button type="button" class="btn btn-block btn-warning quick-cash">10</button>
-                                <button type="button" class="btn btn-block btn-warning quick-cash">20</button>
-                                <button type="button" class="btn btn-block btn-warning quick-cash">50</button>
-                                <button type="button" class="btn btn-block btn-danger"
-                                        id="clear-cash-notes">
-                                    @Resources.Default.payment_note
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -923,6 +929,10 @@
     <div class="modal" data-easein="flipYIn" id="posModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"></div>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#OpenRegisterPopup").show();
+        });
+        
         jsonObj = [];
         sale_items = [];
         $(document).ready(function () {
@@ -939,14 +949,13 @@
 
                                         var item=[];
                                         item["id"] = data.ResponseDetails[i].ItemId;
-                                        item["ItemId"] = data.ResponseDetails[i].ItemId;
-                                        item["ItemName"] = data.ResponseDetails[i].ItemPrimaryName + "-" + data.ResponseDetails[i].ItemBarcode  ;
+                                        item["Product_id"] = data.ResponseDetails[i].ItemId;
+                                        item["Product_name"] = data.ResponseDetails[i].ItemPrimaryName + "-" + data.ResponseDetails[i].ItemBarcode  ;
                                         item["label"] = data.ResponseDetails[i].ItemPrimaryName +"-"+ data.ResponseDetails[i].ItemBarcode ;
-                                        item["Qty"] = typeof data.ResponseDetails[i].Qty !== 'undefined'? data.ResponseDetails[i].Qty :0;
-                                        item["ItemBarcode"] = data.ResponseDetails[i].ItemBarcode;
+                                        item["Quantity"] = 1;
+                                        item["Product_code"] = data.ResponseDetails[i].ItemBarcode;
                                         item["Price"] = data.ResponseDetails[i].Price;
-                                        item["taxRate"] = data.ResponseDetails[i].taxRate;
-
+                                        item["Tax"] = data.ResponseDetails[i].taxRate;
                                       jsonObj.push(item);
 
                                     }
@@ -970,7 +979,8 @@
                         }
                     }
                         }
-                    });
+            });
+
         }
         @*function InsertFunction() {
             $("#posTable tbody tr").each(function () {
@@ -1003,7 +1013,7 @@
             };
 
             $.ajax({
-                        
+
               type: 'post',
               url: "@Url.Action("Insert", "Sales")",
               contentType: 'application/json',
@@ -1013,7 +1023,7 @@
                             console.log(data);
                         }
             });
-            
+
         }*@
         var Settings = {
             theme: "default",
