@@ -11,7 +11,24 @@ namespace POS.Controllers
     {
         SettingsDBL oSettingsDBL;
         ResultJson result;
+        public ActionResult Index()
+        {
+            result = new ResultJson();
 
+            try
+            {
+                int BranchId = SessionManager.GetSessionUserInfo.CompanyBranchId;
+                oSettingsDBL = new SettingsDBL();
+                result.IsSuccess = true;
+                result.Data = oSettingsDBL.M_Settings_GetByBranchId(BranchId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
         /// <summary>
         /// GetByBranchId
         /// </summary>
