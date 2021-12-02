@@ -79,7 +79,10 @@ namespace POS.Controllers
         {
             return View("view_bill");
         }
-    
-  
+        public ActionResult PrintOrder()
+        {
+            return View();
+        }
+
     }
 }
