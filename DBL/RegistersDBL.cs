@@ -39,5 +39,21 @@ namespace DBL
             }
             return oRegisters;
         }
+        public string M_RegisterStatus_Get(int Store_Id, int User_Id)
+        {
+            DataSet ds = new DataSet();
+            ds = oRegistersDAL.M_RegisterStatus_Get(Store_Id, User_Id);
+            string Status = "close";
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+
+                    Status = ds.Tables[0].Rows[0]["Status"].ToString();
+                }
+
+            }
+            return Status;
+        }
     }
 }

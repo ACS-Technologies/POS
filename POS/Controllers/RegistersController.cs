@@ -24,21 +24,11 @@ namespace POS.Controllers
         {
             result = new ResultJson();
             oRegistersDBL = new RegistersDBL();
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
             {
-                if (SessionManager.GetSessionUserInfo.StoreId == 0)
-                {
-                    result.IsSuccess = false;
-                    result.Url = Url.Action("Index", "Authentication");
-                    return RedirectToAction(result.Url);
-                }
 
-                if (SessionManager.GetSessionUserInfo.UserID == 0)
-                {
-                    result.IsSuccess = false;
-                    result.Url = Url.Action("Index", "Authentication");
-                    return RedirectToAction(result.Url);
-                }
 
                 if (model.Cash_in_hand <= 0)
                 {
@@ -48,7 +38,7 @@ namespace POS.Controllers
                 }
 
                 model.UserId = SessionManager.GetSessionUserInfo.UserID;
-                model.Store_id = SessionManager.GetSessionUserInfo.StoreId;
+                model.Store_id = BranchId;
                 model.Status = "open";
                 model.Date = DateTime.Now;
 

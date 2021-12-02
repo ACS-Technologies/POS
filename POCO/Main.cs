@@ -18,5 +18,7 @@ namespace POCO
         public List<PaymentMethod> PaymentMethod { get; set; }
         public List<User> User { get; set; }
         public string ImageUrl { get; set; }
+        public string Status { get; set; }
+        
     }
 }

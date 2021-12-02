@@ -552,6 +552,8 @@
                             item_discount = formatDecimal(parseFloat(((unit_price) * parseFloat(pds[0])) / 100));
                         }
                     }
+                    debugger
+                     product_tax += item.Quantity * net_price * (item.Tax / 100);
                     product_discount += formatDecimal(item_discount * item_qty);
                     net_price = formatDecimal(net_price - item_discount, 4);
                     unit_price = formatDecimal(unit_price - item_discount);
@@ -566,7 +568,7 @@
                     tr_html = '<td>' + item_name + ' (' + item_code + ')</td>';
                     tr_html += '<td class="text-center">' + formatDecimal(item.Quantity) + '</td>';
                     tr_html += '<td class="text-right">' + formatMoney(parseFloat(item.Unit_price)) + '</td>';
-                    tr_html += '<td class="text-center">' + 0 + '</td>';
+                    tr_html += '<td class="text-center">' +  formatMoney(parseFloat(item.Item_tax))  + '</td>';
                     tr_html += '<td class="text-right">' + formatMoney(((parseFloat(item.Unit_price) + parseFloat(0)) * parseFloat(item.Quantity))) + '</td>';
                     newTr.html(tr_html);
                     newTr.prependTo("#billTable");
@@ -586,16 +588,10 @@
                 }
                 $("#ds_con").text('(' + formatMoney(product_discount) + ') ' + formatMoney(order_discount));
                 var ts = 0;
-                //var ts = get('spos_tax') ? get('spos_tax') : $('#tax_val').val();
-                //if (ts.indexOf("%") !== -1) {
-                //    var pts = ts.split("%");
-                //    order_tax = ((total - order_discount) * parseFloat(pts[0])) / 100;
-                //} else {
-                //    order_tax = parseFloat(ts);
-                //}
-                $("#ts_con").text(formatMoney(order_tax));
 
-                var g_total = total - parseFloat(order_discount) + parseFloat(order_tax);
+                $("#ts_con").text(formatMoney(product_tax));
+
+                var g_total = total - parseFloat(order_discount) + parseFloat(product_tax);
                 grand_total = formatMoney(g_total);
                 $("#total-payable").text(grand_total);
                 $("#total").text(formatMoney(total));

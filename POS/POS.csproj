@@ -2108,6 +2108,8 @@
     <Content Include="Views\Authentication\Index.cshtml" />
     <Content Include="Views\POS\view_bill.cshtml" />
     <Content Include="Views\POS\PrintOrder.cshtml" />
+    <Content Include="Views\Authentication\SelectCompany.cshtml" />
+    <Content Include="Views\Authentication\SelectBranch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

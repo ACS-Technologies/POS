@@ -10,12 +10,8 @@
         string assets = "/Content/themes/default/assets/";
         string lang = "ltr";
         //Start Settings Table
-        string theme = "default";
         string theme_style = "purple-light";
-        string site_name = "SimplePOS";
-        string language = "english";
         string selected_language = "en";
-        bool multi_store = false;
         int default_customer = 1;
         string header = "";
         int remote_printing = 1;
@@ -23,103 +19,20 @@
         int default_category = 1;
         int stripe = 0;
         string timeformat = "h:i A";
-        string protocol = "mail";
-        string smtp_host = "pop.gmail.com";
-        string smtp_user = "noreply@spos.tecdiary.my";
-        string smtp_pass = "";
-        string version = "4.1.0";
-        int smtp_port = 25;
-        string smtp_crypto = "";
-        string mailpath = "";
-        string timezone = "Asia/Kuala_Lumpur";
-        int setting_id = 1;
-        string logo = "logo1.png";
-        string default_email = "aboodcs1995@gmail.com";
-        int mmode = 0;
-        int captcha = 0;
-        string currency_prefix = "JOD";
-        string default_tax_rate = "16%";
-        int rows_per_page = 10;
-        int total_rows = 30;
-        string footer = "";
-        int bsty = 3;
-        int display_kb = 0;
-        int default_discount = 0;
-        int item_addition = 1;
-        string barcode_symbology = "";
         int pro_limit = 10;
-        int decimals = 2;
-        string thousands_sep = ".";
-        string decimals_sep = ".";
-        string focus_add_item = "ALT+F1";
-        string add_customer = "ALT+F2";
-        string toggle_category_slider = "ALT+F10";
-        string cancel_sale = "ALT+F5";
-        string suspend_sale = "ALT+F6";
-        string print_order = "ALT+F11";
-        string print_bill = "ALT+F12";
-        string finalize_sale = "ALT+F8";
-        string today_sale = "Ctrl+F1";
-        string open_hold_bills = "Ctrl+F2";
-        string close_register = "Ctrl+F7";
-        int java_applet = 0;
-        string receipt_printers = "";
-        string cash_drawer_codes = "";
-        int char_per_line = 42;
-        int rounding = 1;
-        int pin_code = 2122;
-        string stripe_secret_key = "";
-        string stripe_publishable_key = "";
-        string purchase_code = "416de128-7cac-4ac5-a362-b980c82decff";
-        string envato_username = "ACS-Techs";
-        int after_sale_page = 0;
-        int overselling = 1;
-        int qty_decimals = 2;
-        string symbol = "";
-        int sac = 0;
-        int display_symbol = 0;
-        int remote_primting = 1;
-        int printer = 1;
-        string order_printers = "";
-        int auto_print = 0;
-        int local_printers = 1;
-        int rtl = 0;
-        int print_img = 0;
-        string ws_barcode_type = "weight";
-        int ws_barcode_chars = 13;
-        int flag_chars = 1;
-        int item_code_start = 2;
-        int item_code_chars = 6;
-        int price_start = 0;
-        int price_chars = 0;
-        int price_divide_by = 0;
-        int weight_start = 8;
-        int weight_chars = 5;
-        int weight_divide_by = 100;
         //End Settings Table
         //Start Stores Table
-        string store_name = "SimplePOS";
-        string store_code = "POS";
-        string store_email = "store@tecdiary.com";
+
         string store_phone = "012345678";
         string store_address1 = "Address Line 1";
         string store_address2 = "";
         string store_city = "Petaling Jaya";
-        string store_state = "Selangor";
-        int store_postal_code = 46000;
-        string store_country = "Jordan";
-        string store_currency_code = "JOD";
-        string store_receipt_header = "";
-        string store_receipt_footer = "This is receipt footer for store";
+
         //End Stores Table
         //Start Printers Table
-        string printer_title = "XPrinter";
-        string printer_type = "network";
-        string printer_profile = "default";
+
         int printer_char_per_line = 45;
-        string printer_path = "";
-        string printer_ip_address = "0x3139322E3136382E312E323030";
-        int printer_port = 9100;
+
         //End Printers Table
     }
 
@@ -297,10 +210,11 @@
                         <div class="well well-sm" id="leftdiv">
                             <div id="lefttop" style="margin-bottom:5px;">
                                 <div class="form-group" style="margin-bottom:5px;">
-                                    <select class="form-control select2">
-                                        <option disabled selected>--- Choose Customer ---</option>
-                                        <option>The Labib</option>
-                                    </select>
+                                    @*<select class="form-control select2">
+                                            <option disabled selected>--- Choose Customer ---</option>
+                                            <option>The Labib</option>
+                                        </select>*@
+                                    @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
                                 </div>
                                 <div class="form-group" style="margin-bottom:5px;">
                                     <input type="text" name="hold_ref" id="hold_ref" class="form-control kb-text" placeholder="@Resources.Default.reference_note" />
@@ -488,29 +402,30 @@
     </div>
 
     <div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
-    <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Open Register</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        Cash in hand
+    @if (Model.Status == "close")
+    {
+        <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Open Register</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <input class="form-control" id="open_reg" />
+                            Cash in hand
+                            <div class="form-group">
+                                <input class="form-control" id="open_reg" />
+                            </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="close-now" class="btn btn-default pull-left" data-dismiss="modal">@Resources.Default.close</button>
-                    <button type="button" class="btn btn-primary">Open Register</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="OpenRegister()">Open Register</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+
     <div class="modal" data-easein="flipYIn" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -752,16 +667,9 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        paying by
-                                        <select id="paid_by" class="form-control paid_by select2" style="width:100%;">
-                                            <option value="cash">@Resources.Default.cash</option>
-                                            <option value="CC">@Resources.Default.cc</option>
-                                            <option value="cheque">@Resources.Default.cheque</option>
-                                            <option value="gift_card">@Resources.Default.gift_card</option>
-                                            <?= isset(@stripe) ? '
-                                            <option value="stripe">' . @Resources.Default.stripe . '</option>' : ''; ?>
-                                            <option value="other">@Resources.Default.other</option>
-                                        </select>
+                                        Payment Method
+                                        @Html.DropDownList("PaymentMethod", new SelectList(Model.PaymentMethod, "MethodId", "Name"), "----- Select -----", htmlAttributes: new { @class = "form-control select2", style = "width:100%;" })
+
                                     </div>
                                 </div>
                             </div>
@@ -991,9 +899,9 @@
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
-                            $("#emptyitems").append('<button type="button" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="http://localhost:50942/uploads/ItemFiles/' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
                         } else {
-                            $("#emptyitems").append('<button type="button" data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src=src="http://localhost:50942/uploads/ItemFiles/637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
                         }
                     }
 
@@ -1001,92 +909,16 @@
             });
 
         }
-        @*function InsertFunction() {
-            $("#posTable tbody tr").each(function () {
-                var result_items = {
-                    "Sale_id": 1,
-                    "Product_id": 1,
-                    "Quantity": $(this).children().next().next().children().next().val(),
-                    "Unit_price": $("#total").html(),
-                    "Net_unit_price": 1,
-                    "Discount": $("#ds_con").html(),
-                    "Item_discount": 1,
-                    "Tax": $("#ts_con").html(),
-                    "Item_tax": 5,
-                    "Subtotal": $(".ssubtotal").html(),
-                    "Real_unit_price": $(".real_unit_price").html(),
-                    "Cost": $("#total-payable").html(),
-                    "Product_code": $(this).children().find("button").children().children().next().html(),
-                    "Product_name": $(this).children().find("button").children().children().html(),
-                    "Comment": $("#hold_ref").val()
-                };
-                sale_items.push(result_items)
-            });
-
-
-            var result = {
-                "Customer_name": "The Labib",
-                "Customer_id": 1,
-                "Store_id":1,
-                "SaleItems": sale_items
-            };
-
-            $.ajax({
-
-              type: 'post',
-              url: "@Url.Action("Insert", "Sales")",
-              contentType: 'application/json',
-              dataType: 'json',
-                data: JSON.stringify(result),
-                        success: function (data) {
-                            console.log(data);
-                        }
-            });
-
-        }*@
         var Settings = {
-            theme: "default",
-            theme_style : "purple-light",
-                site_name : "SimplePOS",
-                language : "english",
-                selected_language : "en",
-                multi_store : false,
-                default_customer : 1,
-                header : "",
-                remote_printing : 1,
-                    dateformat : "D j M Y",
-                    default_category : 1,
-                    stripe : 0,
-                    timeformat : "h:i A",
-                    protocol : "mail",
-                    smtp_host : "pop.gmail.com",
-                    smtp_user : "noreply@spos.tecdiary.my",
-                    smtp_pass : "",
-                    version : "4.1.0",
-                    smtp_port : 25,
-                    smtp_crypto : "",
-                    mailpath : "",
-                    timezone : "Asia/Kuala_Lumpur",
+
                     setting_id : 1,
-                    logo : "logo1.png",
-                    default_email : "aboodcs1995@gmail.com",
-                    mmode : 0,
-                    captcha : 0,
-                    currency_prefix : "JOD",
-                    default_tax_rate : "16%",
-                    rows_per_page : 10,
-                    total_rows : 30,
-                    footer : "",
-                    bsty : 3,
-                    display_kb : 0,
-                    default_discount : 0,
-                    item_addition : 1,
-                    barcode_symbology : "",
-                    pro_limit : 10,
+
                     decimals : 2,
-                    thousands_sep : ".",
-                    decimals_sep : ".",
-                    focus_add_item : "ALT+F1",
+               dateformat : "D j M Y",
+         timeformat : "h:i A",
+                                rounding : 1,
+            pin_code: 2122,
+                                           focus_add_item : "ALT+F1",
                     add_customer : "ALT+F2",
                     toggle_category_slider : "ALT+F10",
                     cancel_sale : "ALT+F5",
@@ -1097,44 +929,9 @@
                             today_sale : "Ctrl+F1",
                             open_hold_bills : "Ctrl+F2",
                             close_register : "Ctrl+F7",
-                            java_applet : 0,
-                            receipt_printers : "",
-                                cash_drawer_codes : "",
-                                char_per_line : 42,
-                                rounding : 1,
-                                pin_code : 2122,
-                                stripe_secret_key : "",
-                                stripe_publishable_key : "",
-                                purchase_code : "416de128-7cac-4ac5-a362-b980c82decff",
-                                envato_username : "ACS-Techs",
-                                after_sale_page : 0,
-                                overselling : 1,
-                                qty_decimals : 2,
-                                symbol : "",
-                                sac : 0,
-                                display_symbol : 0,
-                                remote_primting : 1,
-                                printer : 1,
-                                    order_printers : "",
-                                        auto_pr : 0,
-                                        local_printers : 1,
-                                            rtl : 0,
-                                            print_img : 0,
-                                                ws_barcode_type : "weight",
-                                                ws_barcode_chars : 13,
-                                                flag_chars : 1,
-                                                item_code_start : 2,
-                                                item_code_chars : 6,
-                                                price_start : 0,
-                                                price_chars : 0,
-                                                price_divide_by : 0,
-                                                weight_start : 8,
-                                                weight_chars : 5,
-            weight_divide_by: 100
+
+
         };
-
-
-
     var base_url = '@Request.Url.GetLeftPart(UriPartial.Authority)', assets = '@(assets)';
     var dateformat = '@(dateformat)', timeformat = '@(timeformat)';
     @*<?php unset(@protocol, @smtp_host, @smtp_user, @smtp_pass, @smtp_port, @smtp_crypto, @mailpath, @timezone, @setting_id, @default_email, @version, @stripe, @stripe_secret_key, @stripe_publishable_key); ?>*@
@@ -1191,173 +988,29 @@
                 if (get('amount')) { remove('amount'); }
                 remove('rmspos');
             }
-             @*if (@sid) {
 
-                store('spositems', JSON.stringify(<?=$items;?>));
-                store('spos_discount', '<?=$suspend_sale->order_discount_id;?>');
-                store('spos_tax', '<?=$suspend_sale->order_tax_id;?>');
-                store('spos_customer', '<?=$suspend_sale->customer_id;?>');
-                $('#spos_customer').select2().select2('val', '<?=$suspend_sale->customer_id;?>');
-                store('rmspos', '1');
-                $('#tax_val').val('<?=$suspend_sale->order_tax_id;?>');
-                $('#discount_val').val('<?=$suspend_sale->order_discount_id;?>');
-                <?php } elseif ($eid) { ?>
-                    $('#date').inputmask("y-m-d h:s:s", { "placeholder": "YYYY/MM/DD HH:mm:ss" });
-                    store('spositems', JSON.stringify(<?=$items;?>));
-                    store('spos_discount', '<?=$sale->order_discount_id;?>');
-                    store('spos_tax', '<?=$sale->order_tax_id;?>');
-                    store('spos_customer', '<?=$sale->customer_id;?>');
-                    store('sale_date', '<?=$sale->date;?>');
-                    $('#spos_customer').select2().select2('val', '<?=$sale->customer_id;?>');
-                    $('#date').val('<?=$sale->date;?>');
-                    store('rmspos', '1');
-                    $('#tax_val').val('<?=$sale->order_tax_id;?>');
-                    $('#discount_val').val('<?=$sale->order_discount_id;?>');
-                    <?php } else { ?>
-                        if (! get('spos_discount')) {
-                            store('spos_discount', '<?=@default_discount;?>');
-                            $('#discount_val').val('<?=@default_discount;?>');
-                        }
-                        if (! get('spos_tax')) {
-                            store('spos_tax', '<?=@default_tax_rate;?>');
-                            $('#tax_val').val('<?=@default_tax_rate;?>');
-                        }
-                        <?php } ?>
+        });
+        function OpenRegister() {
+                    var result = {
+            "Cash_in_hand": $("#open_reg").val(),
 
-                        if (ots = get('spos_tax')) {
-                            $('#tax_val').val(ots);
+
+        };
+                        $.ajax({
+              type: 'Post',
+              url: "@Url.Action("OpenRegister", "Registers")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: JSON.stringify(result),
+                success: function (data) {
+
+                     window.location.href ="@Url.Action("Index", "POS")" ;
                         }
-                        if (ods = get('spos_discount')) {
-                            $('#discount_val').val(ods);
-                        }
-                        bootbox.addLocale('bl',{OK:'<?= lang('ok'); ?>',CANCEL:'<?= lang('no'); ?>',CONFIRM:'<?= lang('yes'); ?>'});
-                        bootbox.setDefaults({closeButton:false,locale:"bl"});
-                        <?php if ($eid) { ?>
-                            $('#suspend').attr('disabled', true);
-                            $('#print_order').attr('disabled', true);
-                            $('#print_bill').attr('disabled', true);
-                            <?php } ?>*@
-                        });
+            });
+        }
     </script>
 
-    <script type="text/javascript">
-                        var socket = null;
 
-                        @*if (@remote_printing == 2) {
-
-                            try {
-                                socket = new WebSocket('ws://127.0.0.1:6441');
-                                socket.onopen = function () {
-                                    console.log('Connected');
-                                    return;
-                                };
-                                socket.onclose = function () {
-                                    console.log('Connection closed');
-                                    return;
-                                };
-                            } catch (e) {
-                                console.log(e);
-                            }
-
-                        }*@
-
-        @*function printBill(bill) {
-
-                            if (@remote_printing == 1) {
-                                Popup($('#bill_tbl').html(), 'bill');
-                            } else if (@remote_printing == 2) {
-                                if (socket.readyState == 1) {
-                                    if (Settings.print_img == 1) {
-                                        $('#bill-data').show();
-                                        $('#preb').html(
-                                            '<pre style="background:#FFF;font-size:20px;margin:0;border:0;color:#000 !important;">' +
-                                            bill_data.info +
-                                            bill_data.items +
-                                            '\n' +
-                                            bill_data.totals +
-                                            '</pre>'
-                                            );
-                                        var element = $('#bill-data').get(0);
-                                        html2canvas(element, {scrollY: 0, scale: 1.7}).then(function(canvas) {
-                                            var dataURL = canvas.toDataURL();
-                                            var socket_data = {
-                                                'printer': '@local_printers' ? "''" : json_encode($printer),
-                                                'text': dataURL, 'cash_drawer': 0
-                                            };
-                                            socket.send(JSON.stringify({
-                                                type: 'print-img',
-                                                data: socket_data
-                                            }));
-                                            // return Canvas2Image.saveAsPNG(canvas);
-                                        });
-                                        setTimeout(function() {
-                                            $('#bill-data').hide();
-                                        }, 500);
-                                    } else {
-                                        var socket_data = {'printer':  @local_printers ? "''" : json_encode($printer); , 'logo': '!empty($store->logo) ? base_url('uploads/' . $store->logo) : ''; ?>', 'text': bill}
-                                        socket.send(JSON.stringify({
-                                            type: 'print-receipt',
-                                            data: socket_data
-                                        }));
-
-                                    }
-                                    return false;
-                                } else {
-                                    bootbox.alert('@Resources.Default.pos_print_error');
-                                    return false;
-                                }
-                            }*@
-
-                        @*var order_printers = <?= @local_printers ? "''" : json_encode($order_printers); ?>;
-                        function printOrder(order) {
-                            if (Settings.remote_printing == 1) {
-                                Popup($('#order_tbl').html(), 'order');
-                            } else if (Settings.remote_printing == 2) {
-                                if (socket.readyState == 1) {
-                                    if (Settings.print_img == 1) {
-                                        $('#order-data').show();
-                                        $('#preo').html(
-                                            '<pre style="background:#FFF;font-size:20px;margin:0;border:0;color:#000 !important;">' + order_data.info + order_data.items + '</pre>'
-                                            );
-                                        var element = $('#order-data').get(0);
-                                        html2canvas(element, {scrollY: 0, scale: 1.7}).then(function(canvas) {
-                                            var dataURL = canvas.toDataURL();
-                                            var socket_data = {
-                                                'printer': <?= @local_printers ? "''" : json_encode($printer); ?>,
-                                                'text': dataURL, 'order': 1, 'cash_drawer': 0
-                                            };
-                                            socket.send(JSON.stringify({
-                                                type: 'print-img',
-                                                data: socket_data
-                                            }));
-                                            // return Canvas2Image.saveAsPNG(canvas);
-                                        });
-                                        setTimeout(function() {
-                                            $('#order-data').hide();
-                                        }, 500);
-                                    } else {
-                                        if (order_printers == '') {
-                                            //var socket_data = { 'printer': false, 'order': true,
-                                            //'logo': '<?= !empty($store->logo) ? base_url('uploads/' . $store->logo) : ''; ?>',
-                                            //'text': order };
-                                            //socket.send(JSON.stringify({type: 'print-receipt', data: socket_data}));
-                                        } else {
-                                            /*
-                                            $.each(order_printers, function() {
-                                                var socket_data = {'printer': this, 'logo': '<?= !empty($store->logo) ? base_url('uploads/' . $store->logo) : ''; ?>', 'text': order};
-                                                socket.send(JSON.stringify({type: 'print-receipt', data: socket_data}));
-                                            });
-                                            */
-                                        }
-                                    }
-                                    return false;
-                                } else {
-                                    bootbox.alert('@Resources.Default.pos_print_error');
-                                    return false;
-                                }
-                            }
-                        }*@
-    </script>
     <script src="@(assets)dist/js/libraries.min.js" type="text/javascript"></script>
     <script src="@(assets)dist/js/scripts.min.js" type="text/javascript"></script>
     <script src="@(assets)dist/js/pos.min.js" type="text/javascript"></script>

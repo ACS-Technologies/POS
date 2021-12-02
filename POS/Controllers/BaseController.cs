@@ -23,9 +23,9 @@ namespace POS.Controllers
         //            return;
         //        }
 
-        //        if(filterContext.HttpContext.Session["UserInfo"] != null )
+        //        if (filterContext.HttpContext.Session["UserInfo"] != null)
         //        {
-        //            if(SessionManager.GetSessionUserInfo.StoreId == 0)
+        //            if (SessionManager.GetSessionUserInfo.StoreId == 0)
         //            {
         //                filterContext.Result = this.Redirect("~/Authentication/Index?BURL=" + HttpContext.Request.Path);
         //                return;
