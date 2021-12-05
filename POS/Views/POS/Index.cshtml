@@ -53,6 +53,9 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
     <style>
+        .btn{
+            font-weight:bold
+        }
         input.form-control {
             border-radius: 7px !important
         }
@@ -116,6 +119,12 @@
 
         #item-list .slimScrollDiv {
             height: 690px !important
+        }
+        .bank-btn {
+            position: absolute;
+            right: 0;
+            z-index: 9;
+            border-radius: 0 5px 5px 0;
         }
     </style>
 </head>
@@ -214,7 +223,7 @@
                                             <option disabled selected>--- Choose Customer ---</option>
                                             <option>The Labib</option>
                                         </select>*@
-                                    @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), htmlAttributes: new { @class = "form-control select2" })
                                 </div>
                                 <div class="form-group" style="margin-bottom:5px;">
                                     <input type="text" name="hold_ref" id="hold_ref" class="form-control kb-text" placeholder="@Resources.Default.reference_note" />
@@ -233,10 +242,10 @@
                                         <table class="table table-striped table-condensed table-hover list-table" style="margin:0;">
                                             <thead>
                                                 <tr class="success">
-                                                    <th>@Resources.Default.product</th>
+                                                    <th style="width: 35%;text-align:center;">@Resources.Default.product</th>
                                                     <th style="width: 15%;text-align:center;">@Resources.Default.qty</th>
                                                     <th style="width: 15%;text-align:center;">@Resources.Default.UnitPrice</th>
-                                                    <th style="width: 15%;text-align:center;">VAT</th>
+                                                    <th style="width: 20%;text-align:center;">VAT</th>
                                                     <th style="width: 20%;text-align:center;">@Resources.Default.total</th>
                                                     <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
                                                 </tr>
@@ -246,7 +255,7 @@
                                     <table id="posTable" class="table table-striped table-condensed table-hover list-table" style="margin:0px;" data-height="100">
                                         <thead>
                                             <tr class="success">
-                                                <th>@Resources.Default.product</th>
+                                                <th style="width: 35%;text-align:center;">@Resources.Default.product</th>
                                                 <th style="width: 15%;text-align:center;">@Resources.Default.qty</th>
                                                 <th style="width: 15%;text-align:center;">@Resources.Default.UnitPrice</th>
                                                 <th style="width: 20%;text-align:center;">VAT</th>
@@ -263,13 +272,13 @@
                                         <tbody>
                                             <tr class="info">
                                                 <td width="20%">@Resources.Default.total_items</td>
-                                                <td class="text-right"><span id="count">0.00</span></td>
+                                                <td><span id="count">0.00</span></td>
                                                 <td width="20%">@Resources.Default.total</td>
                                                 <td class="text-right" colspan="2"><span id="total">0.00</span></td>
                                             </tr>
                                             <tr class="info">
                                                 <td width="20%"><a href="#" id="add_discount">@Resources.Default.discount</a></td>
-                                                <td class="text-right"><span id="ds_con">0.00</span></td>
+                                                <td><span id="ds_con">0.00</span></td>
                                                 <td width="20%"><a href="#" id="add_tax">@Resources.Default.order_tax</a></td>
                                                 <td class="text-right"><span id="ts_con">0.00</span></td>
                                             </tr>
@@ -866,12 +875,9 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12" id="ChequeBanks" style="display:none">
                                             <div class="form-group">
                                                 <label>ChequeBank</label>
-                                                <div class="input-group">
-                                                    @Html.Editor("ChequeBank", new { htmlAttributes = new { @class = "form-control", @id = "ChequeBank", @readonly = "readonly", @hidden = "true" } })
+                                                <div class="input-group" style="position: relative">
                                                     @Html.Editor("ChequeBankName", new { htmlAttributes = new { @class = "form-control", id = "ChequeBankName", @readonly = "readonly" } })
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-primary" type="button" id="btnSearchBank" data-toggle="modal" data-target="#BankModal"><i class="fal fa-search"></i></button>
-                                                    </div>
+                                                    <button class="btn btn-primary bank-btn" type="button" id="btnSearchBank" data-toggle="modal" data-target="#BankModal"><i class="fa fa-search"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -879,12 +885,7 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12" id="DateCheque" style="display:none">
                                             <div class="form-group">
                                                 <label>Date</label>
-                                                <div class="input-group flex-nowrap">
-                                                    @Html.Editor("GregorianChequebankDate", new { htmlAttributes = new { @class = "form-control hijri-date-input", @id = "datepickergregoris1" } })
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                </div>
+                                                @Html.Editor("GregorianChequebankDate", new { htmlAttributes = new { @class = "form-control datepicker", @id = "datepickergregoris1" } })
                                             </div>
                                         </div>
                                     </div>
