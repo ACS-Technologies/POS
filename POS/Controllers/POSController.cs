@@ -132,7 +132,22 @@ namespace POS.Controllers
 
 
         }
-        
+        public JsonResult PaymentMethod_Get(int? MethodId,int BranchId)
+        {
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int _BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            List<PaymentMethod> PaymentMethod = new List<PaymentMethod>();
+            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], MethodId, CompanyId, _BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responsePaymentMethod.IsScusses)
+            {
+                PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
+            }
+            return Json(PaymentMethod, JsonRequestBehavior.AllowGet);
+
+
+        }
         public ActionResult ViewBill()
         {
             return View("view_bill");
