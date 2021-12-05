@@ -152,9 +152,12 @@ namespace POS.Controllers
         {
             return View("view_bill");
         }
-        public ActionResult PrintOrder()
+        public ActionResult PrintOrder(int Id)
         {
-            return View();
+            SalesDBL salesDBL = new SalesDBL();
+            Sales sales = new Sales();
+            sales= salesDBL.M_Sales_GetById(Id);
+            return View(sales);
         }
         public ActionResult TablePage()
         {
@@ -186,7 +189,7 @@ namespace POS.Controllers
             {
                 main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));

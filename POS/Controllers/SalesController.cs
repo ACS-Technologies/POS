@@ -104,14 +104,18 @@ namespace POS.Controllers
                 PoSales.Product_discount = PoSales.SaleItems.Sum(x => x.Item_discount) ;
                 PoSales.Total_discount = PoSales.Product_discount;
                 PoSales.Product_tax = PoSales.SaleItems.Sum(x => x.Item_tax) ;
-                PoSales.Total = PoSales.SaleItems.Sum(x => x.Net_unit_price) + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
+                PoSales.Total = PoSales.SaleItems.Sum(x => x.Subtotal) ;
                 PoSales.Grand_total = PoSales.Total + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
                 PoSales.Order_tax_id = "15%";
                 PoSales.Order_tax = 0;
                 PoSales.Total_tax = PoSales.Product_tax + PoSales.Order_tax;
                 PoSales.Total_items = PoSales.SaleItems.Count;
                 PoSales.Store_id = BranchId;
-                PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
+                if (PoSales.Payments.DateTemp !=null)
+                {
+                    PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
+                }
+
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
                 return Json(result);
 
