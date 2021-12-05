@@ -10,6 +10,7 @@ namespace POCO
     {
 
         public Store store { get; set; }
+        public Payments Payments { get; set; }        
         public List<Item> Item { get; set; }
         public List<Group> Group { get; set; }
         public List<Category> Category { get; set; }
@@ -19,6 +20,10 @@ namespace POCO
         public List<User> User { get; set; }
         public string ImageUrl { get; set; }
         public string Status { get; set; }
-        
+        public int CompanyId { get; set; }
+        public int BranchId { get; set; }
+        public List<BankBranch> oLBankBranch { get; set; }
+        public BankBranch oBankBranch { get; set; }
+
     }
 }

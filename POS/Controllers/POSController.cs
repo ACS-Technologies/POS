@@ -25,17 +25,17 @@ namespace POS.Controllers
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
             Session["logo"] = "logo.png";
-            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            main.CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            main.BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
-            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responseGroup.IsScusses)
             {
                 main.Group = JsonConvert.DeserializeObject<List<Group>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
             }
-            Response responseCategory = APICall.Get<Response>(string.Format("{0}/Categories/Get_Categories?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responseCategory = APICall.Get<Response>(string.Format("{0}/Categories/Get_Categories?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responseCategory.IsScusses)
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
@@ -45,14 +45,14 @@ namespace POS.Controllers
             {
                 main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"],0, main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
             }
             if (1==1)
             {
-                Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+                Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
                 if (responseCustomerInformation.IsScusses)
                 {
                     main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
@@ -67,13 +67,26 @@ namespace POS.Controllers
             //        main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
             //    }
             //}
+            main.oBankBranch = new BankBranch();
+            Response response3 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Active", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+            if (response3.IsScusses)
+            {
+                main.oBankBranch.oLBank = JsonConvert.DeserializeObject<List<Bank>>(JsonConvert.SerializeObject(response3.ResponseDetails));
+
+            }
+            Response response4 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Branch", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+            if (response4.IsScusses)
+            {
+                main.oLBankBranch = JsonConvert.DeserializeObject<List<BankBranch>>(JsonConvert.SerializeObject(response4.ResponseDetails));
+
+            }
             main.Item = new List<Item>();
             int userId = SessionManager.GetSessionUserInfo.UserID;
             main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
             main.store = new Store();
             main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
 
-            main.Status = oRegistersDBL.M_RegisterStatus_Get(BranchId, userId);
+            main.Status = oRegistersDBL.M_RegisterStatus_Get(main.BranchId, userId);
             return View(main);
         }
         public JsonResult GetItemsByCategoryId(int Id)
@@ -103,7 +116,23 @@ namespace POS.Controllers
             return Json(oItem, JsonRequestBehavior.AllowGet);
 
 
-        } 
+        }
+        public JsonResult Get_Items()
+        {
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            List <Item> oItem = new List<Item>();
+            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Items/Get_Items?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responseGroup.IsScusses)
+            {
+                oItem = JsonConvert.DeserializeObject<List<Item>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
+            }
+            return Json(oItem, JsonRequestBehavior.AllowGet);
+
+
+        }
+        
         public ActionResult ViewBill()
         {
             return View("view_bill");
@@ -112,6 +141,27 @@ namespace POS.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult PaymentMethod_Get(int MethodId, int BranchId)
+        {
+            try
+            {
+                int comapnyId = int.Parse(Session["Company"].ToString());
+                int _BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+                List<PaymentMethod> paymentMethod = new List<PaymentMethod>();
+                APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+                Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], MethodId, comapnyId, _BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+                if (responsePaymentMethod.IsScusses)
+                {
+                    paymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
+                }
+                return Json(paymentMethod);
+            }
+            catch
+            {
 
+                return null;
+            }
+        }
     }
 }

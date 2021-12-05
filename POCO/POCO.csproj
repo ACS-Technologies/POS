@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="AccountDetailsTable.cs" />
     <Compile Include="AccountTable.cs" />
+    <Compile Include="Bank.cs" />
+    <Compile Include="BankBranch.cs" />
     <Compile Include="Branches.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="CompanyBranch.cs" />

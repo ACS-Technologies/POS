@@ -111,6 +111,7 @@ namespace POS.Controllers
                 PoSales.Total_tax = PoSales.Product_tax + PoSales.Order_tax;
                 PoSales.Total_items = PoSales.SaleItems.Count;
                 PoSales.Store_id = BranchId;
+                PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
                 return Json(result);
 

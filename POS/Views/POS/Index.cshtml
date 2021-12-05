@@ -855,75 +855,37 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div class="form-group gc" style="display: none;">
-                                        @Resources.Default.gift_card_no
-                                        <input type="text" id="gift_card_no"
-                                               class="pa form-control kb-pad gift_card_no gift_card_input" />
-
-                                        <div id="gc_details"></div>
-                                    </div>
-                                    <div class="pcc" style="display:none;">
-                                        <div class="form-group">
-                                            <input type="text" id="swipe" class="form-control swipe swipe_input"
-                                                   placeholder="@Resources.Default.focus_swipe_here" />
+                                    <div class="row" id="ChN">
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="ChequeNumber" style="display:none">
+                                            <div class="form-group">
+                                                <label>Cheque Number</label>
+                                                @Html.Editor("ChequeNumber", new { htmlAttributes = new { @class = "form-control", id = "ChequeNumbers" } })
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <input type="text" id="pcc_no"
-                                                           class="form-control kb-pad"
-                                                           placeholder="@Resources.Default.cc_no" />
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <div class="form-group">
 
-                                                    <input type="text" id="pcc_holder"
-                                                           class="form-control kb-text"
-                                                           placeholder="@Resources.Default.cc_holder" />
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <div class="form-group">
-                                                    <select id="pcc_type"
-                                                            class="form-control pcc_type select2"
-                                                            placeholder="@Resources.Default.card_type">
-                                                        <option value="Visa">@Resources.Default.visa</option>
-                                                        <option value="MasterCard">
-                                                            @Resources.Default.master_card
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <div class="form-group">
-                                                    <input type="text" id="pcc_month"
-                                                           class="form-control kb-pad"
-                                                           placeholder="Expirey date" />
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <div class="form-group">
-
-                                                    <input type="text" id="pcc_cvv2"
-                                                           class="form-control kb-pad"
-                                                           placeholder="@Resources.Default.cvv2" />
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="ChequeBanks" style="display:none">
+                                            <div class="form-group">
+                                                <label>ChequeBank</label>
+                                                <div class="input-group">
+                                                    @Html.Editor("ChequeBank", new { htmlAttributes = new { @class = "form-control", @id = "ChequeBank", @readonly = "readonly", @hidden = "true" } })
+                                                    @Html.Editor("ChequeBankName", new { htmlAttributes = new { @class = "form-control", id = "ChequeBankName", @readonly = "readonly" } })
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-primary" type="button" id="btnSearchBank" data-toggle="modal" data-target="#BankModal"><i class="fal fa-search"></i></button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="pcheque" style="display:none;">
-                                        <div class="form-group">
-                                            @Resources.Default.cheque_no
-                                            <input type="text" id="cheque_no"
-                                                   class="form-control cheque_no kb-text" />
-                                        </div>
-                                    </div>
-                                    <div class="pcash">
-                                        <div class="form-group">
-                                            @Resources.Default.payment_note
-                                            <input type="text" id="payment_note"
-                                                   class="form-control payment_note kb-text" />
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="DateCheque" style="display:none">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                <div class="input-group flex-nowrap">
+                                                    @Html.Editor("GregorianChequebankDate", new { htmlAttributes = new { @class = "form-control hijri-date-input", @id = "datepickergregoris1" } })
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -939,7 +901,62 @@
             </div>
         </div>
     </div>
+    <div id="BankModal" class="modal example-modal-default-transparent" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-transparent" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-white">bank List</h4>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="bg-success-900 rounded bg-info-gradient">
+                        <div class="d-flex position-relative py-3 px-4">
+                            <i class="fal fa-search color-success-700 position-absolute pos-left fs-lg px-3 py-2 mt-1 ml-4"></i>
+                            <input type="text" id="js_nested_list_filter" class="form-control shadow-inset-1 pl-6 border-success">
+                        </div>
+                        <!-- nav-menu-reset will reset the font colors -->
+                        <ul id="js_nested_list" class="nav-menu nav-menu-reset nav-menu-compact bg-success-900 bg-info-gradient mb-sm-4 mb-md-0 rounded" data-nav-accordion="true">
+                            @if (Model.oBankBranch != null)
+                            {
+                                foreach (var item in Model.oBankBranch.oLBank)
+                                {
+                                    <li>
+                                        <a href="#" data-filter-tags="@Html.DisplayFor(modelItem => item.BankPrimaryName)">
+                                            <span class="nav-link-text">
+                                                @Html.DisplayFor(modelItem => item.BankPrimaryName)
+                                            </span>
+                                        </a>
+                                        <ul>
+                                            @foreach (var itemd in Model.oLBankBranch)
+                                            {
 
+                                                if (item.BankId == itemd.BankId)
+                                                {
+
+                                                    <li>
+                                                        <a href="#" data-filter-tags="@itemd.BranchPrimaryName" onclick="sendBank('@itemd.BranchPrimaryName','@item.BankId')" data-dismiss="modal">
+                                                            <span class="nav-link-text" data-filter-tags="@Html.DisplayFor(modelItem => itemd.BranchPrimaryName)">
+                                                                @Html.DisplayFor(modelItem => itemd.BranchPrimaryName)
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <div class="filter-message js-filter-message m-0 text-left pl-4 py-3 fw-500"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal" data-easein="flipYIn" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="cModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1042,26 +1059,26 @@
         sale_items = [];
         $(document).ready(function () {
                         $.ajax({
-                              type: 'get',
-                              url: "http://localhost:54688/Items/Get_Items?CompanyId=1158&BranchId=307&Language=en",
+                            type: 'get',
+                            url: "@Url.Action("Get_Items", "POS")?CompanyId=" + @Model.CompanyId +"&BranchId="+@Model.BranchId+"&Language=en",
                               contentType: 'application/json',
                               dataType: 'json',
                               data: {},
                                 success: function (data) {
 
 
-                                    for (var i = 0; i < data.ResponseDetails.length; i++) {
-
+                                    for (var i = 0; i < data.length; i++) {
+                                       
                                         var item=[];
-                                        item["id"] = data.ResponseDetails[i].ItemId;
-                                        item["Product_id"] = data.ResponseDetails[i].ItemId;
-                                        item["Product_name"] = data.ResponseDetails[i].ItemPrimaryName + "-" + data.ResponseDetails[i].ItemBarcode  ;
-                                        item["label"] = data.ResponseDetails[i].ItemPrimaryName +"-"+ data.ResponseDetails[i].ItemBarcode ;
+                                        item["id"] = data[i].ItemId;
+                                        item["Product_id"] = data[i].ItemId;
+                                        item["Product_name"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode  ;
+                                        item["label"] = data[i].ItemPrimaryName +"-"+ data[i].ItemBarcode ;
                                         item["Quantity"] = 1;
-                                        item["Product_code"] = data.ResponseDetails[i].ItemBarcode;
-                                        item["Price"] = data.ResponseDetails[i].Price;
-                                        item["Tax"] = data.ResponseDetails[i].taxRate;
-                                        item["Service"] = data.ResponseDetails[i].Service;
+                                        item["Product_code"] = data[i].ItemBarcode;
+                                        item["Price"] = data[i].Price;
+                                        item["Tax"] = data[i].taxRate;
+                                        item["Service"] = data[i].Service;
                                       jsonObj.push(item);
 
                                     }
@@ -1188,6 +1205,89 @@
                         }
             });
         }
+            function getPaymentMethod() {
+        var PaymentMethod = $('#PaymentMethod').val();
+
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("PaymentMethod_Get", "POS")" + '?MethodId=' + PaymentMethod +  "&BranchId="+@Model.BranchId,
+            dataType: 'json',
+            data: {},
+            contentType: 'application/json',
+            success: function (data) {
+                if (data[0].ChequesNumber === true) {
+                    $("#ChequeNumber").show();
+                    chkN = true;
+                }
+                else {
+                    $("#ChequeNumber").hide();
+                    $("#ChequeNumbers").removeClass("invalid");
+                    chkN = false;
+                }
+                if (data[0].ChequeBank === true) {
+                    chkB = true;
+                    $("#ChequeBanks").show();
+                }
+                else {
+                    chkB = false;
+                    $("#ChequeBanks").hide();
+                    $("#ChequeBankName").removeClass("invalid");
+                }
+                if (data[0].RequestDate === true) {
+                    chkD = true;
+                    $("#DateCheque").show();
+                }
+                else {
+                    chkD = false;
+                    $("#datepickergregoris1").removeClass("invalid");
+                    $("#DateCheque").hide();
+                }
+            }
+        });
+        }
+        $('#PaymentMethod').on('change', function () {
+               debugger
+        getPaymentMethod();
+           });
+            function SearchBankByName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("txtSearchBankByName");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("BankTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("a")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function contains(text_one, text_two) {
+        return text_one.toLowerCase().indexOf(text_two.toLowerCase()) != -1;
+    }
+
+    $("#txtSearchBankByNames").keyup(function () {
+        var searchText = $(this).val();
+        $("#BankBranchTable div").each(function () {
+            $(this).toggle(contains($(this).text(), searchText));
+
+        });
+    });
+
+
+
+    function sendBank(ChequeBankName,ChequeId) {
+
+        document.getElementById("ChequeBankName").value = ChequeBankName;
+        document.getElementById("ChequeBank").value = ChequeId;
+    }
+
     </script>
 
 
