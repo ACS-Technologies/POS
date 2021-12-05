@@ -112,6 +112,66 @@ namespace POS.Controllers
         {
             return View();
         }
+        public ActionResult TablePage()
+        {
+            var oSuspendedSaleDBL = new SuspendedSaleDBL();
+            Main main = new Main();
+            Session["user_name"] = "Abdallah Labib";
+            Session["first_name"] = "Haya";
+            Session["last_name"] = "Ali";
+            Session["Avatar"] = "male.png";
+            Session["rmspos"] = true;
+            Session["logo"] = "logo.png";
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            RegistersDBL oRegistersDBL = new RegistersDBL();
+            //API 
+            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responseGroup.IsScusses)
+            {
+                main.Group = JsonConvert.DeserializeObject<List<Group>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
+            }
+            Response responseCategory = APICall.Get<Response>(string.Format("{0}/Categories/Get_Categories?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responseCategory.IsScusses)
+            {
+                main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
+            }
+            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Users/Get_POSUsers", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+            if (responseUsers.IsScusses)
+            {
+                main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
+            }
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            if (responsePaymentMethod.IsScusses)
+            {
+                main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
+            }
+            if (1 == 1)
+            {
+                Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+                if (responseCustomerInformation.IsScusses)
+                {
+                    main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
+                }
+            }
+            //else
+            //{
+            //    APIAuthorization authorization1 = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleIURL"]), ConfigurationManager.AppSettings["VehicleUser"], ConfigurationManager.AppSettings["VehiclePassword"]);
+            //    Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?BranchId={1}&Language={2}", (object)ConfigurationManager.AppSettings["VehicleIURL"], BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            //    if (responseCustomerInformation.IsScusses)
+            //    {
+            //        main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
+            //    }
+            //}
+            main.Item = new List<Item>();
+            int userId = SessionManager.GetSessionUserInfo.UserID;
+            main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
+            main.store = new Store();
+            main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
 
+            main.Status = oRegistersDBL.M_RegisterStatus_Get(BranchId, userId);
+            return View(main);
+        }
     }
 }

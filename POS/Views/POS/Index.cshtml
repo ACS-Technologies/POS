@@ -141,7 +141,8 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li><a href="#" class="clock"></a></li>
-                    <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i></a></li>
+                    <li><a href="@Url.Action("TablePage","POS")"><i class="fa fa-table"></i></a></li>
+                    <li><a href="@Url.Action("Index","POS")"><i class="fa fa-th"></i></a></li>
                     <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
                     <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
@@ -170,7 +171,6 @@
                             @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
                         </ul>
                     </li>
-                    <?php } ?>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
