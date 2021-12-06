@@ -23,6 +23,7 @@ namespace POCO
         public string Status { get; set; }
         public int CompanyId { get; set; }
         public int BranchId { get; set; }
+        public int SalesId { get; set; }
         public List<BankBranch> oLBankBranch { get; set; }
         public BankBranch oBankBranch { get; set; }
         public List<WorkshopLevels> Workshops { get; set; }

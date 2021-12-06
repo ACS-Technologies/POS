@@ -15,7 +15,7 @@ namespace POS.Controllers
     public class POSController : BaseController
     {
         // GET: POS
-        public ActionResult Index()
+        public ActionResult Index(int? Id)
         {
 
             int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id; 
@@ -90,7 +90,10 @@ namespace POS.Controllers
             main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
             main.store = new Store();
             main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
-
+            if (Id !=null)
+            {
+                main.SalesId = (int)Id;
+            }
             main.Status = oRegistersDBL.M_RegisterStatus_Get(main.BranchId, userId);
             return View(main);
         }
@@ -179,6 +182,7 @@ namespace POS.Controllers
             int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             //API 
+            APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responseGroup.IsScusses)
@@ -190,10 +194,11 @@ namespace POS.Controllers
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
             }
-            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Users/Get_POSUsers", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+
+            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Workshop/GetWorkshops?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
             if (responseUsers.IsScusses)
             {
-                main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
+                main.Workshops = JsonConvert.DeserializeObject<List<WorkshopLevels>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
             Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
@@ -220,7 +225,7 @@ namespace POS.Controllers
             main.Item = new List<Item>();
             int userId = SessionManager.GetSessionUserInfo.UserID;
             main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
-            main.Sales = oSalesDBL.M_Sales_GetAll(userId, DateTime.Now.Date);
+            main.Sales = oSalesDBL.M_Sales_GetAll(userId);
             main.store = new Store();
             main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
 

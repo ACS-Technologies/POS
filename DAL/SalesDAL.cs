@@ -10,12 +10,11 @@ namespace DAL
         /// M_Sales_GetAll
         /// </summary>
         /// <returns></returns>
-        public DataSet M_Sales_GetAll(int? UserId,DateTime Date)
+        public DataSet M_Sales_GetAll(int? UserId)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_GetAll";
             cmd.Parameters.AddWithValue("@UserId", UserId);
-            cmd.Parameters.AddWithValue("@Date", Date);
             return ExDataBase_returnDataSet(cmd);
         }
 

@@ -18,12 +18,12 @@ namespace DBL
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public List<Sales> M_Sales_GetAll(int? UserId, DateTime Date)
+        public List<Sales> M_Sales_GetAll(int? UserId)
         {
             DataSet ds = new DataSet();
             Sales oSales;
             List<Sales> oLSales = new List<Sales>();
-            ds = oSalesDAL.M_Sales_GetAll(UserId, Date);
+            ds = oSalesDAL.M_Sales_GetAll(UserId);
             if (ds.Tables.Count > 0)
             {
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)

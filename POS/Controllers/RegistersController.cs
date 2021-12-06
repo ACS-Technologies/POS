@@ -64,5 +64,47 @@ namespace POS.Controllers
                 return Json(result);
             }
         }
+        [HttpPost]
+        public ActionResult CloseRegister(Registers model)
+        {
+            result = new ResultJson();
+            oRegistersDBL = new RegistersDBL();
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            try
+            {
+
+
+                if (model.Cash_in_hand <= 0)
+                {
+                    result.IsSuccess = false;
+                    result.Errors.Add("Cash in hand more than 0");
+                    return Json(result);
+                }
+
+                model.Store_id = BranchId;
+                model.Closed_by= SessionManager.GetSessionUserInfo.UserID;
+                var data = oRegistersDBL.CloseRegister(model);
+
+                if (data.Id > 0)
+                {
+                    result.IsSuccess = true;
+                    result.Url = Url.Action("Index", "POS");
+                    return Json(result);
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                    return Json(result);
+                }
+
+
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result);
+            }
+        }
     }
 }
