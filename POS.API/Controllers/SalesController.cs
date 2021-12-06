@@ -37,7 +37,7 @@ namespace POS.API.Controllers
             try
             {
                 var oSalesDBL = new SalesDBL();
-                var result = oSalesDBL.M_Sales_GetAll(UserId);
+                var result = oSalesDBL.M_Sales_GetAll(UserId,DateTime.Now);
 
                 Response response = new Response
                 {
