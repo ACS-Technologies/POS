@@ -126,6 +126,62 @@
             z-index: 9;
             border-radius: 0 5px 5px 0;
         }
+        /*Start Accordion Styles */
+        .accordion-btn {
+            background-color: #2C3E50;
+            font-size: 1.5em;
+            color: #ECF0F1;
+            cursor: pointer;
+            padding: 1em;
+            width: 100%;
+            text-align: left;
+            border: none;
+            transition: 0.5s;
+        }
+
+            .accordion-btn:after {
+                content: '+';
+                font-size: 1em;
+                color: #e01f32;
+                float: right;
+                margin-left: 5px;
+            }
+            .accordion-btn.active,
+            .accordion-btn:hover {
+                background-color: #3f5973;
+            }
+
+                .accordion-btn.active:after {
+                    content: "-";
+                }
+        .panel {
+            background-color: #ECF0F1;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.5s ease-in-out;
+            opacity: 0;
+        }
+
+            .panel p {
+                font-size: 1.2em;
+                padding: 0 2em;
+            }
+            .panel.show {
+                display: block;
+                opacity: 1;
+                max-height: 500px;
+            }
+        .inner-accord {
+            background-color: #5b80a4;
+            font-size: 1.2em;
+            padding: 1em 1.75em;
+        }
+
+            .inner-accord.active,
+            .inner-accord:hover {
+                background-color: #7b99b7;
+            }
+        /*End Accordion Styles */
     </style>
 </head>
 <body class="skin-@theme_style sidebar-collapse sidebar-mini pos" style="background-color:#fff !important">
@@ -910,40 +966,60 @@
                     <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <ul>
-                            @if (Model.oBankBranch != null)
+                    <div class="accordion">
+                        @if (Model.oBankBranch != null)
+                        {
+                            foreach (var item in Model.oBankBranch.oLBank)
                             {
-                                foreach (var item in Model.oBankBranch.oLBank)
-                                {
-                                    <li>
-                                        <a href="#">
-                                            <span>
-                                                @Html.DisplayFor(modelItem => item.BankPrimaryName)
-                                            </span>
-                                        </a>
-                                        <ul>
-                                            @foreach (var itemd in Model.oLBankBranch)
-                                            {
+                                <div class="accordion-btn">@Html.DisplayFor(modelItem => item.BankPrimaryName)</div>
+                                <div class="panel">
+                                    @foreach (var itemd in Model.oLBankBranch)
+                                    {
 
-                                                if (item.BankId == itemd.BankId)
-                                                {
+                                        if (item.BankId == itemd.BankId)
+                                        {
+                                            <p onclick="sendBank('@itemd.BranchPrimaryName','@item.BankId')" data-dismiss="modal">@Html.DisplayFor(modelItem => itemd.BranchPrimaryName)</p>
 
-                                                    <li>
-                                                        <a href="#" onclick="sendBank('@itemd.BranchPrimaryName','@item.BankId')" data-dismiss="modal">
-                                                            <span>
-                                                                @Html.DisplayFor(modelItem => itemd.BranchPrimaryName)
-                                                            </span>
-                                                        </a>
-                                                    </li>
-
-                                                }
-                                            }
-                                        </ul>
-                                    </li>
-                                }
+                                        }
+                                    }
+                                    @*<div class="accordion-btn inner-accord">Nested Accordion 1</div>
+                                        <div class="panel">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium hendrerit vestibulum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras sed vehicula eros, at rhoncus turpis.</p>
+                                        </div>*@
+                                </div>
                             }
-                        </ul>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="AssignUserModal" class="modal" data-easein="flipYIn" tabindex="-1" role="dialog" aria-labelledby="assignUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion">
+                        @foreach (var parent in Model.Workshops)
+                        {
+                            <div class="accordion-btn">@parent.ParentWorkshop.PrimaryName</div>
+                            <div class="panel">
+                                @foreach (var branch in parent.BranchWorkshop)
+                                {
+                                    <div class="accordion-btn inner-accord">@branch.PrimaryName</div>
+                                    <div class="panel">
+                                        @foreach (var sub in parent.SubBranchWorkshop)
+                                        {
+                                            <p>@sub.PrimaryName</p>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
                     </div>
 
                 </div>
@@ -1293,6 +1369,17 @@
     }
     <script>
         $(".datepicker").datepicker();
+        // Toggle 'active' and 'show' states of panels
+
+        var accord = document.getElementsByClassName("accordion-btn");
+        var i;
+
+        for (i = 0; i < accord.length; i++) {
+            accord[i].onclick = function () {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
     </script>
 </body>
 </html>
