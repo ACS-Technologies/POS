@@ -41,22 +41,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountDetailsTable.cs" />
+    <Compile Include="AccountTable.cs" />
+    <Compile Include="Bank.cs" />
+    <Compile Include="BankBranch.cs" />
+    <Compile Include="Branches.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="CompanyBranch.cs" />
+    <Compile Include="CompanyInfo.cs" />
+    <Compile Include="CurrencyTable.cs" />
+    <Compile Include="CustomerInformation.cs" />
     <Compile Include="GiftCard.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="PaymentMethod.cs" />
+    <Compile Include="PaymentMethodDetails.cs" />
     <Compile Include="Payments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registers.cs" />
     <Compile Include="SaleItems.cs" />
     <Compile Include="Sales.cs" />
     <Compile Include="Security\APICredential.cs" />
+    <Compile Include="SettingAccounts.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SuspendedItem.cs" />
     <Compile Include="SuspendedSale.cs" />
+    <Compile Include="TransTable.cs" />
+    <Compile Include="TransTypeTable.cs" />
     <Compile Include="User.cs" />
     <Compile Include="WorkshopLevels.cs" />
   </ItemGroup>

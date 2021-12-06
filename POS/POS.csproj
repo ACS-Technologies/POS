@@ -2105,6 +2105,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\POS\Index.cshtml" />
     <Content Include="Views\Authentication\Index.cshtml" />
+    <Content Include="Views\POS\view_bill.cshtml" />
+    <Content Include="Views\POS\PrintOrder.cshtml" />
+    <Content Include="Views\Authentication\SelectCompany.cshtml" />
+    <Content Include="Views\Authentication\SelectBranch.cshtml" />
+    <Content Include="Views\POS\TablePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2166,7 +2171,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62666</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44376/</IISUrl>
+          <IISUrl>http://localhost:44376/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

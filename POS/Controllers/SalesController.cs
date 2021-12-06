@@ -2,6 +2,7 @@
 using POCO;
 using POS.Models;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace POS.Controllers
@@ -91,13 +92,30 @@ namespace POS.Controllers
         public ActionResult Insert(Sales PoSales)
         {
             result = new ResultJson();
-
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
             {
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true; 
                 PoSales.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSales.Date = DateTime.Now;
+        
+                PoSales.Product_discount = PoSales.SaleItems.Sum(x => x.Item_discount) ;
+                PoSales.Total_discount = PoSales.Product_discount;
+                PoSales.Product_tax = PoSales.SaleItems.Sum(x => x.Item_tax) ;
+                PoSales.Total = PoSales.SaleItems.Sum(x => x.Subtotal) ;
+                PoSales.Grand_total = PoSales.Total + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
+                PoSales.Order_tax_id = "15%";
+                PoSales.Order_tax = 0;
+                PoSales.Total_tax = PoSales.Product_tax + PoSales.Order_tax;
+                PoSales.Total_items = PoSales.SaleItems.Count;
+                PoSales.Store_id = BranchId;
+                if (PoSales.Payments.DateTemp !=null)
+                {
+                    PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
+                }
+
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
                 return Json(result);
 
@@ -118,13 +136,15 @@ namespace POS.Controllers
         public ActionResult Update(Sales PoSales)
         {
             result = new ResultJson();
-
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
             {
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
                 PoSales.Updated_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSales.Updated_at = DateTime.Now;
+                PoSales.Store_id = BranchId;
                 result.Data = oSalesDBL.M_Store_Update(PoSales);
                 return Json(result);
 
@@ -140,13 +160,15 @@ namespace POS.Controllers
         public ActionResult AddPayment(Payments PoPayment)
         {
             result = new ResultJson();
-
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
             {
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
                 PoPayment.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoPayment.Date = DateTime.Now;
+                PoPayment.Store_id = BranchId;
                 result.Data = oSalesDBL.M_Payment_Insert(PoPayment);
                 return Json(result);
 
