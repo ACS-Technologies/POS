@@ -17,7 +17,10 @@ namespace POS.Controllers
         // GET: POS
         public ActionResult Index()
         {
-         var   oSuspendedSaleDBL = new SuspendedSaleDBL();
+
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id; 
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
+            var   oSuspendedSaleDBL = new SuspendedSaleDBL();
             Main main = new Main();
             Session["user_name"] = "Abdallah Labib";
             Session["first_name"] = "Haya";
@@ -25,12 +28,14 @@ namespace POS.Controllers
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
             Session["logo"] = "logo.png";
-            main.CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            main.BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            main.CompanyId = CompanyId;
+            main.BranchId = BranchId;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
-            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
+
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, "en"), authorization.TokenType, authorization.AccessToken);
             if (responseGroup.IsScusses)
             {
                 main.Group = JsonConvert.DeserializeObject<List<Group>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
@@ -40,10 +45,10 @@ namespace POS.Controllers
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
             }
-            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Users/Get_POSUsers", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
+            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Workshop/GetWorkshops?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"],1005,25), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
             if (responseUsers.IsScusses)
             {
-                main.User = JsonConvert.DeserializeObject<List<User>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
+                main.Workshops = JsonConvert.DeserializeObject<List<WorkshopLevels>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
             Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"],0, main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
@@ -104,8 +109,8 @@ namespace POS.Controllers
         }
         public JsonResult GetItemsById(int Id)
         {
-            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             Item oItem = new Item();
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             Response responseGroup = APICall.Get<Response>(string.Format("{0}/Items/Get_ItemsById?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], Id,CompanyId,BranchId, "en"), authorization.TokenType, authorization.AccessToken);
@@ -119,8 +124,8 @@ namespace POS.Controllers
         }
         public JsonResult Get_Items()
         {
-            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             List <Item> oItem = new List<Item>();
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             Response responseGroup = APICall.Get<Response>(string.Format("{0}/Items/Get_Items?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, "en"), authorization.TokenType, authorization.AccessToken);
@@ -134,8 +139,8 @@ namespace POS.Controllers
         }
         public JsonResult PaymentMethod_Get(int? MethodId,int BranchId)
         {
-            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            int _BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int _BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             List<PaymentMethod> PaymentMethod = new List<PaymentMethod>();
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
 
@@ -169,8 +174,8 @@ namespace POS.Controllers
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
             Session["logo"] = "logo.png";
-            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
-            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
