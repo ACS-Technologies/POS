@@ -237,7 +237,8 @@ $(document).ready(function() {
         });
         return false;
     });
-    $('.load_suspended').click(function(event) {
+    $('.load_suspended').click(function (event) {
+        debugger
         event.preventDefault();
         var href = $(this).attr('href');
         if (get('spositems')) {

@@ -19,9 +19,9 @@ namespace POS.Controllers
         {
          var   oSuspendedSaleDBL = new SuspendedSaleDBL();
             Main main = new Main();
-            Session["user_name"] = "Abdallah Labib";
-            Session["first_name"] = "Haya";
-            Session["last_name"] = "Ali";
+            Session["user_name"] = SessionManager.GetSessionUserInfo.Username;
+            Session["first_name"] =SessionManager.GetSessionUserInfo.FirstName;
+            Session["last_name"] = SessionManager.GetSessionUserInfo.LastName;
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
             Session["logo"] = "logo.png";
@@ -162,10 +162,11 @@ namespace POS.Controllers
         public ActionResult TablePage()
         {
             var oSuspendedSaleDBL = new SuspendedSaleDBL();
+            var oSalesDBL = new SalesDBL();
             Main main = new Main();
-            Session["user_name"] = "Abdallah Labib";
-            Session["first_name"] = "Haya";
-            Session["last_name"] = "Ali";
+            Session["user_name"] = SessionManager.GetSessionUserInfo.Username;
+            Session["first_name"] = SessionManager.GetSessionUserInfo.FirstName;
+            Session["last_name"] = SessionManager.GetSessionUserInfo.LastName;
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
             Session["logo"] = "logo.png";
@@ -214,6 +215,7 @@ namespace POS.Controllers
             main.Item = new List<Item>();
             int userId = SessionManager.GetSessionUserInfo.UserID;
             main.SuspendedSale = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
+            main.Sales = oSalesDBL.M_Sales_GetAll(userId, DateTime.Now.Date);
             main.store = new Store();
             main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
 

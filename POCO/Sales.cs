@@ -38,6 +38,6 @@ namespace POCO
         public string Hold_ref { get; set; }
         public Payments Payments { get; set; }
         public List<SaleItems> SaleItems { get; set; }
-
+        public int Hold_Id { get; set; }
     }
 }

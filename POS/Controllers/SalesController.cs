@@ -49,7 +49,7 @@ namespace POS.Controllers
                 int userId =SessionManager.GetSessionUserInfo.UserID;
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
-                result.Data = oSalesDBL.M_Sales_GetAll(userId);
+                result.Data = oSalesDBL.M_Sales_GetAll(userId,DateTime.Now.Date);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -92,6 +92,7 @@ namespace POS.Controllers
         public ActionResult Insert(Sales PoSales)
         {
             result = new ResultJson();
+            var oSuspendedSaleDBL = new SuspendedSaleDBL();
             int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
@@ -116,7 +117,8 @@ namespace POS.Controllers
                     PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
                 }
 
-                result.Data = oSalesDBL.M_Store_Insert(PoSales);
+                result.Data = oSalesDBL.M_Store_Insert(PoSales);               
+                oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
                 return Json(result);
 
             }

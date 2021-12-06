@@ -172,7 +172,7 @@
                                     <li class="list-suspended-sales">
                                         @foreach (var item in Model.SuspendedSale)
                                         {
-                                            <a href="#" value="@item.Id" class="load_suspended">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
+                                            <a href="#" value="@item.Id" class="load_hold">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
                                         }
                                     </li>
                                 </ul>
@@ -220,10 +220,10 @@
                             <div id="lefttop" style="margin-bottom:5px;">
                                 <div class="form-group" style="margin-bottom:5px;">
                                     @*<select class="form-control select2">
-                                            <option disabled selected>--- Choose Customer ---</option>
-                                            <option>The Labib</option>
-                                        </select>*@
-                                    @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), htmlAttributes: new { @class = "form-control select2" })
+                    <option disabled selected>--- Choose Customer ---</option>
+                    <option>The Labib</option>
+                </select>*@
+                                    @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
                                 </div>
                                 <div class="form-group" style="margin-bottom:5px;">
                                     <input type="text" name="hold_ref" id="hold_ref" class="form-control kb-text" placeholder="@Resources.Default.reference_note" />
@@ -287,9 +287,9 @@
                                                 <td colspan="2" style="font-size:20px;font-weight:bold">
                                                     @Resources.Default.total_payable
                                                     @*
-                                                        <a role="button" data-toggle="modal" data-target="#noteModal">
-                                                            <i class="fa fa-comment"></i>
-                                                        </a>
+                                <a role="button" data-toggle="modal" data-target="#noteModal">
+                                    <i class="fa fa-comment"></i>
+                                </a>
                                                     *@
                                                 </td>
                                                 <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00</span></td>
@@ -353,6 +353,8 @@
                             <input type="hidden" name="total_items" id="total_items" value="0" />
                             <input type="hidden" name="total_quantity" id="total_quantity" value="0" />
                             <input type="submit" id="submit" value="Submit Sale" style="display: none;" />
+                            <input type="hidden" name="SuspendedSaleId" id="SuspendedSaleId"  />
+                            <input type="hidden" name="SalesId" id="SalesId" />
                         </div>
                     </div>
 
@@ -1059,32 +1061,42 @@
         jsonObj = [];
         sale_items = [];
         $(document).ready(function () {
-                        $.ajax({
-                            type: 'get',
-                            url: "@Url.Action("Get_Items", "POS")?CompanyId=" + @Model.CompanyId +"&BranchId="+@Model.BranchId+"&Language=en",
-                              contentType: 'application/json',
-                              dataType: 'json',
-                              data: {},
-                                success: function (data) {
+            debugger
+
+            if (localStorage.getItem("Items") === null) {
+                $.ajax({
+                    type: 'get',
+                    url: "@Url.Action("Get_Items", "POS")?CompanyId=" + @Model.CompanyId +"&BranchId=" +@Model.BranchId+"&Language=en",
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: {},
+                    success: function (data) {
 
 
-                                    for (var i = 0; i < data.length; i++) {
-                                       
-                                        var item=[];
-                                        item["id"] = data[i].ItemId;
-                                        item["Product_id"] = data[i].ItemId;
-                                        item["Product_name"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode  ;
-                                        item["label"] = data[i].ItemPrimaryName +"-"+ data[i].ItemBarcode ;
-                                        item["Quantity"] = 1;
-                                        item["Product_code"] = data[i].ItemBarcode;
-                                        item["Price"] = data[i].Price;
-                                        item["Tax"] = data[i].taxRate;
-                                        item["Service"] = data[i].Service;
-                                      jsonObj.push(item);
+                        for (var i = 0; i < data.length; i++) {
 
-                                    }
-                                }
-                    });
+                            var item = [];
+                            item["id"] = data[i].ItemId;
+                            item["Product_id"] = data[i].ItemId;
+                            item["Product_name"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode;
+                            item["label"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode;
+                            item["Quantity"] = 1;
+                            item["Product_code"] = data[i].ItemBarcode;
+                            item["Price"] = data[i].Price;
+                            item["Tax"] = data[i].taxRate;
+                            item["Service"] = data[i].Service;
+                            jsonObj.push(item);
+
+                        }
+                        debugger
+                        window.localStorage.setItem('Items', JSON.stringify(data));
+                    }
+                });
+            }
+            else {
+                  jsonObj = JSON.parse(get('Items'));
+            }
+                       
         });
         function myfunction(id) {
             $("#emptyitems").empty();
