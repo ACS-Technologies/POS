@@ -53,9 +53,10 @@
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
     <style>
-        .btn{
-            font-weight:bold
+        .btn {
+            font-weight: bold
         }
+
         input.form-control {
             border-radius: 7px !important
         }
@@ -120,6 +121,7 @@
         #item-list .slimScrollDiv {
             height: 690px !important
         }
+
         .bank-btn {
             position: absolute;
             right: 0;
@@ -137,15 +139,17 @@
             text-align: left;
             border: none;
             transition: 0.5s;
+            border-radius: 25px
         }
 
             .accordion-btn:after {
                 content: '+';
                 font-size: 1em;
-                color: #e01f32;
+                color: aliceblue;
                 float: right;
                 margin-left: 5px;
             }
+
             .accordion-btn.active,
             .accordion-btn:hover {
                 background-color: #3f5973;
@@ -154,6 +158,7 @@
                 .accordion-btn.active:after {
                     content: "-";
                 }
+
         .panel {
             background-color: #ECF0F1;
             max-height: 0;
@@ -166,11 +171,13 @@
                 font-size: 1.2em;
                 padding: 0 2em;
             }
+
             .panel.show {
                 display: block;
                 opacity: 1;
                 max-height: 500px;
             }
+
         .inner-accord {
             background-color: #5b80a4;
             font-size: 1.2em;
@@ -181,6 +188,14 @@
             .inner-accord:hover {
                 background-color: #7b99b7;
             }
+        .select2-container {
+            box-sizing: border-box;
+            display: block;
+            /* margin: 0; */
+            position: relative;
+            vertical-align: middle;
+            width: 100% !important;
+        }
         /*End Accordion Styles */
     </style>
 </head>
@@ -208,12 +223,11 @@
                     <li><a href="#" class="clock"></a></li>
                     <li><a href="@Url.Action("TablePage","POS")"><i class="fa fa-table"></i></a></li>
                     <li><a href="@Url.Action("Index","POS")"><i class="fa fa-th"></i></a></li>
-                    <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#settingsModal"><i class="fa fa-cogs"></i></a></li>
                     <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#registerDetailsModal">@Resources.Default.register_details</a></li>
                     <li><a href="@Url.Action("today_sale","POS")" data-toggle="modal" data-target="#todaySalesModal">@Resources.Default.today_sale</a></li>
-                    <li><a href="@Url.Action("close_register","POS")" data-toggle="ajax">@Resources.Default.close_register</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#closeRegisterModal">@Resources.Default.close_register</a></li>
                     <li class="dropdown notifications-menu" id="suspended_sales">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
@@ -276,9 +290,9 @@
                             <div id="lefttop" style="margin-bottom:5px;">
                                 <div class="form-group" style="margin-bottom:5px;">
                                     @*<select class="form-control select2">
-                    <option disabled selected>--- Choose Customer ---</option>
-                    <option>The Labib</option>
-                </select>*@
+                                            <option disabled selected>--- Choose Customer ---</option>
+                                            <option>The Labib</option>
+                                        </select>*@
                                     @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
                                 </div>
                                 <div class="form-group" style="margin-bottom:5px;">
@@ -343,9 +357,9 @@
                                                 <td colspan="2" style="font-size:20px;font-weight:bold">
                                                     @Resources.Default.total_payable
                                                     @*
-                                <a role="button" data-toggle="modal" data-target="#noteModal">
-                                    <i class="fa fa-comment"></i>
-                                </a>
+                                                        <a role="button" data-toggle="modal" data-target="#noteModal">
+                                                            <i class="fa fa-comment"></i>
+                                                        </a>
                                                     *@
                                                 </td>
                                                 <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00</span></td>
@@ -409,7 +423,7 @@
                             <input type="hidden" name="total_items" id="total_items" value="0" />
                             <input type="hidden" name="total_quantity" id="total_quantity" value="0" />
                             <input type="submit" id="submit" value="Submit Sale" style="display: none;" />
-                            <input type="hidden" name="SuspendedSaleId" id="SuspendedSaleId"  />
+                            <input type="hidden" name="SuspendedSaleId" id="SuspendedSaleId" />
                             <input type="hidden" name="SalesId" id="SalesId" />
                         </div>
                     </div>
@@ -581,13 +595,59 @@
             </div>
         </div>
     </div>
-    <div class="modal" data-easein="flipYIn" id="registerDetailsModal" tabindex="-1" role="dialog" aria-labelledby="registerDetailsModalLabel" aria-hidden="true">
+    <div class="modal" data-easein="flipYIn" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Label 1</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Label 2</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Label 3</label>
+                                <select class="form-control select2">
+                                    <option>--- Select ---</option>
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Label 4</label>
+                                <select class="form-control select2">
+                                    <option>--- Select ---</option>
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" data-easein="flipYIn" id="closeRegisterModal" tabindex="-1" role="dialog" aria-labelledby="closeRegisterModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                     <button type="button" class="close mr10" onclick="window.print();"><i class="fa fa-print"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Register Details (Opened at: Thu 2 Dec 2021 05:38 PM)</h4>
+                    <h4 class="modal-title" id="myModalLabel">Close Register (Opened at: Thu 2 Dec 2021 05:38 PM)</h4>
                 </div>
                 <div class="modal-body">
                     <table width="100%" class="stable">
@@ -681,6 +741,10 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button id="print-register-details" class="btn btn-default">Print</button>                <input type="submit" name="close_register" value="Close Register" class="btn btn-primary">
                 </div>
             </div>
         </div>
@@ -1002,25 +1066,34 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
+                    <h4 class="modal-title" id="myModalLabel">Assign User</h4>
                 </div>
                 <div class="modal-body">
                     <div class="accordion">
                         @foreach (var parent in Model.Workshops)
                         {
-                            <div class="accordion-btn">@parent.ParentWorkshop.PrimaryName</div>
-                            <div class="panel">
-                                @foreach (var branch in parent.BranchWorkshop)
-                                {
-                                    <div class="accordion-btn inner-accord">@branch.PrimaryName</div>
-                                    <div class="panel">
-                                        @foreach (var sub in parent.SubBranchWorkshop)
-                                        {
-                                            <p>@sub.PrimaryName</p>
-                                        }
-                                    </div>
-                                }
-                            </div>
+                            if (parent.BranchWorkshop.Count > 0)
+                            {
+                                <div class="accordion-btn">@parent.ParentWorkshop.PrimaryName</div>
+                                <div class="panel">
+
+                                    @foreach (var branch in parent.BranchWorkshop)
+                                    {
+                                        <div class="accordion-btn inner-accord">@branch.PrimaryName</div>
+                                        <div class="panel">
+                                            @foreach (var sub in parent.SubBranchWorkshop)
+                                            {
+                                                if (sub.ParentId == branch.Id)
+                                                {
+                                                    <p>@sub.PrimaryName</p>
+
+                                                }
+
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
                         }
                     </div>
 
@@ -1164,7 +1237,7 @@
             else {
                   jsonObj = JSON.parse(get('Items'));
             }
-                       
+
         });
         function myfunction(id) {
             $("#emptyitems").empty();
