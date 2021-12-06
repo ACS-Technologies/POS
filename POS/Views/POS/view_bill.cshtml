@@ -536,7 +536,6 @@
                 spositems = JSON.parse(get('spositems'));
 
                 $.each(spositems, function () {
-                    debugger
                     var item = this;
                     var item_id = Settings.item_addition == 1 ? item.Product_id : item.Product_id;
                     spositems[item_id] = item;

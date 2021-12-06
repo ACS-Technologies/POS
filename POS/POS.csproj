@@ -931,6 +931,10 @@
     <Content Include="Content\smart_theme\src\template\_helpers\is-helper.js" />
     <Content Include="Content\smart_theme\src\template\_helpers\lower.js" />
     <Content Include="Content\smart_theme\src\template\_helpers\times-helper.js" />
+    <Content Include="Content\themes\bank-assets\css\style.css" />
+    <Content Include="Content\themes\bank-assets\img\cd-icons.svg" />
+    <Content Include="Content\themes\bank-assets\js\main.js" />
+    <Content Include="Content\themes\bank-assets\js\util.js" />
     <Content Include="Content\themes\default\assets\bootstrap\css\bootstrap.css" />
     <Content Include="Content\themes\default\assets\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\themes\default\assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
@@ -2077,6 +2081,7 @@
     <Content Include="Content\smart_theme\src\template\layouts\auth.hbs" />
     <Content Include="Content\smart_theme\src\template\layouts\blank-main.hbs" />
     <Content Include="Content\smart_theme\src\template\layouts\main.hbs" />
+    <Content Include="Content\themes\bank-assets\css\style.scss" />
     <None Include="Content\themes\default\assets\dist\css\tabs.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

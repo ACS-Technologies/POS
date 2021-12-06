@@ -902,30 +902,23 @@
             </div>
         </div>
     </div>
-    <div id="BankModal" class="modal example-modal-default-transparent" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-transparent" role="document">
+    <div id="BankModal" class="modal" data-easein="flipYIn" tabindex="-1" role="dialog" aria-labelledby="bankModalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title text-white">bank List</h4>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="bg-success-900 rounded bg-info-gradient">
-                        <div class="d-flex position-relative py-3 px-4">
-                            <i class="fal fa-search color-success-700 position-absolute pos-left fs-lg px-3 py-2 mt-1 ml-4"></i>
-                            <input type="text" id="js_nested_list_filter" class="form-control shadow-inset-1 pl-6 border-success">
-                        </div>
-                        <!-- nav-menu-reset will reset the font colors -->
-                        <ul id="js_nested_list" class="nav-menu nav-menu-reset nav-menu-compact bg-success-900 bg-info-gradient mb-sm-4 mb-md-0 rounded" data-nav-accordion="true">
+                    <div>
+                        <ul>
                             @if (Model.oBankBranch != null)
                             {
                                 foreach (var item in Model.oBankBranch.oLBank)
                                 {
                                     <li>
-                                        <a href="#" data-filter-tags="@Html.DisplayFor(modelItem => item.BankPrimaryName)">
-                                            <span class="nav-link-text">
+                                        <a href="#">
+                                            <span>
                                                 @Html.DisplayFor(modelItem => item.BankPrimaryName)
                                             </span>
                                         </a>
@@ -937,8 +930,8 @@
                                                 {
 
                                                     <li>
-                                                        <a href="#" data-filter-tags="@itemd.BranchPrimaryName" onclick="sendBank('@itemd.BranchPrimaryName','@item.BankId')" data-dismiss="modal">
-                                                            <span class="nav-link-text" data-filter-tags="@Html.DisplayFor(modelItem => itemd.BranchPrimaryName)">
+                                                        <a href="#" onclick="sendBank('@itemd.BranchPrimaryName','@item.BankId')" data-dismiss="modal">
+                                                            <span>
                                                                 @Html.DisplayFor(modelItem => itemd.BranchPrimaryName)
                                                             </span>
                                                         </a>
@@ -951,7 +944,6 @@
                                 }
                             }
                         </ul>
-                        <div class="filter-message js-filter-message m-0 text-left pl-4 py-3 fw-500"></div>
                     </div>
 
                 </div>
@@ -1069,7 +1061,7 @@
 
 
                                     for (var i = 0; i < data.length; i++) {
-                                       
+
                                         var item=[];
                                         item["id"] = data[i].ItemId;
                                         item["Product_id"] = data[i].ItemId;
