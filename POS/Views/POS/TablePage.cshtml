@@ -200,12 +200,11 @@
                     <li><a href="#" class="clock"></a></li>
                     <li><a href="@Url.Action("TablePage","POS")"><i class="fa fa-table"></i></a></li>
                     <li><a href="@Url.Action("Index","POS")"><i class="fa fa-th"></i></a></li>
-                    <li><a href="@Url.Action("Settings","Home")"><i class="fa fa-cogs"></i></a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#settingsModal"><i class="fa fa-cogs"></i></a></li>
                     <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#registerDetailsModal">@Resources.Default.register_details</a></li>
                     <li><a href="@Url.Action("today_sale","POS")" data-toggle="modal" data-target="#todaySalesModal">@Resources.Default.today_sale</a></li>
-                    <li><a href="@Url.Action("close_register","POS")" data-toggle="ajax">@Resources.Default.close_register</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#closeRegisterModal">@Resources.Default.close_register</a></li>
                     <li class="dropdown notifications-menu" id="suspended_sales">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
@@ -220,7 +219,7 @@
                                     <li class="list-suspended-sales">
                                         @foreach (var item in Model.SuspendedSale)
                                         {
-                                            <a href="#" value="@item.Id" class="load_suspended">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
+                                            <a href="#" value="@item.Id" class="load_hold">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
                                         }
                                     </li>
                                 </ul>
@@ -228,7 +227,6 @@
                             @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
                         </ul>
                     </li>
-                    <?php } ?>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
