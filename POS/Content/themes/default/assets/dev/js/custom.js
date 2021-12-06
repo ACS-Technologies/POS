@@ -237,21 +237,6 @@ $(document).ready(function() {
         });
         return false;
     });
-    $('.load_suspended').click(function (event) {
-        debugger
-        event.preventDefault();
-        var href = $(this).attr('href');
-        if (get('spositems')) {
-            bootbox.confirm(lang.r_u_sure, function(result) {
-                if (result == true) {
-                    window.location.href = href;
-                }
-            });
-            return false;
-        } else {
-            window.location.href = href;
-        }
-    });
     $('.sign_out').click(function(e) {
         e.preventDefault();
         var href = $(this).attr('href');

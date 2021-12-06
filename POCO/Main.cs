@@ -25,6 +25,7 @@ namespace POCO
         public int BranchId { get; set; }
         public List<BankBranch> oLBankBranch { get; set; }
         public BankBranch oBankBranch { get; set; }
+        public List<WorkshopLevels> Workshops { get; set; }
 
     }
 }
