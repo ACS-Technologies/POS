@@ -18,12 +18,12 @@ namespace DBL
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public List<Sales> M_Sales_GetAll(int? UserId, DateTime Date)
+        public List<Sales> M_Sales_GetAll(int? UserId)
         {
             DataSet ds = new DataSet();
             Sales oSales;
             List<Sales> oLSales = new List<Sales>();
-            ds = oSalesDAL.M_Sales_GetAll(UserId, Date);
+            ds = oSalesDAL.M_Sales_GetAll(UserId);
             if (ds.Tables.Count > 0)
             {
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -415,7 +415,23 @@ namespace DBL
             }
             return oPayments;
         }
+        public decimal M_Salse_GrandTotal_Get(int UserId, int StoreId)
+        {
+            DataSet ds = new DataSet();
+            Payments oPayments = new Payments();
+            ds = oSalesDAL.M_Salse_GrandTotal_Get(UserId, StoreId);
+            decimal Grand_Total = 0;
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    Grand_Total = decimal.Parse(ds.Tables[0].Rows[0]["Grand_Total"].ToString());
 
+                }
+
+            }
+            return Grand_Total;
+        }
         #endregion
     }
 }

@@ -30,10 +30,19 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Status", Status);
             return ExDataBase_returnDataSet(cmd);
         }
-        public DataSet M_RegisterStatus_Get(int Store_id, int UserId )
+        public DataSet M_Register_CloseRegister( int UserId, int Store_id, string Status)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "M_RegisterStatus_Get";
+            cmd.CommandText = "M_Register_CloseRegister";
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@Store_id", Store_id);
+            cmd.Parameters.AddWithValue("@Status", Status);
+            return ExDataBase_returnDataSet(cmd);
+        }
+        public DataSet M_RegisterByUserIdAndStoreId_Get(int Store_id, int UserId )
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_RegisterByUserIdAndStoreId_Get";
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@UserId", UserId);
             return ExDataBase_returnDataSet(cmd);

@@ -49,7 +49,7 @@ namespace POS.Controllers
                 int userId =SessionManager.GetSessionUserInfo.UserID;
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
-                result.Data = oSalesDBL.M_Sales_GetAll(userId,DateTime.Now.Date);
+                result.Data = oSalesDBL.M_Sales_GetAll(userId);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch

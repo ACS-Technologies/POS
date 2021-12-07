@@ -10,12 +10,11 @@ namespace DAL
         /// M_Sales_GetAll
         /// </summary>
         /// <returns></returns>
-        public DataSet M_Sales_GetAll(int? UserId,DateTime Date)
+        public DataSet M_Sales_GetAll(int? UserId)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_GetAll";
             cmd.Parameters.AddWithValue("@UserId", UserId);
-            cmd.Parameters.AddWithValue("@Date", Date);
             return ExDataBase_returnDataSet(cmd);
         }
 
@@ -253,6 +252,17 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Note", Note);
             cmd.Parameters.AddWithValue("@Created_by", Created_by);
             cmd.Parameters.AddWithValue("@Reference", Reference);
+
+            return ExDataBase_returnDataSet(cmd);
+        }
+        public DataSet M_Salse_GrandTotal_Get( int UserId, int StoreId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_Salse_GrandTotal_Get";
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@StoreId", StoreId);
+
 
             return ExDataBase_returnDataSet(cmd);
         }
