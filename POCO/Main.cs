@@ -20,7 +20,7 @@ namespace POCO
         public List<PaymentMethod> PaymentMethod { get; set; }
         public List<User> User { get; set; }
         public string ImageUrl { get; set; }
-        public string Status { get; set; }
+        public Registers Registers { get; set; }
         public int CompanyId { get; set; }
         public int BranchId { get; set; }
         public int SalesId { get; set; }

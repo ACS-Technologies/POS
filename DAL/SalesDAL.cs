@@ -255,6 +255,17 @@ namespace DAL
 
             return ExDataBase_returnDataSet(cmd);
         }
+        public DataSet M_Salse_GrandTotal_Get( int UserId, int StoreId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_Salse_GrandTotal_Get";
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@StoreId", StoreId);
+
+
+            return ExDataBase_returnDataSet(cmd);
+        }
         #endregion
     }
 }

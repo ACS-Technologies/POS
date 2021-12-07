@@ -94,7 +94,7 @@ namespace POS.Controllers
             {
                 main.SalesId = (int)Id;
             }
-            main.Status = oRegistersDBL.M_RegisterStatus_Get(main.BranchId, userId);
+            main.Registers = oRegistersDBL.M_RegisterByUserIdAndStoreId_Get(main.BranchId, userId);
             return View(main);
         }
         public JsonResult GetItemsByCategoryId(int Id)
@@ -229,8 +229,19 @@ namespace POS.Controllers
             main.store = new Store();
             main.ImageUrl = (string)ConfigurationManager.AppSettings["ImageUrl"];
 
-            main.Status = oRegistersDBL.M_RegisterStatus_Get(BranchId, userId);
+            main.Registers = oRegistersDBL.M_RegisterByUserIdAndStoreId_Get(main.BranchId, userId);
             return View(main);
+        }
+        public JsonResult GetGrandTotal()
+        {
+            int userId = SessionManager.GetSessionUserInfo.UserID; 
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
+            var oSalesDBL = new SalesDBL();
+           decimal GrandTotal=   oSalesDBL.M_Salse_GrandTotal_Get(userId, BranchId);
+            return Json(GrandTotal.ToString("0.00"), JsonRequestBehavior.AllowGet);
+
+
         }
     }
 }
