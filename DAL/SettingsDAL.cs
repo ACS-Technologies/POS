@@ -121,5 +121,27 @@ namespace DAL
             return ExDataBase_returnDataSet(cmd);
 
         }
+        public DataSet M_SettingAccounts_InsertOrUpdate(int BranchId, int CachAccountId, int TaxAccountId, int SalesAccountId, int TransTypeNo)
+
+        {
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "M_SettingAccounts_InsertOrUpdate";
+            cmd.Parameters.AddWithValue("@BranchId", BranchId);
+            cmd.Parameters.AddWithValue("@CachAccountId", CachAccountId);
+            cmd.Parameters.AddWithValue("@TaxAccountId", TaxAccountId);
+            cmd.Parameters.AddWithValue("@SalesAccountId", SalesAccountId);
+            cmd.Parameters.AddWithValue("@TransTypeNo", TransTypeNo);
+
+            return ExDataBase_returnDataSet(cmd);
+
+        }
+        public DataSet GetSettingAccountsByBranchId(int BranchId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "GetSettingAccountsByBranchId";
+            cmd.Parameters.AddWithValue("@BranchId", BranchId);
+            return ExDataBase_returnDataSet(cmd);
+        }
     }
 }

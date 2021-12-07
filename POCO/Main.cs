@@ -18,6 +18,8 @@ namespace POCO
         public List<Sales> Sales { get; set; }
         public List<CustomerInformation> CustomerInformation { get; set; }
         public List<PaymentMethod> PaymentMethod { get; set; }
+        public List<TransTypeTable> TransTypeTable { get; set; }
+        public List<AccountTable> AccountTable { get; set; }
         public List<User> User { get; set; }
         public string ImageUrl { get; set; }
         public Registers Registers { get; set; }
@@ -27,6 +29,7 @@ namespace POCO
         public List<BankBranch> oLBankBranch { get; set; }
         public BankBranch oBankBranch { get; set; }
         public List<WorkshopLevels> Workshops { get; set; }
-
+        public SettingAccounts SettingAccounts { get; set; }
+        
     }
 }

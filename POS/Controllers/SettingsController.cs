@@ -77,6 +77,43 @@ namespace POS.Controllers
                 return Json(result);
             }
         }
+        [HttpPost]
+        public ActionResult InsertOrUpdateSettingAccounts(SettingAccounts PoSettings)
+        {
+            result = new ResultJson();
 
+            try
+            {
+                PoSettings.BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
+                oSettingsDBL = new SettingsDBL();
+                result.IsSuccess = true;
+                result.Data = oSettingsDBL.M_SettingAccounts_InsertOrUpdate(PoSettings);
+                return Json(result);
+
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result);
+            }
+        }
+        public ActionResult GetSettingAccountsByBranchId()
+        {
+            result = new ResultJson();
+
+            try
+            {
+                int BranchId = SessionManager.GetSessionUserInfo.CompanyBranchId;
+                oSettingsDBL = new SettingsDBL();
+                result.IsSuccess = true;
+                result.Data = oSettingsDBL.GetSettingAccountsByBranchId(BranchId);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                result.IsSuccess = false;
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

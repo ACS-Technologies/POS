@@ -259,7 +259,7 @@ namespace DAL
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_Salse_GrandTotal_Get";
-            cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
             cmd.Parameters.AddWithValue("@UserId", UserId);
             cmd.Parameters.AddWithValue("@StoreId", StoreId);
 

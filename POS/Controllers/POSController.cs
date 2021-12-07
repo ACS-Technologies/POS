@@ -31,6 +31,7 @@ namespace POS.Controllers
             main.CompanyId = CompanyId;
             main.BranchId = BranchId;
             RegistersDBL oRegistersDBL = new RegistersDBL();
+            SettingsDBL oSettingsDBL = new SettingsDBL();
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
@@ -54,7 +55,22 @@ namespace POS.Controllers
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
+            }       
+
+            List<TransTypeTable> TransTypeTable = new List<TransTypeTable>();
+
+            Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            if (response.IsScusses)
+            {
+                var trans = JsonConvert.DeserializeObject<List<TransTypeTable>>(JsonConvert.SerializeObject(response.ResponseDetails));
+                main.TransTypeTable = trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
             }
+            Response responseaccount = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId,  LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            if (responseaccount.IsScusses)
+            {
+                main.AccountTable  = JsonConvert.DeserializeObject<List<AccountTable>>(JsonConvert.SerializeObject(responseaccount.ResponseDetails));
+            }
+
             if (1==1)
             {
                 Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
@@ -95,6 +111,7 @@ namespace POS.Controllers
                 main.SalesId = (int)Id;
             }
             main.Registers = oRegistersDBL.M_RegisterByUserIdAndStoreId_Get(main.BranchId, userId);
+            main.SettingAccounts= oSettingsDBL.GetSettingAccountsByBranchId(BranchId);
             return View(main);
         }
         public JsonResult GetItemsByCategoryId(int Id)
