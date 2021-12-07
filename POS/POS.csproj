@@ -134,6 +134,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Default.ar.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Default.ar.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_GlobalResources\Default.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1000,6 +1005,7 @@
     <Content Include="Content\themes\default\assets\dist\app.bundle.js" />
     <Content Include="Content\themes\default\assets\dist\css\blue%402x.png" />
     <Content Include="Content\themes\default\assets\dist\css\blue.png" />
+    <Content Include="Content\themes\default\assets\dist\css\rtl-style.css" />
     <Content Include="Content\themes\default\assets\dist\css\rtl.css" />
     <Content Include="Content\themes\default\assets\dist\css\styles.css" />
     <Content Include="Content\themes\default\assets\dist\fonts\fontawesome-webfont.svg" />
@@ -2152,6 +2158,12 @@
       <Project>{37E75F42-64D3-4771-906D-3C190CC5FF49}</Project>
       <Name>POCO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Default.ar.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Default.ar.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

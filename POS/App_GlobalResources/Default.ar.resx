@@ -118,327 +118,327 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add_category" xml:space="preserve">
-    <value>Add Category</value>
+    <value>إضافة فئة</value>
   </data>
   <data name="add_customer" xml:space="preserve">
-    <value>Add Customer</value>
+    <value>أضف الزبون</value>
   </data>
   <data name="add_expense" xml:space="preserve">
-    <value>Add Expense</value>
+    <value>أضف المصاريف</value>
   </data>
   <data name="add_gift_card" xml:space="preserve">
-    <value>Add Gift Card</value>
+    <value>أضف بطاقة هدية</value>
   </data>
   <data name="add_printer" xml:space="preserve">
-    <value>Add Printer</value>
+    <value>إضافة طابعة</value>
   </data>
   <data name="add_product" xml:space="preserve">
-    <value>Add Product</value>
+    <value>أضف منتج</value>
   </data>
   <data name="add_purchase" xml:space="preserve">
-    <value>Add Purchase</value>
+    <value>أضف شراء</value>
   </data>
   <data name="add_store" xml:space="preserve">
-    <value>Add Store</value>
+    <value>أضف المتجر</value>
   </data>
   <data name="add_supplier" xml:space="preserve">
-    <value>Add Supplier</value>
+    <value>إضافة مورد</value>
   </data>
   <data name="add_user" xml:space="preserve">
-    <value>Add User</value>
+    <value>إضافة المستخدم</value>
   </data>
   <data name="amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>كمية</value>
   </data>
   <data name="apply_to_order" xml:space="preserve">
-    <value>Apply To Order</value>
+    <value>تنطبق على النظام</value>
   </data>
   <data name="apply_to_products" xml:space="preserve">
-    <value>Apply To Products</value>
+    <value>تنطبق على المنتجات</value>
   </data>
   <data name="backups" xml:space="preserve">
-    <value>Backups</value>
+    <value>النسخ الاحتياطية</value>
   </data>
   <data name="balance" xml:space="preserve">
-    <value>Balance</value>
+    <value>الرصيد</value>
   </data>
   <data name="bill" xml:space="preserve">
-    <value>Bill</value>
+    <value>مشروع قانون</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>يلغي</value>
   </data>
   <data name="card_type" xml:space="preserve">
-    <value>Card Type</value>
+    <value>نوع البطاقة</value>
   </data>
   <data name="cash" xml:space="preserve">
-    <value>Cash</value>
+    <value>السيولة النقدية</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categories</value>
+    <value>فئات</value>
   </data>
   <data name="cc" xml:space="preserve">
-    <value>CC</value>
+    <value>نسخة</value>
   </data>
   <data name="cc_holder" xml:space="preserve">
-    <value>CC Holder</value>
+    <value>حامل CC</value>
   </data>
   <data name="cc_no" xml:space="preserve">
-    <value>CC No</value>
+    <value>CC لا</value>
   </data>
   <data name="cf1" xml:space="preserve">
-    <value>cf1</value>
+    <value>CF1</value>
   </data>
   <data name="cf2" xml:space="preserve">
-    <value>cf2</value>
+    <value>CF2</value>
   </data>
   <data name="cheque" xml:space="preserve">
-    <value>Cheque</value>
+    <value>التحقق من</value>
   </data>
   <data name="cheque_no" xml:space="preserve">
-    <value>Cheque No</value>
+    <value>رقم الشيك</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>close</value>
+    <value>أغلق</value>
   </data>
   <data name="close_register" xml:space="preserve">
-    <value>Close Register</value>
+    <value>إغلاق التسجيل</value>
   </data>
   <data name="current_quantity" xml:space="preserve">
-    <value>Current Quantity</value>
+    <value>الكمية الحالية</value>
   </data>
   <data name="cvv2" xml:space="preserve">
     <value>CVV2</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>لوحة القيادة</value>
   </data>
   <data name="discount" xml:space="preserve">
-    <value>Discount</value>
+    <value>خصم</value>
   </data>
   <data name="discount_title" xml:space="preserve">
-    <value>Discount (5 or 5%)</value>
+    <value>خصم (5 أو 5٪)</value>
   </data>
   <data name="email_address" xml:space="preserve">
-    <value>Email Address</value>
+    <value>عنوان البريد الإلكتروني</value>
   </data>
   <data name="enter_info" xml:space="preserve">
-    <value>Enter Info</value>
+    <value>أدخل المعلومات</value>
   </data>
   <data name="filter_by_reference" xml:space="preserve">
-    <value>Filter by Reference</value>
+    <value>تصفية حسب المرجع</value>
   </data>
   <data name="focus_swipe_here" xml:space="preserve">
-    <value>Focus Swipe Here</value>
+    <value>التركيز اسحب هنا</value>
   </data>
   <data name="gift_card" xml:space="preserve">
-    <value>Gift Card</value>
+    <value>كرت هدية</value>
   </data>
   <data name="gift_cards" xml:space="preserve">
-    <value>Gift Cards</value>
+    <value>بطاقات الهدايا</value>
   </data>
   <data name="gift_card_no" xml:space="preserve">
-    <value>Gift Card No</value>
+    <value>رقم بطاقة الهدايا</value>
   </data>
   <data name="hold" xml:space="preserve">
-    <value>Hold</value>
+    <value>معلق</value>
   </data>
   <data name="import_categories" xml:space="preserve">
-    <value>Import Categories</value>
+    <value>فئات الاستيراد</value>
   </data>
   <data name="import_products" xml:space="preserve">
-    <value>Import Products</value>
+    <value>استيراد المنتجات</value>
   </data>
   <data name="lblWelcomePOS" xml:space="preserve">
-    <value>Welcome To POS System</value>
+    <value>مرحبا بك في نظام نقطة البيع</value>
   </data>
   <data name="list_categories" xml:space="preserve">
-    <value>List Categories</value>
+    <value>قائمة الفئات</value>
   </data>
   <data name="list_customers" xml:space="preserve">
-    <value>List Customers</value>
+    <value>قائمة العملاء</value>
   </data>
   <data name="list_expenses" xml:space="preserve">
-    <value>List Expenses</value>
+    <value>سرد المصروفات</value>
   </data>
   <data name="list_gift_cards" xml:space="preserve">
-    <value>List Gift Cards</value>
+    <value>قائمة بطاقات الهدايا</value>
   </data>
   <data name="list_opened_bills" xml:space="preserve">
-    <value>List Opened Bills</value>
+    <value>قائمة مشاريع القوانين المفتوحة</value>
   </data>
   <data name="list_products" xml:space="preserve">
-    <value>List Products</value>
+    <value>قائمة المنتجات</value>
   </data>
   <data name="list_purchases" xml:space="preserve">
-    <value>List Purchases</value>
+    <value>قائمة المشتريات</value>
   </data>
   <data name="list_sales" xml:space="preserve">
-    <value>List Sales</value>
+    <value>قائمة المبيعات</value>
   </data>
   <data name="list_suppliers" xml:space="preserve">
-    <value>List Suppliers</value>
+    <value>قائمة الموردين</value>
   </data>
   <data name="list_users" xml:space="preserve">
-    <value>List Users</value>
+    <value>قائمة المستخدمين</value>
   </data>
   <data name="LogIn" xml:space="preserve">
-    <value>LogIn</value>
+    <value>تسجيل الدخول</value>
   </data>
   <data name="master_card" xml:space="preserve">
-    <value>Master Card</value>
+    <value>بطاقة ماستر بطاقة ائتمان</value>
   </data>
   <data name="merchant_copy" xml:space="preserve">
-    <value>Merchant Copy</value>
+    <value>نسخة التاجر</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Name</value>
+    <value>اسم</value>
   </data>
   <data name="net_price" xml:space="preserve">
-    <value>Net Price</value>
+    <value>السعر الصافي</value>
   </data>
   <data name="new_price" xml:space="preserve">
-    <value>New Price</value>
+    <value>سعر جديد</value>
   </data>
   <data name="note" xml:space="preserve">
-    <value>Note</value>
+    <value>ملحوظة</value>
   </data>
   <data name="order" xml:space="preserve">
-    <value>Order</value>
+    <value>ترتيب</value>
   </data>
   <data name="order_tax" xml:space="preserve">
-    <value>Order Tax</value>
+    <value>ضريبة الطلب</value>
   </data>
   <data name="other" xml:space="preserve">
-    <value>Other</value>
+    <value>آخر</value>
   </data>
   <data name="payment" xml:space="preserve">
-    <value>Payment</value>
+    <value>قسط</value>
   </data>
   <data name="payment_note" xml:space="preserve">
-    <value>Payment Note</value>
+    <value>مذكرة الدفع</value>
   </data>
   <data name="people" xml:space="preserve">
-    <value>People</value>
+    <value>الناس</value>
   </data>
   <data name="phone" xml:space="preserve">
-    <value>Phone</value>
+    <value>هاتف</value>
   </data>
   <data name="POS" xml:space="preserve">
-    <value>POS</value>
+    <value>نقاط البيع</value>
   </data>
   <data name="pos_print_error" xml:space="preserve">
-    <value>Unable to connect to socket, please make sure that server is up and running fine.</value>
+    <value>غير قادر على الاتصال بالمقبس ، يرجى التأكد من أن الخادم يعمل بشكل جيد.</value>
   </data>
   <data name="price" xml:space="preserve">
-    <value>Price</value>
+    <value>سعر</value>
   </data>
   <data name="printers" xml:space="preserve">
-    <value>Printers</value>
+    <value>طابعات</value>
   </data>
   <data name="print_barcodes" xml:space="preserve">
-    <value>Print Barcodes</value>
+    <value>طباعة الرموز الشريطية</value>
   </data>
   <data name="print_bill" xml:space="preserve">
-    <value>Print Bill</value>
+    <value>طباعة الفاتورة</value>
   </data>
   <data name="print_labels" xml:space="preserve">
-    <value>Print Labels</value>
+    <value>طباعة الملصقات</value>
   </data>
   <data name="print_order" xml:space="preserve">
-    <value>Print Order</value>
+    <value>طلب طباعة</value>
   </data>
   <data name="product" xml:space="preserve">
-    <value>Product</value>
+    <value>المنتج</value>
   </data>
   <data name="Products" xml:space="preserve">
-    <value>Products</value>
+    <value>منتجات</value>
   </data>
   <data name="product_tax" xml:space="preserve">
-    <value>Product Tax</value>
+    <value>ضريبة المنتج</value>
   </data>
   <data name="purchases" xml:space="preserve">
-    <value>Purchases</value>
+    <value>المشتريات</value>
   </data>
   <data name="qty" xml:space="preserve">
-    <value>Quantity</value>
+    <value>كمية</value>
   </data>
   <data name="reference_note" xml:space="preserve">
-    <value>Reference Note</value>
+    <value>ملاحظة مرجعية</value>
   </data>
   <data name="register_details" xml:space="preserve">
-    <value>Register Details</value>
+    <value>تفاصيل التسجيل</value>
   </data>
   <data name="sales" xml:space="preserve">
-    <value>Sales</value>
+    <value>مبيعات</value>
   </data>
   <data name="search__scan" xml:space="preserve">
-    <value>Search product by code or name, you can scan barcode too</value>
+    <value>ابحث عن المنتج بالرمز أو الاسم ، ويمكنك أيضًا مسح الرمز الشريطي ضوئيًا</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
-    <value>Select Language</value>
+    <value>اختار اللغة</value>
   </data>
   <data name="sell_gift_card" xml:space="preserve">
-    <value>Sell Gift Card</value>
+    <value>بيع بطاقة الهدايا</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>إعدادات</value>
   </data>
   <data name="Stores" xml:space="preserve">
-    <value>Stores</value>
+    <value>المتاجر</value>
   </data>
   <data name="stripe" xml:space="preserve">
-    <value>Stripe</value>
+    <value>شريط</value>
   </data>
   <data name="submit" xml:space="preserve">
-    <value>Submit</value>
+    <value>يقدم</value>
   </data>
   <data name="subtotal" xml:space="preserve">
-    <value>Subtotal</value>
+    <value>المجموع الفرعي</value>
   </data>
   <data name="suspend_sale" xml:space="preserve">
-    <value>Suspend Sale</value>
+    <value>تعليق البيع</value>
   </data>
   <data name="tax_title" xml:space="preserve">
-    <value>Tax (5 or 5%)</value>
+    <value>الضريبة (5 أو 5٪)</value>
   </data>
   <data name="today_sale" xml:space="preserve">
-    <value>Today's Sale</value>
+    <value>تخفيضات اليوم</value>
   </data>
   <data name="total" xml:space="preserve">
-    <value>Total</value>
+    <value>المجموع</value>
   </data>
   <data name="total_items" xml:space="preserve">
-    <value>Total Items</value>
+    <value>إجمالي العناصر</value>
   </data>
   <data name="total_payable" xml:space="preserve">
-    <value>Total Payable</value>
+    <value>إجمالي المدفوعات</value>
   </data>
   <data name="total_paying" xml:space="preserve">
-    <value>Total Paying</value>
+    <value>إجمالي السداد</value>
   </data>
   <data name="type_reference_note" xml:space="preserve">
-    <value>Type Reference Note</value>
+    <value>اكتب ملاحظة مرجعية</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
-    <value>Unit Price</value>
+    <value>سعر الوحدة</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>Update</value>
+    <value>تحديث</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>User Name</value>
+    <value>اسم االمستخدم</value>
   </data>
   <data name="UserPassword" xml:space="preserve">
-    <value>User Password</value>
+    <value>كلمة مرور المستخدم</value>
   </data>
   <data name="view_all" xml:space="preserve">
-    <value>View All</value>
+    <value>مشاهدة الكل</value>
   </data>
   <data name="visa" xml:space="preserve">
-    <value>Visa</value>
+    <value>فيزا</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Welcome</value>
+    <value>أهلا بك</value>
   </data>
 </root>
