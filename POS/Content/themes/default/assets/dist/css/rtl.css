@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 html, body {
     direction: rtl;
@@ -465,4 +465,25 @@ div.dataTables_wrapper div.dataTables_paginate, .text-right.pr0 {
     margin-right: 45px;
     margin-left: 0;
     text-align: right;
+}
+.main-header .logo{
+    float:right !important
+}
+.main-header > .navbar {
+    margin-right: 50px !important
+}
+@media (min-width: 768px) {
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: unset !important;
+        margin-right: 50px;
+    }
+}
+@media (min-width: 768px){
+    .navbar-nav > li {
+        float: right;
+    }
+}
+
+.main-header .navbar-custom-menu, .main-header .navbar-right{
+    float:left
 }

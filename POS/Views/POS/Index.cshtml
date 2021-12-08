@@ -40,12 +40,13 @@
 
     <meta charset="UTF-8">
     <title>POS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="@(assets)images/icon.png" />
 
     <link href="@(assets)dist/css/styles.css" rel="stylesheet" type="text/css" />
-    @if (lang == "rtl")
+    @if (POS.Controllers.LanguageController.IsRighToLeft())
     {
-        <link href="@(assets)dist/css/rtl.css" rel="stylesheet" />
+<link href="@(assets)dist/css/rtl.css" rel="stylesheet" />
     }
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <script src="@(assets)plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -100,7 +101,7 @@
                 border-left: 1px solid rgba(0, 0, 0, 0.1);
             }
 
-        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover, .nav-tabs.nav-justified > li > a:hover {
+        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover, .nav-tabs > li > a:hover {
             background-color: #4e499d !important;
             color: #fff !important
         }
@@ -188,6 +189,7 @@
             .inner-accord:hover {
                 background-color: #7b99b7;
             }
+
         .select2-container {
             box-sizing: border-box;
             display: block;
@@ -197,6 +199,17 @@
             width: 100% !important;
         }
         /*End Accordion Styles */
+        .items-table-width{
+    width:35%
+}
+.items-width {
+    width: 65%
+}
+@@media only screen and (max-width: 768px) {
+        .items-table-width, .items-width {
+            width: 50%
+        }
+}
     </style>
 </head>
 <body class="skin-@theme_style sidebar-collapse sidebar-mini pos" style="background-color:#fff !important">
@@ -205,7 +218,7 @@
             <span class="logo-mini">POS</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-            <ul class="nav navbar-nav pull-left">
+            @*<ul class="nav navbar-nav pull-left">
                 <li class="dropdown">
                     <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)images/@(selected_language).png" alt="@selected_language"></a>
                     <ul class="dropdown-menu">
@@ -217,7 +230,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul>*@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li><a href="#" class="clock"></a></li>
@@ -272,7 +285,7 @@
 
         <table style="width:100%;" class="layout-table">
             <tr style="width:100%;">
-                <td style="width: 35%;">
+                <td class="items-table-width">
 
                     <div id="pos" style="background-color:#fff">
                         <div class="well well-sm" id="leftdiv">
@@ -327,22 +340,22 @@
                                         <tbody>
                                             <tr class="info">
                                                 <td width="20%">@Resources.Default.total_items</td>
-                                                <td><span id="count">0.00</span></td>
+                                                <td style="text-align:end"><span id="count">0.00</span></td>
                                                 <td width="20%">@Resources.Default.total</td>
-                                                <td class="text-right" colspan="2"><span id="total">0.00</span></td>
+                                                <td style="text-align:end" colspan="2"><span id="total">0.00</span></td>
                                             </tr>
                                             <tr class="info">
                                                 <td width="20%"><a href="#" id="add_discount">@Resources.Default.discount</a></td>
-                                                <td><span id="ds_con">0.00</span></td>
+                                                <td  style="text-align:end"><span id="ds_con">0.00</span></td>
                                                 <td width="20%"><a href="#" id="add_tax">@Resources.Default.order_tax</a></td>
-                                                <td class="text-right"><span id="ts_con">0.00</span></td>
+                                                <td style="text-align:end"><span id="ts_con">0.00</span></td>
                                             </tr>
 
                                             <tr class="success">
                                                 <td colspan="2" style="font-size:20px;font-weight:bold">
                                                     @Resources.Default.total_payable
                                                 </td>
-                                                <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold"><span id="total-payable">0.00</span></td>
+                                                <td class="text-right" colspan="2" style="font-size:20px;font-weight:bold;text-align:end"><span id="total-payable">0.00</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -391,7 +404,7 @@
                     </div>
 
                 </td>
-                <td style="width:65%;">
+                <td class="items-width">
                     <div class="contents">
 
                         <ul class="nav nav-pills nav-justified nav-tabs-buttons">
@@ -414,7 +427,7 @@
                         <br />
 
                         <div id="item-list">
-                            <div class="items" id="emptyitems" style="width:100%"></div>
+                            <div class="items" id="emptyitems" style="width:100% !important"></div>
                         </div>
                     </div>
                 </td>
@@ -610,7 +623,7 @@
         </div>
     </div>
     <div class="modal" data-easein="flipYIn" id="todaySalesModal" tabindex="-1" role="dialog" aria-labelledby="todaySalesModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-success">
+        <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
@@ -783,7 +796,7 @@
     </div>
 
     <div class="modal" data-easein="flipYIn" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-success">
+        <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
@@ -1292,6 +1305,12 @@
                 this.nextElementSibling.classList.toggle("show");
             }
         }
+        $(document).ready(function () {
+            if ($(window).width() <= 768) {
+                $(".nav.nav-tabs.real-tabs.nav-justified").removeClass("nav-justified");
+            }
+        })
+
     </script>
 </body>
 </html>

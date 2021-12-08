@@ -136,25 +136,25 @@
     <value>أضف منتج</value>
   </data>
   <data name="add_purchase" xml:space="preserve">
-    <value>أضف شراء</value>
+    <value>إضافة عملية شراء</value>
   </data>
   <data name="add_store" xml:space="preserve">
-    <value>أضف المتجر</value>
+    <value>إضافة متجر</value>
   </data>
   <data name="add_supplier" xml:space="preserve">
     <value>إضافة مورد</value>
   </data>
   <data name="add_user" xml:space="preserve">
-    <value>إضافة المستخدم</value>
+    <value>إضافة مستخدم</value>
   </data>
   <data name="amount" xml:space="preserve">
-    <value>كمية</value>
+    <value>المبلغ</value>
   </data>
   <data name="apply_to_order" xml:space="preserve">
-    <value>تنطبق على النظام</value>
+    <value>تطبيق على الطلب</value>
   </data>
   <data name="apply_to_products" xml:space="preserve">
-    <value>تنطبق على المنتجات</value>
+    <value>تطبيق على المنتجات</value>
   </data>
   <data name="backups" xml:space="preserve">
     <value>النسخ الاحتياطية</value>
@@ -163,28 +163,28 @@
     <value>الرصيد</value>
   </data>
   <data name="bill" xml:space="preserve">
-    <value>مشروع قانون</value>
+    <value>فاتورة</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>يلغي</value>
+    <value>إلغاء</value>
   </data>
   <data name="card_type" xml:space="preserve">
     <value>نوع البطاقة</value>
   </data>
   <data name="cash" xml:space="preserve">
-    <value>السيولة النقدية</value>
+    <value>كاش</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>فئات</value>
+    <value>الفئات</value>
   </data>
   <data name="cc" xml:space="preserve">
     <value>نسخة</value>
   </data>
   <data name="cc_holder" xml:space="preserve">
-    <value>حامل CC</value>
+    <value>تعليق النسخة</value>
   </data>
   <data name="cc_no" xml:space="preserve">
-    <value>CC لا</value>
+    <value>رقم النسخة</value>
   </data>
   <data name="cf1" xml:space="preserve">
     <value>CF1</value>
@@ -193,7 +193,7 @@
     <value>CF2</value>
   </data>
   <data name="cheque" xml:space="preserve">
-    <value>التحقق من</value>
+    <value>شيك</value>
   </data>
   <data name="cheque_no" xml:space="preserve">
     <value>رقم الشيك</value>
@@ -229,7 +229,7 @@
     <value>تصفية حسب المرجع</value>
   </data>
   <data name="focus_swipe_here" xml:space="preserve">
-    <value>التركيز اسحب هنا</value>
+    <value>إسحب هنا</value>
   </data>
   <data name="gift_card" xml:space="preserve">
     <value>كرت هدية</value>
@@ -241,7 +241,7 @@
     <value>رقم بطاقة الهدايا</value>
   </data>
   <data name="hold" xml:space="preserve">
-    <value>معلق</value>
+    <value>تعليق</value>
   </data>
   <data name="import_categories" xml:space="preserve">
     <value>فئات الاستيراد</value>
@@ -250,7 +250,7 @@
     <value>استيراد المنتجات</value>
   </data>
   <data name="lblWelcomePOS" xml:space="preserve">
-    <value>مرحبا بك في نظام نقطة البيع</value>
+    <value>مرحبا بك في نظام نقاط البيع</value>
   </data>
   <data name="list_categories" xml:space="preserve">
     <value>قائمة الفئات</value>
@@ -265,7 +265,7 @@
     <value>قائمة بطاقات الهدايا</value>
   </data>
   <data name="list_opened_bills" xml:space="preserve">
-    <value>قائمة مشاريع القوانين المفتوحة</value>
+    <value>قائمة الفواتير المفتوحة</value>
   </data>
   <data name="list_products" xml:space="preserve">
     <value>قائمة المنتجات</value>
@@ -286,7 +286,7 @@
     <value>تسجيل الدخول</value>
   </data>
   <data name="master_card" xml:space="preserve">
-    <value>بطاقة ماستر بطاقة ائتمان</value>
+    <value>ماستر كارد</value>
   </data>
   <data name="merchant_copy" xml:space="preserve">
     <value>نسخة التاجر</value>
@@ -298,10 +298,10 @@
     <value>السعر الصافي</value>
   </data>
   <data name="new_price" xml:space="preserve">
-    <value>سعر جديد</value>
+    <value>السعر الجديد</value>
   </data>
   <data name="note" xml:space="preserve">
-    <value>ملحوظة</value>
+    <value>ملاحظات</value>
   </data>
   <data name="order" xml:space="preserve">
     <value>ترتيب</value>
@@ -310,10 +310,10 @@
     <value>ضريبة الطلب</value>
   </data>
   <data name="other" xml:space="preserve">
-    <value>آخر</value>
+    <value>أخرى</value>
   </data>
   <data name="payment" xml:space="preserve">
-    <value>قسط</value>
+    <value>دفع</value>
   </data>
   <data name="payment_note" xml:space="preserve">
     <value>مذكرة الدفع</value>
@@ -331,13 +331,13 @@
     <value>غير قادر على الاتصال بالمقبس ، يرجى التأكد من أن الخادم يعمل بشكل جيد.</value>
   </data>
   <data name="price" xml:space="preserve">
-    <value>سعر</value>
+    <value>السعر</value>
   </data>
   <data name="printers" xml:space="preserve">
     <value>طابعات</value>
   </data>
   <data name="print_barcodes" xml:space="preserve">
-    <value>طباعة الرموز الشريطية</value>
+    <value>طباعة باركود</value>
   </data>
   <data name="print_bill" xml:space="preserve">
     <value>طباعة الفاتورة</value>
@@ -376,7 +376,7 @@
     <value>ابحث عن المنتج بالرمز أو الاسم ، ويمكنك أيضًا مسح الرمز الشريطي ضوئيًا</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
-    <value>اختار اللغة</value>
+    <value>اختر اللغة</value>
   </data>
   <data name="sell_gift_card" xml:space="preserve">
     <value>بيع بطاقة الهدايا</value>
@@ -391,19 +391,19 @@
     <value>شريط</value>
   </data>
   <data name="submit" xml:space="preserve">
-    <value>يقدم</value>
+    <value>تقديم</value>
   </data>
   <data name="subtotal" xml:space="preserve">
     <value>المجموع الفرعي</value>
   </data>
   <data name="suspend_sale" xml:space="preserve">
-    <value>تعليق البيع</value>
+    <value>تعليق عملية البيع</value>
   </data>
   <data name="tax_title" xml:space="preserve">
     <value>الضريبة (5 أو 5٪)</value>
   </data>
   <data name="today_sale" xml:space="preserve">
-    <value>تخفيضات اليوم</value>
+    <value>مبيعات اليوم</value>
   </data>
   <data name="total" xml:space="preserve">
     <value>المجموع</value>
