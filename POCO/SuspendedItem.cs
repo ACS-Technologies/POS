@@ -23,5 +23,8 @@ namespace POCO
         public string Product_code { get; set; }
         public string Product_name { get; set; }
         public string Comment { get; set; }
+        public int? UnitId { get; set; }
+        public int? TaxClassificationNo { get; set; }
+        
     }
 }

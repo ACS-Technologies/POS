@@ -182,8 +182,11 @@ namespace DBL
                             oSaleItems.Product_name = ds.Tables[1].Rows[i]["Product_name"].ToString();
                             oSaleItems.Comment = ds.Tables[1].Rows[i]["Comment"].ToString();
                             oSaleItems.Subtotal = decimal.Parse(ds.Tables[1].Rows[i]["Subtotal"].ToString());
+                            if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["TaxClassificationNo"].ToString()))
+                                oSaleItems.TaxClassificationNo = int.Parse(ds.Tables[1].Rows[i]["TaxClassificationNo"].ToString());
 
-
+                            if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["UnitId"].ToString()))
+                                oSaleItems.UnitId = int.Parse(ds.Tables[1].Rows[i]["UnitId"].ToString());
                             if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["Real_unit_price"].ToString()))
                                 oSaleItems.Real_unit_price = decimal.Parse(ds.Tables[1].Rows[i]["Real_unit_price"].ToString());
 
@@ -415,22 +418,90 @@ namespace DBL
             }
             return oPayments;
         }
-        public decimal M_Salse_GrandTotal_Get(int UserId, int StoreId)
+        public Sales M_Salse_GrandTotal_Get(int UserId, int StoreId)
         {
             DataSet ds = new DataSet();
-            Payments oPayments = new Payments();
+            Sales oSales = new Sales();
+
             ds = oSalesDAL.M_Salse_GrandTotal_Get(UserId, StoreId);
-            decimal Grand_Total = 0;
             if (ds.Tables.Count > 0)
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    Grand_Total = decimal.Parse(ds.Tables[0].Rows[0]["Grand_Total"].ToString());
-
+                    oSales.Grand_total = decimal.Parse(ds.Tables[0].Rows[0]["Grand_Total"].ToString());
+                    oSales.Total = decimal.Parse(ds.Tables[0].Rows[0]["Total"].ToString());
+                    oSales.Total_tax = decimal.Parse(ds.Tables[0].Rows[0]["Total_tax"].ToString());
+                    oSales.Total_discount = decimal.Parse(ds.Tables[0].Rows[0]["Total_discount"].ToString());
                 }
 
             }
-            return Grand_Total;
+            return oSales;
+        }
+        public List<Sales> M_Salse_PaymentMethod_Payment(int UserId, int StoreId)
+        {
+            DataSet ds = new DataSet();
+            Sales oSales = new Sales();
+            List<Sales> oLSales = new List<Sales>();
+            ds = oSalesDAL.M_Salse_PaymentMethod_Payment(UserId, StoreId);
+            if (ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    oSales = new Sales();
+                    oSales.Grand_total = decimal.Parse(ds.Tables[0].Rows[i]["Grand_Total"].ToString());
+                    oSales.Total = decimal.Parse(ds.Tables[0].Rows[i]["Total"].ToString());
+                    oSales.Total_tax = decimal.Parse(ds.Tables[0].Rows[i]["Total_tax"].ToString());
+                    oSales.Total_discount = decimal.Parse(ds.Tables[0].Rows[i]["Total_discount"].ToString());
+                    oSales.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                    oLSales.Add(oSales);
+                }
+
+            }
+            return oLSales;
+        }
+        public List<SaleItems> M_Sales_GetAllRegister(int UserId, int StoreId)
+        {
+            DataSet ds = new DataSet();
+            SaleItems oSaleItems;
+            List<SaleItems> oLSales = new List<SaleItems>();
+            ds = oSalesDAL.M_Sales_GetAllRegister(UserId,  StoreId);
+            if (ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    oSaleItems = new SaleItems();
+                    oSaleItems.Id = int.Parse(ds.Tables[0].Rows[i]["Id"].ToString());
+                    oSaleItems.Sale_id = int.Parse(ds.Tables[0].Rows[i]["Sale_id"].ToString());
+                    oSaleItems.Product_id = int.Parse(ds.Tables[0].Rows[i]["Product_id"].ToString());
+                    oSaleItems.Quantity = decimal.Parse(ds.Tables[0].Rows[i]["Quantity"].ToString());
+                    oSaleItems.Unit_price = decimal.Parse(ds.Tables[0].Rows[i]["Unit_price"].ToString());
+                    oSaleItems.Net_unit_price = decimal.Parse(ds.Tables[0].Rows[i]["Net_unit_price"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Tax"].ToString()))
+                        oSaleItems.Tax = int.Parse(ds.Tables[0].Rows[i]["Tax"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Item_tax"].ToString()))
+                        oSaleItems.Item_tax = decimal.Parse(ds.Tables[0].Rows[i]["Item_tax"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Item_discount"].ToString()))
+                        oSaleItems.Item_discount = decimal.Parse(ds.Tables[0].Rows[i]["Item_discount"].ToString());
+                    oSaleItems.Discount = ds.Tables[0].Rows[i]["Discount"].ToString();
+                    oSaleItems.Product_code = ds.Tables[0].Rows[i]["Product_code"].ToString();
+                    oSaleItems.Product_name = ds.Tables[0].Rows[i]["Product_name"].ToString();
+                    oSaleItems.Comment = ds.Tables[0].Rows[i]["Comment"].ToString();
+                    oSaleItems.Subtotal = decimal.Parse(ds.Tables[0].Rows[i]["Subtotal"].ToString());
+
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Real_unit_price"].ToString()))
+                        oSaleItems.Real_unit_price = decimal.Parse(ds.Tables[0].Rows[i]["Real_unit_price"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["UnitId"].ToString()))
+                        oSaleItems.UnitId = int.Parse(ds.Tables[0].Rows[i]["UnitId"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString()))
+                        oSaleItems.TaxClassificationNo = int.Parse(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Cost"].ToString()))
+                        oSaleItems.Cost = decimal.Parse(ds.Tables[0].Rows[i]["Cost"].ToString());
+
+                    oLSales.Add(oSaleItems);
+                }
+            }
+            return oLSales;
         }
         #endregion
     }
