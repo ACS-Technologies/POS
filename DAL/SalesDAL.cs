@@ -266,6 +266,26 @@ namespace DAL
 
             return ExDataBase_returnDataSet(cmd);
         }
+        public DataSet M_Salse_PaymentMethod_Payment(int UserId, int StoreId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_Salse_PaymentMethod_Paymet";
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@StoreId", StoreId);
+
+
+            return ExDataBase_returnDataSet(cmd);
+        }
+        public DataSet M_Sales_GetAllRegister(int? UserId,int StoreId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_Sales_GetAllRegister";
+            cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@StoreId", StoreId);
+            cmd.Parameters.AddWithValue("@Date", DateTime.Now.ToString("yyyy-MM-dd hh:mm tt"));
+            return ExDataBase_returnDataSet(cmd);
+        }
         #endregion
     }
 }

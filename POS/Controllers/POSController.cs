@@ -249,14 +249,14 @@ namespace POS.Controllers
             main.Registers = oRegistersDBL.M_RegisterByUserIdAndStoreId_Get(main.BranchId, userId);
             return View(main);
         }
-        public JsonResult GetGrandTotal()
+        public JsonResult Get_PaymentMethod_Paid()
         {
             int userId = SessionManager.GetSessionUserInfo.UserID; 
             int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             var oSalesDBL = new SalesDBL();
-           decimal GrandTotal=   oSalesDBL.M_Salse_GrandTotal_Get(userId, BranchId);
-            return Json(GrandTotal.ToString("0.00"), JsonRequestBehavior.AllowGet);
+         List<Sales> oLSales =   oSalesDBL.M_Salse_PaymentMethod_Payment(userId, BranchId);
+            return Json(oLSales, JsonRequestBehavior.AllowGet);
 
 
         }

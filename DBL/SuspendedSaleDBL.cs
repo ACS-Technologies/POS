@@ -171,8 +171,10 @@ namespace DBL
                             oSuspendedItem.Product_name = ds.Tables[1].Rows[i]["Product_name"].ToString();
                             oSuspendedItem.Comment = ds.Tables[1].Rows[i]["Comment"].ToString();
                             oSuspendedItem.Subtotal = decimal.Parse(ds.Tables[1].Rows[i]["Subtotal"].ToString());
-
-
+                            if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["TaxClassificationNo"].ToString()))
+                                oSuspendedItem.TaxClassificationNo = int.Parse(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString());
+                            if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["UnitId"].ToString()))
+                                oSuspendedItem.UnitId = int.Parse(ds.Tables[1].Rows[i]["UnitId"].ToString());
                             if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["Real_unit_price"].ToString()))
                                 oSuspendedItem.Real_unit_price = decimal.Parse(ds.Tables[1].Rows[i]["Real_unit_price"].ToString());
 

@@ -458,7 +458,7 @@
     </div>
 
     <div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
-    @if (Model.Registers.Status == "close" || Model.Registers.Status == "")
+    @if (Model.Registers.Status == "close" || Model.Registers.Status == null)
     {
         <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -594,21 +594,25 @@
                                     </h4>
                                 </td>
                             </tr>
-                            <tr>
-                                <td style="border-bottom: 1px solid #EEE;"><h4> Sales:</h4></td>
-                                <td style="text-align:right; border-bottom: 1px solid #EEE;">
-                                    <h4>
-                                        <span id="grandtotal"></span>
-                                    </h4>
-                                </td>
-                            </tr>
+                            @foreach (var item in Model.PaymentMethod)
+                            {
+                                <tr>
+                                    <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
+                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                        <h4>
+                                            <span id="P_@item.MethodId">0.00</span>
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+
                             <tr>
                                 <td width="300px" style="font-weight:bold;">
                                     <h4><strong>Total Cash</strong>:</h4>
                                 </td>
                                 <td style="text-align:right;">
                                     <h4>
-                                        <span><strong id="totalcash"></strong></span>
+                                        <span><strong id="totalcash">0.00</strong></span>
                                     </h4>
                                 </td>
                             </tr>
@@ -1014,6 +1018,7 @@
                             item["Tax"] = data[i].taxRate;
                             item["Service"] = data[i].Service;
                             item["UnitId"] = data[i].UnitId;
+                            item["TaxClassificationNo"] = data[i].TaxClassificationNo;
                             jsonObj.push(item);
 
                         }
@@ -1038,9 +1043,9 @@
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
-                            $("#emptyitems").append('<button type="button" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
                         } else {
-                            $("#emptyitems").append('<button type="button" data-unitid="'+data[i].UnitId+'"  data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'"  data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
                         }
                     }
 
@@ -1212,15 +1217,20 @@
         function GetGrandTotal() {
          $.ajax({
               type: 'get',
-              url: "@Url.Action("GetGrandTotal", "POS")" ,
+              url: "@Url.Action("Get_PaymentMethod_Paid", "POS")" ,
               contentType: 'application/json',
               dataType: 'json',
               data: {},
                 success: function (data) {
                     debugger
-                    $('#grandtotal').html(parseFloat(data))
-                    var total=@Model.Registers.Cash_in_hand +parseFloat(data);
-                    $('#totalcash').html(total);
+                    var total=0
+                    for (var i = 0; i < data.length; i++) {
+                        total += data[i].Grand_total;
+                        $("#P_" + data[i].Status).html(parseFloat(data[i].Grand_total));
+                    }
+                    //$('#grandtotal').html(parseFloat(data[i].Grand_total))
+                    var totalhand=@Model.Registers.Cash_in_hand +parseFloat(total);
+                    $('#totalcash').html(totalhand);
                      $('#closeRegisterModal').modal()
                         }
             });
