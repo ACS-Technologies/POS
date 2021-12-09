@@ -457,6 +457,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome To POS System.
+        /// </summary>
+        internal static string lblWelcomePOS {
+            get {
+                return ResourceManager.GetString("lblWelcomePOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List Categories.
         /// </summary>
         internal static string list_categories {

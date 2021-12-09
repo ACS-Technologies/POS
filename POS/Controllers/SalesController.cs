@@ -92,6 +92,7 @@ namespace POS.Controllers
         public ActionResult Insert(Sales PoSales)
         {
             result = new ResultJson();
+            var oSuspendedSaleDBL = new SuspendedSaleDBL();
             int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
@@ -134,6 +135,8 @@ namespace POS.Controllers
                     oSalesDBL.D_Task_Insert(item);
                 }
 
+                         
+                oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
                 return Json(result);
 
             }

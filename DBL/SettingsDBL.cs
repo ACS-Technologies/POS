@@ -571,5 +571,76 @@ namespace DBL
             }
             return oSettings;
         }
+        public SettingAccounts M_SettingAccounts_InsertOrUpdate(SettingAccounts PoSettings)
+        {
+            DataSet ds = new DataSet();
+            SettingAccounts oSettingAccounts = new SettingAccounts();
+            SettingsDAL oSettingsDAL = new SettingsDAL();
+
+            ds = oSettingsDAL.M_SettingAccounts_InsertOrUpdate( PoSettings.BranchId, PoSettings.CachAccountId, PoSettings.TaxAccountId, PoSettings.SalesAccountId, PoSettings.TransTypeNo );
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["BranchId"].ToString()))
+                        oSettingAccounts.BranchId = int.Parse(ds.Tables[0].Rows[0]["BranchId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["ID"].ToString()))
+                        oSettingAccounts.ID = int.Parse(ds.Tables[0].Rows[0]["ID"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CachAccountId"].ToString()))
+                        oSettingAccounts.CachAccountId = int.Parse(ds.Tables[0].Rows[0]["CachAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TaxAccountId"].ToString()))
+                        oSettingAccounts.TaxAccountId = int.Parse(ds.Tables[0].Rows[0]["TaxAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["SalesAccountId"].ToString()))
+                        oSettingAccounts.SalesAccountId = int.Parse(ds.Tables[0].Rows[0]["SalesAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TransTypeNo"].ToString()))
+                        oSettingAccounts.TransTypeNo = int.Parse(ds.Tables[0].Rows[0]["TransTypeNo"].ToString());
+
+                }
+
+            }
+            return oSettingAccounts;
+        }
+        public SettingAccounts GetSettingAccountsByBranchId(int BranchId)
+        {
+            DataSet ds = new DataSet();
+            SettingAccounts oSettingAccounts = new SettingAccounts();
+            SettingsDAL oSettingsDAL = new SettingsDAL();
+
+            ds = oSettingsDAL.GetSettingAccountsByBranchId(BranchId);
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["BranchId"].ToString()))
+                        oSettingAccounts.BranchId = int.Parse(ds.Tables[0].Rows[0]["BranchId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["ID"].ToString()))
+                        oSettingAccounts.ID = int.Parse(ds.Tables[0].Rows[0]["ID"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["CachAccountId"].ToString()))
+                        oSettingAccounts.CachAccountId = int.Parse(ds.Tables[0].Rows[0]["CachAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TaxAccountId"].ToString()))
+                        oSettingAccounts.TaxAccountId = int.Parse(ds.Tables[0].Rows[0]["TaxAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["SalesAccountId"].ToString()))
+                        oSettingAccounts.SalesAccountId = int.Parse(ds.Tables[0].Rows[0]["SalesAccountId"].ToString());
+
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TransTypeNo"].ToString()))
+                        oSettingAccounts.TransTypeNo = int.Parse(ds.Tables[0].Rows[0]["TransTypeNo"].ToString());
+
+                }
+
+            }
+            return oSettingAccounts;
+       
+        }
     }
 }

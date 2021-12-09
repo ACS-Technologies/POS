@@ -91,22 +91,26 @@ namespace POS.Controllers
         public ActionResult Insert(SuspendedSale PoSuspendedSale)
         {
             result = new ResultJson();
-
+            int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
             {
                 oSuspendedSaleDBL = new SuspendedSaleDBL();
                 result.IsSuccess = true;
+
                 PoSuspendedSale.Created_by = SessionManager.GetSessionUserInfo.UserID;
                 PoSuspendedSale.Date = DateTime.Now;
+
                 PoSuspendedSale.Product_discount = PoSuspendedSale.SuspendedItems.Sum(x => x.Item_discount);
                 PoSuspendedSale.Total_discount = PoSuspendedSale.Product_discount;
                 PoSuspendedSale.Product_tax = PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
-                PoSuspendedSale.Total = PoSuspendedSale.SuspendedItems.Sum(x => x.Net_unit_price) + (decimal)PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
+                PoSuspendedSale.Total = PoSuspendedSale.SuspendedItems.Sum(x => x.Subtotal);
                 PoSuspendedSale.Grand_total = PoSuspendedSale.Total + (decimal)PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
                 PoSuspendedSale.Order_tax_id = "15%";
                 PoSuspendedSale.Order_tax = 0;
                 PoSuspendedSale.Total_tax = PoSuspendedSale.Product_tax + PoSuspendedSale.Order_tax;
                 PoSuspendedSale.Total_items = PoSuspendedSale.SuspendedItems.Count;
+                PoSuspendedSale.Store_id = BranchId;
                 result.Data = oSuspendedSaleDBL.M_Store_Insert(PoSuspendedSale);
                 return Json(result);
 

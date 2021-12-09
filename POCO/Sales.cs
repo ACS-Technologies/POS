@@ -41,5 +41,6 @@ namespace POCO
         public List<SaleItems> SaleItems { get; set; }
         public List<Task> Tasks { get; set; }
 
+        public int Hold_Id { get; set; }
     }
 }

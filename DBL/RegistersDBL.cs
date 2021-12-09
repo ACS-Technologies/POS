@@ -39,21 +39,47 @@ namespace DBL
             }
             return oRegisters;
         }
-        public string M_RegisterStatus_Get(int Store_Id, int User_Id)
+        public Registers CloseRegister(Registers Poegisters)
         {
             DataSet ds = new DataSet();
-            ds = oRegistersDAL.M_RegisterStatus_Get(Store_Id, User_Id);
-            string Status = "close";
+            Registers oRegisters = new Registers();
+            ds = oRegistersDAL.M_Register_CloseRegister((int)Poegisters.Closed_by, Poegisters.Store_id, Poegisters.Status);
+
             if (ds.Tables.Count > 0)
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-
-                    Status = ds.Tables[0].Rows[0]["Status"].ToString();
+                    oRegisters.Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
+                    oRegisters.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                    oRegisters.Cash_in_hand = decimal.Parse(ds.Tables[0].Rows[0]["Cash_in_hand"].ToString());
+                    oRegisters.UserId = int.Parse(ds.Tables[0].Rows[0]["User_id"].ToString());
+                    oRegisters.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
+                    oRegisters.Status = ds.Tables[0].Rows[0]["Status"].ToString();
                 }
 
             }
-            return Status;
+            return oRegisters;
+        }
+        public Registers M_RegisterByUserIdAndStoreId_Get(int Store_Id, int User_Id)
+        {
+            DataSet ds = new DataSet();
+            Registers oRegisters = new Registers();
+            ds = oRegistersDAL.M_RegisterByUserIdAndStoreId_Get(Store_Id, User_Id);
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    oRegisters.Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
+                    oRegisters.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                    oRegisters.Cash_in_hand = decimal.Parse(ds.Tables[0].Rows[0]["Cash_in_hand"].ToString());
+                    oRegisters.UserId = int.Parse(ds.Tables[0].Rows[0]["User_id"].ToString());
+                    oRegisters.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
+                    oRegisters.Status = ds.Tables[0].Rows[0]["Status"].ToString();
+                }
+
+            }
+            return oRegisters;
         }
     }
 }
