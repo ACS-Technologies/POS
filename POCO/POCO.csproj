@@ -74,6 +74,7 @@
     <Compile Include="Supplier.cs" />
     <Compile Include="SuspendedItem.cs" />
     <Compile Include="SuspendedSale.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="TransTable.cs" />
     <Compile Include="TransTypeTable.cs" />
     <Compile Include="TransTypeUD.cs" />
