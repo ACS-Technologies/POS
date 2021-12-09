@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DBL
 {
@@ -416,6 +415,17 @@ namespace DBL
             return oPayments;
         }
 
+        #endregion
+
+
+        #region Tasks
+
+        public void D_Task_Insert(Task PoTask)
+        {
+            DataSet ds = new DataSet();
+            ds = oSalesDAL.D_Task_Insert(PoTask.Title, PoTask.Status, PoTask.FromDate, PoTask.ToDate, PoTask.Description, PoTask.FromUserId, PoTask.ToUserId,
+                PoTask.CompanyId, PoTask.BranchId, PoTask.Type);
+        }
         #endregion
     }
 }

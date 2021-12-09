@@ -9,6 +9,7 @@ namespace POCO
         {
             SaleItems = new List<SaleItems>();
             Payments = new Payments();
+            Tasks = new List<Task>();
         }
              
         public int Id { get; set; }
@@ -38,6 +39,7 @@ namespace POCO
         public string Hold_ref { get; set; }
         public Payments Payments { get; set; }
         public List<SaleItems> SaleItems { get; set; }
+        public List<Task> Tasks { get; set; }
 
     }
 }

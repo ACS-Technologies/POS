@@ -117,6 +117,23 @@ namespace POS.Controllers
                 }
 
                 result.Data = oSalesDBL.M_Store_Insert(PoSales);
+
+
+                var userId = SessionManager.GetSessionUserInfo.UserID;
+
+               
+                foreach (var item in PoSales.Tasks)
+                {
+                    item.FromUserId = userId;
+                    item.Status = 1;
+                    item.CompanyId = CompanyId;
+                    item.BranchId = BranchId;
+                    item.Type = 2;
+                    item.RelatedId = ((Sales)result.Data).Id;
+                    //item.ToUserId = item;
+                    oSalesDBL.D_Task_Insert(item);
+                }
+
                 return Json(result);
 
             }

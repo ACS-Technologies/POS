@@ -257,5 +257,29 @@ namespace DAL
             return ExDataBase_returnDataSet(cmd);
         }
         #endregion
+
+        #region Task
+
+        public DataSet D_Task_Insert(string Title, int Status, DateTime FromDate, DateTime ToDate, string Description, int FromUserId,
+             int ToUserId, int CompanyId, int BranchId, int Type, int? RelatedId = null)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "D_Task_Insert";
+            cmd.Parameters.AddWithValue("@Title", Title);
+            cmd.Parameters.AddWithValue("@Status", Status);
+            cmd.Parameters.AddWithValue("@FromDate", FromDate);
+            cmd.Parameters.AddWithValue("@ToDate", ToDate);
+            cmd.Parameters.AddWithValue("@Description", Description);
+            cmd.Parameters.AddWithValue("@FromUserId", FromUserId);
+            cmd.Parameters.AddWithValue("@ToUserId", ToUserId);
+            cmd.Parameters.AddWithValue("@CompanyId", CompanyId);
+            cmd.Parameters.AddWithValue("@BranchId", BranchId);
+            cmd.Parameters.AddWithValue("@Type", Type);
+            cmd.Parameters.AddWithValue("@RelatedId", RelatedId);
+
+            return ExDataBase_returnDataSet(cmd);
+        }
+
+        #endregion
     }
 }
