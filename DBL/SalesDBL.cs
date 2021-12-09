@@ -459,6 +459,29 @@ namespace DBL
             }
             return oLSales;
         }
+        public List<Sales> M_Salse_Get_TodaySales( int StoreId)
+        {
+            DataSet ds = new DataSet();
+            Sales oSales = new Sales();
+            List<Sales> oLSales = new List<Sales>();
+            ds = oSalesDAL.M_Salse_Get_TodaySales( StoreId);
+            if (ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    oSales = new Sales();
+                    oSales.Grand_total = decimal.Parse(ds.Tables[0].Rows[i]["Grand_Total"].ToString());
+                    oSales.Total = decimal.Parse(ds.Tables[0].Rows[i]["Total"].ToString());
+                    oSales.Total_tax = decimal.Parse(ds.Tables[0].Rows[i]["Total_tax"].ToString());
+                    oSales.Total_discount = decimal.Parse(ds.Tables[0].Rows[i]["Total_discount"].ToString());
+                    oSales.Status = ds.Tables[0].Rows[i]["Status"].ToString();
+                    oLSales.Add(oSales);
+                }
+
+            }
+            return oLSales;
+        }
+        
         public List<SaleItems> M_Sales_GetAllRegister(int UserId, int StoreId)
         {
             DataSet ds = new DataSet();

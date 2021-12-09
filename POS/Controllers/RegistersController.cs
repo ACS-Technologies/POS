@@ -135,7 +135,7 @@ namespace POS.Controllers
                     oTransTypeUD.AccountNo = (AccountTable.Where(x => x.ID == SettingAccounts.SalesAccountId).FirstOrDefault().AccountNo).ToString();
                     oTransTypeUD.TranTypeNo = (Int64)SettingAccounts.TransTypeNo;
                     oTransTypeUD.CurrencyID = Branch.CurrencyIDH;
-                    oTransTypeUD.CAmount = Sales.Total;
+                    oTransTypeUD.CAmount = Sales.Total- (decimal)Sales.Total_discount;
                     oTransTypeUD.HeaderNotes = "";
                     oTransTypeUD.TranDate = DateTime.Now;
                     oTransTypeUD.CreateDate = DateTime.Now;
@@ -169,7 +169,7 @@ namespace POS.Controllers
                         List<AccountSalesDetails> accountSalesDetails = new List<AccountSalesDetails>();
                         AccountSalesDetails accountSales = new AccountSalesDetails(); 
                            var oTransTable1 = JsonConvert.DeserializeObject<List<TransTable>>(JsonConvert.SerializeObject(response2.ResponseDetails));
-                        AccountSalesMaster AccountSalesMaster = new AccountSalesMaster() { AccSalesTypeNo = SettingAccounts.TransTypeNo, AccSalesNo = (decimal)oTransTable1.FirstOrDefault().TranNo, AccSalesBranch = BranchId, AccSalesDate = DateTime.Now.Date, Total = Sales.Total, CAccountNo = oGetSalesInvoiceSettings.FirstOrDefault().POSCustomer, DAccountNo = oGetSalesInvoiceSettings.FirstOrDefault().POSCustomer, Discount = (decimal)Sales.Total_discount, Net = (decimal)Sales.Total_tax + (decimal)((Sales.Total - Sales.Total_discount) + Sales.Total_tax), Tax = (decimal)Sales.Total_tax, Final = (decimal)((Sales.Total - Sales.Total_discount) + Sales.Total_tax), CurrencyID = Branch.CurrencyIDH, Currency = Branch.CurrencyIDH, UserId = model.Closed_by.ToString(), PaymentTerms = 45,InvoiceType=1 };
+                        AccountSalesMaster AccountSalesMaster = new AccountSalesMaster() { AccSalesTypeNo = SettingAccounts.TransTypeNo, AccSalesNo = (decimal)oTransTable1.FirstOrDefault().TranNo, AccSalesBranch = BranchId, AccSalesDate = DateTime.Now.Date, Total = Sales.Total, CAccountNo = oGetSalesInvoiceSettings.FirstOrDefault().POSCustomer, DAccountNo = oGetSalesInvoiceSettings.FirstOrDefault().POSCustomer, Discount = (decimal)Sales.Total_discount, Net = (decimal)Sales.Grand_total+ (decimal)Sales.Total_tax, Tax = (decimal)Sales.Total_tax, Final = (decimal)Sales.Grand_total, CurrencyID = Branch.CurrencyIDH, Currency = Branch.CurrencyIDH, UserId = model.Closed_by.ToString(), PaymentTerms = 45,InvoiceType=1 };
                         foreach (var item in oSaleItems)
                         {
                             accountSales = new AccountSalesDetails();
@@ -180,7 +180,7 @@ namespace POS.Controllers
                             accountSales.Discount =(decimal)item.Item_discount;
                             accountSales.TaxValue = (decimal)item.Item_tax;
                             accountSales.Total = (decimal)item.Subtotal;
-                            accountSales.Final = (accountSales.Total - accountSales.Discount) + accountSales.TaxValue ;
+                            accountSales.Final = (accountSales.Total - accountSales.Discount) ;
                             accountSales.Price = (decimal)item.Real_unit_price;
                             accountSales.KeyId = Guid.NewGuid().ToString();
                             accountSales.TaxClassificationId = item.TaxClassificationNo;

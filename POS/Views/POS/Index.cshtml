@@ -239,7 +239,7 @@
                     <li><a href="#" data-toggle="modal" data-target="#settingsModal"><i class="fa fa-cogs"></i></a></li>
                     <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
                     <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
-                    <li><a href="@Url.Action("today_sale","POS")" data-toggle="modal" data-target="#todaySalesModal">@Resources.Default.today_sale</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#" onclick="GetTodaySales()">@Resources.Default.today_sale</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#" onclick="GetGrandTotal()">@Resources.Default.close_register</a></li>
                     <li class="dropdown notifications-menu" id="suspended_sales">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -631,67 +631,29 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Today's Sale (Thu 2 Dec 2021)</h4>
+                    <h4 class="modal-title" id="myModalLabel">Today's Sale (@DateTime.Now.Date.ToString("dd-MM-yyyy"))</h4>
                 </div>
                 <div class="modal-body">
                     <table width="100%" class="stable">
                         <tbody>
+                            @foreach (var item in Model.PaymentMethod)
+                            {
+                                <tr>
+                                    <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
+                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                        <h4>
+                                            <span id="Pt_@item.MethodId">0.00</span>
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
                             <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Cash Sales:</h4></td>
-                                <td style="text-align:right; border-bottom: 1px solid #008d4c;">
-                                    <h4>
-                                        <span>182.70 (182.70)</span>
-                                    </h4>
+                                <td width="300px" style="font-weight:bold;">
+                                    <h4><strong>Total Cash</strong>:</h4>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Cheque Sales:</h4></td>
-                                <td style="text-align:right;border-bottom: 1px solid #008d4c;">
+                                <td style="text-align:right;">
                                     <h4>
-                                        <span>0.00 (0.00)</span>
-                                    </h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Credit Card Sales:</h4></td>
-                                <td style="text-align:right;border-bottom: 1px solid #008d4c;">
-                                    <h4>
-                                        <span>0.00 (0.00)</span>
-                                    </h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Gift Card Sales:</h4></td>
-                                <td style="text-align:right;border-bottom: 1px solid #008d4c;">
-                                    <h4>
-                                        <span>0.00 (0.00)</span>
-                                    </h4>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Stripe:</h4></td>
-                                <td style="text-align:right;border-bottom: 1px solid #008d4c;">
-                                    <h4>
-                                        <span>0.00 (0.00)</span>
-                                    </h4>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td style="border-bottom: 1px solid #008d4c;"><h4>Others:</h4></td>
-                                <td style="text-align:right;border-bottom: 1px solid #008d4c;">
-                                    <h4>
-                                        <span>0.00 (0.00)</span>
-                                    </h4>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td width="300px" style="font-weight:bold;"><h4>Total Sales:</h4></td>
-                                <td width="200px" style="font-weight:bold;text-align:right;">
-                                    <h4>
-                                        <span>182.70 (182.70)</span>
+                                        <span><strong id="todaytotalcash">0.00</strong></span>
                                     </h4>
                                 </td>
                             </tr>
@@ -1027,8 +989,24 @@
                     }
                 });
             }
-            else {
-                jsonObj = JSON.parse(get('Items'));
+            else {               
+               var  JsonArr = JSON.parse(get('Items'));
+                 for (var i = 0; i < JsonArr.length; i++) {
+                            var item = [];
+                            item["id"] = JsonArr[i].ItemId;
+                            item["Product_id"] = JsonArr[i].ItemId;
+                            item["Product_name"] = JsonArr[i].ItemPrimaryName + "-" + JsonArr[i].ItemBarcode;
+                            item["label"] = JsonArr[i].ItemPrimaryName + "-" + JsonArr[i].ItemBarcode;
+                            item["Quantity"] = 1;
+                            item["Product_code"] = JsonArr[i].ItemBarcode;
+                            item["Price"] = JsonArr[i].Price;
+                            item["Tax"] = JsonArr[i].taxRate;
+                            item["Service"] = JsonArr[i].Service;
+                            item["UnitId"] = JsonArr[i].UnitId;
+                            item["TaxClassificationNo"] = JsonArr[i].TaxClassificationNo;
+                            jsonObj.push(item);
+
+                        }
             }
 
         });
@@ -1232,6 +1210,25 @@
                     var totalhand=@Model.Registers.Cash_in_hand +parseFloat(total);
                     $('#totalcash').html(totalhand);
                      $('#closeRegisterModal').modal()
+                        }
+            });
+        }
+        function GetTodaySales() {
+            $.ajax({
+              type: 'get',
+              url: "@Url.Action("Get_TodaySales", "POS")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: {},
+                success: function (data) {
+                    debugger
+                    var total=0
+                    for (var i = 0; i < data.length; i++) {
+                        total += data[i].Grand_total;
+                        $("#Pt_" + data[i].Status).html(parseFloat(data[i].Grand_total));
+                    }
+                    $('#todaytotalcash').html(parseFloat(total));
+                     $('#todaySalesModal').modal()
                         }
             });
         }
