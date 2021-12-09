@@ -260,5 +260,15 @@ namespace POS.Controllers
 
 
         }
+        public JsonResult Get_TodaySales()
+        {
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
+            int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
+            var oSalesDBL = new SalesDBL();
+            List<Sales> oLSales = oSalesDBL.M_Salse_Get_TodaySales(BranchId);
+            return Json(oLSales, JsonRequestBehavior.AllowGet);
+
+
+        }
     }
 }

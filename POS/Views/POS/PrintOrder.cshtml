@@ -175,7 +175,7 @@
                     <tr class="tabletitle">
                         <td></td>
                         <td class="Rate" colspan="2"><h2>Discount</h2></td>
-                        <td class="payment"><h2>@Convert.ToDecimal(Model.Order_discount).ToString("0.00")</h2></td>
+                        <td class="payment"><h2>@Convert.ToDecimal(Model.SaleItems.Sum(x => x.Item_discount)).ToString("0.00")</h2></td>
                     </tr>
                     <tr class="tabletitle">
                         <td></td>
