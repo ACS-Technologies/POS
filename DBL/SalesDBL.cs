@@ -511,7 +511,7 @@ namespace DBL
         {
             DataSet ds = new DataSet();
             ds = oSalesDAL.D_Task_Insert(PoTask.Title, PoTask.Status, PoTask.FromDate, PoTask.ToDate, PoTask.Description, PoTask.FromUserId, PoTask.ToUserId,
-                PoTask.CompanyId, PoTask.BranchId, PoTask.Type);
+                PoTask.CompanyId, PoTask.BranchId, PoTask.Type, PoTask.RelatedId);
         }
         #endregion
     }

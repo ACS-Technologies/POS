@@ -140,7 +140,6 @@
             text-align: left;
             border: none;
             transition: 0.5s;
-            border-radius: 25px
         }
 
             .accordion-btn:after {
@@ -519,7 +518,11 @@
                     <h4 class="modal-title" id="tsModalLabel">@Resources.Default.tax_title</h4>
                 </div>
                 <div class="modal-body">
-                    <input type='text' class='form-control input-sm kb-pad' id='get_ts' onClick='this.select();' value=''>
+                    @*<input type='text' class='form-control input-sm kb-pad' id='get_ts' onClick='this.select();' value=''>*@
+                    <select class="select2 form-control">
+                        <option>15%</option>
+                        <option>10%</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm pull-left" data-dismiss="modal">@Resources.Default.close</button>
@@ -949,13 +952,13 @@
 
                                     @foreach (var branch in parent.BranchWorkshop)
                                     {
-                                        <div class="accordion-btn inner-accord">@branch.PrimaryName</div>
+                                        <div class="accordion-btn inner-accord" onclick="sendTask('@branch.Id','@branch.PrimaryName')">@branch.PrimaryName</div>
                                         <div class="panel">
                                             @foreach (var sub in parent.SubBranchWorkshop)
                                             {
                                                 if (sub.ParentId == branch.Id)
                                                 {
-                                                    <p>@sub.PrimaryName</p>
+                                                    <p onclick="sendTask('@sub.Id','@branch.PrimaryName')">@sub.PrimaryName</p>
 
                                                 }
 
@@ -982,6 +985,7 @@
             $("#close-now").click(function () {
                 $("#OpenRegisterPopup").hide();
             });
+
         });
 
         jsonObj = [];
@@ -1291,7 +1295,10 @@
         document.getElementById("ChequeBankName").value = ChequeBankName;
         document.getElementById("ChequeBank").value = ChequeId;
     }
+        function sendTask(Id, PrimaryName) {
 
+            document.getElementById("AssignId").value = PrimaryName;
+        }
     </script>
 
 
