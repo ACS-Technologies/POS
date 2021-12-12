@@ -107,7 +107,6 @@ namespace POS.Controllers
                 PoSales.Product_tax = PoSales.SaleItems.Sum(x => x.Item_tax) ;
                 PoSales.Total = PoSales.SaleItems.Sum(x => x.Subtotal) ;
                 PoSales.Grand_total = PoSales.Total- (decimal)PoSales.Total_discount + (decimal)PoSales.SaleItems.Sum(x => x.Item_tax);
-                PoSales.Order_tax_id = "15%";
                 PoSales.Order_tax = 0;
                 PoSales.Total_tax = PoSales.Product_tax + PoSales.Order_tax;
                 PoSales.Total_items = PoSales.SaleItems.Count;
