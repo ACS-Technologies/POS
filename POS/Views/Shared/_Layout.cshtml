@@ -317,11 +317,7 @@
                     <h4 class="modal-title" id="tsModalLabel">@Resources.Default.tax_title</h4>
                 </div>
                 <div class="modal-body">
-                    @*<input type='text' class='form-control input-sm kb-pad' id='get_ts' onClick='this.select();' value=''>*@
-                    <select class="select2 form-control">
-                        <option>15%</option>
-                        <option>10%</option>
-                    </select>
+                    @Html.DropDownList("TaxClassification", new SelectList(Model.TaxClassificationTable, "TaxClassificationNo", "Name"), "----- Select -----", htmlAttributes: new { @class = "form-control select2", style = "width:100%;" })
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm pull-left" data-dismiss="modal">@Resources.Default.close</button>
@@ -705,6 +701,7 @@
 
 
     <script type="text/javascript">
+        var datatax = @Html.Raw(Json.Encode(Model.TaxClassificationTable));
         $(document).ready(function () {
             $("#OpenRegisterPopup").show();
             $("#close-now").click(function () {

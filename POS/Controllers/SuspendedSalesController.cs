@@ -106,7 +106,6 @@ namespace POS.Controllers
                 PoSuspendedSale.Product_tax = PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
                 PoSuspendedSale.Total = PoSuspendedSale.SuspendedItems.Sum(x => x.Subtotal);
                 PoSuspendedSale.Grand_total = PoSuspendedSale.Total + (decimal)PoSuspendedSale.SuspendedItems.Sum(x => x.Item_tax);
-                PoSuspendedSale.Order_tax_id = "15%";
                 PoSuspendedSale.Order_tax = 0;
                 PoSuspendedSale.Total_tax = PoSuspendedSale.Product_tax + PoSuspendedSale.Order_tax;
                 PoSuspendedSale.Total_items = PoSuspendedSale.SuspendedItems.Count;

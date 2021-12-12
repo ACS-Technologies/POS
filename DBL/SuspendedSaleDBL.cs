@@ -172,7 +172,7 @@ namespace DBL
                             oSuspendedItem.Comment = ds.Tables[1].Rows[i]["Comment"].ToString();
                             oSuspendedItem.Subtotal = decimal.Parse(ds.Tables[1].Rows[i]["Subtotal"].ToString());
                             if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["TaxClassificationNo"].ToString()))
-                                oSuspendedItem.TaxClassificationNo = int.Parse(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString());
+                                oSuspendedItem.TaxClassificationNo = int.Parse(ds.Tables[1].Rows[i]["TaxClassificationNo"].ToString());
                             if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["UnitId"].ToString()))
                                 oSuspendedItem.UnitId = int.Parse(ds.Tables[1].Rows[i]["UnitId"].ToString());
                             if (!string.IsNullOrEmpty(ds.Tables[1].Rows[i]["Real_unit_price"].ToString()))
