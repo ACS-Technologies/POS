@@ -517,6 +517,8 @@ namespace DBL
                         oSaleItems.UnitId = int.Parse(ds.Tables[0].Rows[i]["UnitId"].ToString());
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString()))
                         oSaleItems.TaxClassificationNo = int.Parse(ds.Tables[0].Rows[i]["TaxClassificationNo"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Order_tax_id"].ToString()))
+                        oSaleItems.TaxClassificationNo = int.Parse(ds.Tables[0].Rows[i]["Order_tax_id"].ToString());
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Cost"].ToString()))
                         oSaleItems.Cost = decimal.Parse(ds.Tables[0].Rows[i]["Cost"].ToString());
 

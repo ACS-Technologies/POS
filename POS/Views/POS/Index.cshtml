@@ -179,47 +179,423 @@
     </div>
 </div>
 
-<div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
-@if (Model.Registers.Status == "close" || Model.Registers.Status == null)
-{
-    <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Open Register</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        Cash in hand
+    <div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
+    @if (Model.Registers.Status == "close" || Model.Registers.Status == null)
+    {
+        <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Open Register</h4>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group">
-                            <input class="form-control" id="open_reg" />
+                            Cash in hand
+                            <div class="form-group">
+                                <input class="form-control" id="open_reg" />
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="OpenRegister()">Open Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+    <div class="modal" data-easein="flipYIn" id="dsModal" tabindex="-1" role="dialog" aria-labelledby="dsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="dsModalLabel">@Resources.Default.discount_title</h4>
+                </div>
+                <div class="modal-body">
+                    <input type='text' class='form-control input-sm kb-pad' id='get_ds' onClick='this.select();' value=''>
+
+                    <label class="checkbox" for="apply_to_order">
+                        <input type="radio" name="apply_to" value="order" id="apply_to_order" checked="checked" />
+                        @Resources.Default.apply_to_order
+                    </label>
+                    <label class="checkbox" for="apply_to_products">
+                        <input type="radio" name="apply_to" value="products" id="apply_to_products" />
+                        @Resources.Default.apply_to_products
+                    </label>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="OpenRegister()">Open Register</button>
+                    <button type="button" class="btn btn-default btn-sm pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button type="button" id="updateDiscount" class="btn btn-primary btn-sm">@Resources.Default.update</button>
                 </div>
             </div>
         </div>
     </div>
-}
-<div id="BankModal" class="modal" data-easein="flipYIn" tabindex="-1" role="dialog" aria-labelledby="bankModalModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
+
+    <div class="modal" data-easein="flipYIn" id="tsModal" tabindex="-1" role="dialog" aria-labelledby="tsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="tsModalLabel">Tax</h4>
+                </div>
+                <div class="modal-body">
+                    @*<input type='text' class='form-control input-sm kb-pad' id='get_ts' onClick='this.select();' value=''>*@
+                    @Html.DropDownList("TaxClassification", new SelectList(Model.TaxClassificationTable, "TaxClassificationNo", "Name"), "----- Select -----", htmlAttributes: new { @class = "form-control select2", style = "width:100%;" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button type="button" id="updateTax" class="btn btn-primary btn-sm">@Resources.Default.update</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="accordion">
-                    @if (Model.oBankBranch != null)
-                    {
-                        foreach (var item in Model.oBankBranch.oLBank)
+        </div>
+    </div>
+
+    <div class="modal" data-easein="flipYIn" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Cash Account</label>
+                                @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Tax Account</label>
+                                @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Sales Account</label>
+                                @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 my-1">
+                            <div class="form-group">
+                                <label>Voucher Type</label>
+                                @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <input type="submit" onclick="SaveSettings()" value="Save" data-dismiss="modal" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" data-easein="flipYIn" id="closeRegisterModal" tabindex="-1" role="dialog" aria-labelledby="closeRegisterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Close Register (Opened at: @Model.Registers.Date)</h4>
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="stable">
+                        <tbody>
+                            <tr>
+                                <td style="border-bottom: 1px solid #EEE;"><h4>Cash in hand:</h4></td>
+                                <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                    <h4>
+                                        <span>@Model.Registers.Cash_in_hand.ToString("0.00")</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                            @foreach (var item in Model.PaymentMethod)
+                            {
+                                <tr>
+                                    <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
+                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                        <h4>
+                                            <span id="P_@item.MethodId">0.00</span>
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+
+                            <tr>
+                                <td width="300px" style="font-weight:bold;">
+                                    <h4><strong>Total Cash</strong>:</h4>
+                                </td>
+                                <td style="text-align:right;">
+                                    <h4>
+                                        <span><strong id="totalcash">0.00</strong></span>
+                                    </h4>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+
+                    <input type="submit" onclick="CloseRegister()" name="close_register" value="Close Register" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" data-easein="flipYIn" id="todaySalesModal" tabindex="-1" role="dialog" aria-labelledby="todaySalesModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Today's Sale (@DateTime.Now.Date.ToString("dd-MM-yyyy"))</h4>
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="stable">
+                        <tbody>
+                            @foreach (var item in Model.PaymentMethod)
+                            {
+                                <tr>
+                                    <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
+                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                        <h4>
+                                            <span id="Pt_@item.MethodId">0.00</span>
+                                        </h4>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td width="300px" style="font-weight:bold;">
+                                    <h4><strong>Total Cash</strong>:</h4>
+                                </td>
+                                <td style="text-align:right;">
+                                    <h4>
+                                        <span><strong id="todaytotalcash">0.00</strong></span>
+                                    </h4>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" data-easein="flipYIn" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="noteModalLabel">@Resources.Default.note</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea name="snote" id="snote" class="pa form-control kb-text"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button type="button" id="update-note" class="btn btn-primary btn-sm">@Resources.Default.update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" data-easein="flipYIn" id="proModal" tabindex="-1" role="dialog" aria-labelledby="proModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="proModalLabel">
+                        @Resources.Default.payment
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th style="width:25%;">@Resources.Default.net_price</th>
+                            <th style="width:25%;"><span id="net_price"></span></th>
+                            <th style="width:25%;">@Resources.Default.product_tax</th>
+                            <th style="width:25%;"><span id="pro_tax"></span> <span id="pro_tax_method"></span></th>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="row_id" />
+                    <input type="hidden" id="item_id" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <?=lang('unit_price', 'nPrice')?>
+                                <input type="text" class="form-control input-sm kb-pad" id="nPrice" onClick="this.select();" placeholder="@Resources.Default.new_price">
+                            </div>
+                            <div class="form-group">
+                                <?=lang('discount', 'nDiscount')?>
+                                <input type="text" class="form-control input-sm kb-pad" id="nDiscount" onClick="this.select();" placeholder="@Resources.Default.discount">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <?=lang('quantity', 'nQuantity')?>
+                                <input type="text" class="form-control input-sm kb-pad" id="nQuantity" onClick="this.select();" placeholder="@Resources.Default.current_quantity">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <?=lang('comment', 'nComment')?>
+                                <textarea class="form-control kb-text" id="nComment"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button class="btn btn-success" id="editItem">@Resources.Default.update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" data-easein="flipYIn" id="susModal" tabindex="-1" role="dialog" aria-labelledby="susModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="susModalLabel">@Resources.Default.suspend_sale</h4>
+                </div>
+                <div class="modal-body">
+                    <p>@Resources.Default.type_reference_note</p>
+
+                    <div class="form-group">
+                        @Resources.Default.reference_note
+                        <textarea class="form-control kb-text" id="reference_note"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> @Resources.Default.close </button>
+                    <button type="button" id="suspend_sale" class="btn btn-primary">@Resources.Default.submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" data-easein="flipYIn" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="payModalLabel">
+                        @Resources.Default.payment
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12" style="padding:0 1rem">
+                            <div class="font16">
+                                <table class="table table-bordered table-condensed" style="margin-bottom: 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="25%" style="border-right-color: #FFF !important;">@Resources.Default.total_items</td>
+                                            <td width="25%" class="text-right"><span id="item_count">0.00</span></td>
+                                            <td width="25%" style="border-right-color: #FFF !important;">@Resources.Default.total_payable</td>
+                                            <td width="25%" class="text-right"><span id="twt">0.00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-right-color: #FFF !important;">@Resources.Default.total_paying</td>
+                                            <td class="text-right"><span id="total_paying">0.00</span></td>
+                                            <td style="border-right-color: #FFF !important;">@Resources.Default.balance</td>
+                                            <td class="text-right"><span id="balance">0.00</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        @Resources.Default.note
+                                        <textarea name="note" id="note" class="pa form-control kb-text"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        @Resources.Default.amount
+                                        <input name="amount" type="text" id="amount"
+                                               class="pa form-control kb-pad amount" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        Payment Method
+                                        @Html.DropDownList("PaymentMethod", new SelectList(Model.PaymentMethod, "MethodId", "Name"), "----- Select -----", htmlAttributes: new { @class = "form-control select2", style = "width:100%;" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="row" id="ChN">
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="ChequeNumber" style="display:none">
+                                            <div class="form-group">
+                                                <label>Cheque Number</label>
+                                                @Html.Editor("ChequeNumber", new { htmlAttributes = new { @class = "form-control", id = "ChequeNumbers" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="ChequeBanks" style="display:none">
+                                            <div class="form-group">
+                                                <label>ChequeBank</label>
+                                                <div class="input-group" style="position: relative">
+                                                    @Html.Editor("ChequeBankName", new { htmlAttributes = new { @class = "form-control", id = "ChequeBankName", @readonly = "readonly" } })
+                                                    <button class="btn btn-primary bank-btn" type="button" id="btnSearchBank" data-toggle="modal" data-target="#BankModal"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12" id="DateCheque" style="display:none">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                @Html.Editor("GregorianChequebankDate", new { htmlAttributes = new { @class = "form-control datepicker", @id = "datepickergregoris1" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">@Resources.Default.close</button>
+                    <button class="btn btn-primary" id="submit-sale">@Resources.Default.submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="BankModal" class="modal" data-easein="flipYIn" tabindex="-1" role="dialog" aria-labelledby="bankModalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Bank Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion">
+                        @if (Model.oBankBranch != null)
                         {
-                            <div class="accordion-btn">@Html.DisplayFor(modelItem => item.BankPrimaryName)</div>
-                            <div class="panel">
-                                @foreach (var itemd in Model.oLBankBranch)
-                                {
+                            foreach (var item in Model.oBankBranch.oLBank)
+                            {
+                                <div class="accordion-btn">@Html.DisplayFor(modelItem => item.BankPrimaryName)</div>
+                                <div class="panel">
+                                    @foreach (var itemd in Model.oLBankBranch)
+                                    {
 
                                     if (item.BankId == itemd.BankId)
                                     {
@@ -236,7 +612,455 @@
                     }
                 </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div id="AssignUserModal" class="modal" data-easein="flipYIn" tabindex="-1" role="dialog" aria-labelledby="assignUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Assign User</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion">
+                        @foreach (var parent in Model.Workshops)
+                        {
+                            if (parent.BranchWorkshop.Count > 0)
+                            {
+                                <div class="accordion-btn">@parent.ParentWorkshop.PrimaryName</div>
+                                <div class="panel">
+
+                                    @foreach (var branch in parent.BranchWorkshop)
+                                    {
+                                        <div class="accordion-btn inner-accord" onclick="sendTask('@branch.UserId','@branch.PrimaryName')">@branch.PrimaryName</div>
+                                        <div class="panel">
+                                            @foreach (var sub in parent.SubBranchWorkshop)
+                                            {
+                                                if (sub.ParentId == branch.Id)
+                                                {
+                                                    <p onclick="sendTask('@sub.UserId','@sub.PrimaryName')" data-dismiss="modal">@sub.PrimaryName</p>
+
+                                                }
+
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#OpenRegisterPopup").show();
+            $("#close-now").click(function () {
+                $("#OpenRegisterPopup").hide();
+            });
+
+        });
+
+        jsonObj = [];
+        sale_items = [];
+        $(document).ready(function () {
+            if (@Model.SettingAccounts.ID !=0)
+            {
+                  $('#TransTypeNo').val(@Model.SettingAccounts.TransTypeNo);
+                $('#CachAccountId').val(@Model.SettingAccounts.CachAccountId);
+                $('#SalesAccountId').val(@Model.SettingAccounts.SalesAccountId);
+                $('#TaxAccountId').val(@Model.SettingAccounts.TaxAccountId);
+            }
+
+            if (localStorage.getItem("Items") === null) {
+                $.ajax({
+                type: 'get',
+                    url: "@Url.Action("Get_Items", "POS")?CompanyId=" + @Model.CompanyId +"&BranchId=" +@Model.BranchId+"&Language=en",
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: {},
+                    success: function (data) {
+
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            var item = [];
+                            item["id"] = data[i].ItemId;
+                            item["Product_id"] = data[i].ItemId;
+                            item["Product_name"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode;
+                            item["label"] = data[i].ItemPrimaryName + "-" + data[i].ItemBarcode;
+                            item["Quantity"] = 1;
+                            item["Product_code"] = data[i].ItemBarcode;
+                            item["Price"] = data[i].Price;
+                            item["Tax"] = data[i].taxRate;
+                            item["Service"] = data[i].Service;
+                            item["UnitId"] = data[i].UnitId;
+                            item["TaxClassificationNo"] = data[i].TaxClassificationNo;
+                            jsonObj.push(item);
+
+                        }
+                        debugger
+                        window.localStorage.setItem('Items', JSON.stringify(data));
+                    }
+                });
+            }
+            else {               
+               var  JsonArr = JSON.parse(get('Items'));
+                 for (var i = 0; i < JsonArr.length; i++) {
+                            var item = [];
+                            item["id"] = JsonArr[i].ItemId;
+                            item["Product_id"] = JsonArr[i].ItemId;
+                            item["Product_name"] = JsonArr[i].ItemPrimaryName + "-" + JsonArr[i].ItemBarcode;
+                            item["label"] = JsonArr[i].ItemPrimaryName + "-" + JsonArr[i].ItemBarcode;
+                            item["Quantity"] = 1;
+                            item["Product_code"] = JsonArr[i].ItemBarcode;
+                            item["Price"] = JsonArr[i].Price;
+                            item["Tax"] = JsonArr[i].taxRate;
+                            item["Service"] = JsonArr[i].Service;
+                            item["UnitId"] = JsonArr[i].UnitId;
+                            item["TaxClassificationNo"] = JsonArr[i].TaxClassificationNo;
+                            jsonObj.push(item);
+
+                        }
+            }
+
+        });
+        function myfunction(id) {
+            $("#emptyitems").empty();
+            $.ajax({
+              type: 'get',
+              url: "@Url.Action("GetItemsByCategoryId", "POS")?Id=" + id ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: {},
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Image != "") {
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                        } else {
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'"  data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
+                        }
+                    }
+
+                        }
+            });
+
+        }
+        var Settings = {
+
+                    setting_id : 1,
+
+                    decimals : 2,
+               dateformat : "D j M Y",
+         timeformat : "h:i A",
+                                rounding : 1,
+            pin_code: 2122,
+                                           focus_add_item : "ALT+F1",
+                    add_customer : "ALT+F2",
+                    toggle_category_slider : "ALT+F10",
+                    cancel_sale : "ALT+F5",
+                    suspend_sale : "ALT+F6",
+                    print_order : "ALT+F11",
+                        print_bill : "ALT+F12",
+                            finalize_sale : "ALT+F8",
+                            today_sale : "Ctrl+F1",
+                            open_hold_bills : "Ctrl+F2",
+                            close_register : "Ctrl+F7",
+
+
+        };
+    var base_url = '@Request.Url.GetLeftPart(UriPartial.Authority)', assets = '@(assets)';
+    var dateformat = '@(dateformat)', timeformat = '@(timeformat)';
+    @*<?php unset(@protocol, @smtp_host, @smtp_user, @smtp_pass, @smtp_port, @smtp_crypto, @mailpath, @timezone, @setting_id, @default_email, @version, @stripe, @stripe_secret_key, @stripe_publishable_key); ?>*@
+    var sid = false, username = '@Session["user_name"]', spositems = {};
+
+        var pro_limit = @pro_limit, java_applet = 0, count = 1, total = 0, an = 1, p_page = 0, page = 0, cat_id = @default_category, tcp = '588';
+        var gtotal = 0, order_discount = 0, order_tax = 0, protect_delete = (Settings.pin_code);@*To add popup again just add  ? 1 : 0 after Settings.pin_code*@
+    var order_data = {}, bill_data = {};
+        var csrf_hash = 'csrf';/*<?= $this -> security -> get_csrf_hash(); ?>*/
+    if (@remote_printing == 2) {
+        var ob_store_name = "My Store";
+        order_data.store_name = ob_store_name;
+        bill_data.store_name = ob_store_name;
+
+        ob_header = "";
+        ob_header += "My Store Header";
+
+        if (@store_address1.Length > 0) {
+            ob_header += "My Store Header Address1";
+        }
+        if (@store_address2.Length > 0) {
+            ob_header += "My Store Header Address2";
+        }
+        if (@store_city.Length > 0) {
+            ob_header += "My Store Header City";
+        }
+        ob_header += "Phone: @store_phone, @printer_char_per_line \r\n\r\n";
+
+        order_data.header = ob_header + "@Resources.Default.order, @printer_char_per_line \r\n\r\n";
+        bill_data.header = ob_header + "@Resources.Default.bill, @printer_char_per_line \r\n\r\n";
+        order_data.totals = '';
+        order_data.payments = '';
+        bill_data.payments = '';
+        order_data.footer = '';
+        bill_data.footer = "@Resources.Default.bill \n";
+    }
+
+        $(document).ready(function () {
+         //   if (@Session["rmspos"].ToString()) {
+            if (get('spositems')) { remove('spositems'); }
+            if (get('spos_discount')) { remove('spos_discount'); }
+            if (get('spos_tax')) { remove('spos_tax'); }
+            if (get('spos_note')) { remove('spos_note'); }
+            if (get('spos_customer')) { remove('spos_customer'); }
+            if (get('amount')) { remove('amount'); }
+      //  }
+            @Session["rmspos"]= false;
+            if (get('rmspos')) {
+                if (get('spositems')) { remove('spositems'); }
+                if (get('spos_discount')) { remove('spos_discount'); }
+                if (get('spos_tax')) { remove('spos_tax'); }
+                if (get('spos_note')) { remove('spos_note'); }
+                if (get('spos_customer')) { remove('spos_customer'); }
+                if (get('amount')) { remove('amount'); }
+                remove('rmspos');
+            }
+
+        });
+        function OpenRegister() {
+                    var result = {
+            "Cash_in_hand": $("#open_reg").val(),
+
+
+        };
+                        $.ajax({
+              type: 'Post',
+              url: "@Url.Action("OpenRegister", "Registers")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: JSON.stringify(result),
+                success: function (data) {
+
+                     window.location.href ="@Url.Action("Index", "POS")" ;
+                        }
+            });
+        }
+            function getPaymentMethod() {
+        var PaymentMethod = $('#PaymentMethod').val();
+
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("PaymentMethod_Get", "POS")" + '?MethodId=' + PaymentMethod +  "&BranchId="+@Model.BranchId,
+            dataType: 'json',
+            data: {},
+            contentType: 'application/json',
+            success: function (data) {
+                if (data[0].ChequesNumber === true) {
+                    $("#ChequeNumber").show();
+                    chkN = true;
+                }
+                else {
+                    $("#ChequeNumber").hide();
+                    $("#ChequeNumbers").removeClass("invalid");
+                    chkN = false;
+                }
+                if (data[0].ChequeBank === true) {
+                    chkB = true;
+                    $("#ChequeBanks").show();
+                }
+                else {
+                    chkB = false;
+                    $("#ChequeBanks").hide();
+                    $("#ChequeBankName").removeClass("invalid");
+                }
+                if (data[0].RequestDate === true) {
+                    chkD = true;
+                    $("#DateCheque").show();
+                }
+                else {
+                    chkD = false;
+                    $("#datepickergregoris1").removeClass("invalid");
+                    $("#DateCheque").hide();
+                }
+            }
+        });
+        }
+        $('#PaymentMethod').on('change', function () {
+               debugger
+        getPaymentMethod();
+           });
+            function SearchBankByName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("txtSearchBankByName");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("BankTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("a")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+        function GetGrandTotal() {
+         $.ajax({
+              type: 'get',
+              url: "@Url.Action("Get_PaymentMethod_Paid", "POS")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: {},
+                success: function (data) {
+                    debugger
+                    var total=0
+                    for (var i = 0; i < data.length; i++) {
+                        total += data[i].Grand_total;
+                        $("#P_" + data[i].Status).html(parseFloat(data[i].Grand_total));
+                    }
+                    //$('#grandtotal').html(parseFloat(data[i].Grand_total))
+                    var totalhand=@Model.Registers.Cash_in_hand +parseFloat(total);
+                    $('#totalcash').html(totalhand);
+                     $('#closeRegisterModal').modal()
+                        }
+            });
+        }
+        function GetTodaySales() {
+            $.ajax({
+              type: 'get',
+              url: "@Url.Action("Get_TodaySales", "POS")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: {},
+                success: function (data) {
+                    debugger
+                    var total=0
+                    for (var i = 0; i < data.length; i++) {
+                        total += data[i].Grand_total;
+                        $("#Pt_" + data[i].Status).html(parseFloat(data[i].Grand_total));
+                    }
+                    $('#todaytotalcash').html(parseFloat(total));
+                     $('#todaySalesModal').modal()
+                        }
+            });
+        }
+        function SaveSettings() {
+            var SettingsAccounts = {
+                        TransTypeNo :  $('#TransTypeNo').val(),
+                        CachAccountId :  $('#CachAccountId').val(),
+                        SalesAccountId :  $('#SalesAccountId').val(),
+                        TaxAccountId :  $('#TaxAccountId').val()
+            }
+             $.ajax({
+              type: 'Post',
+              url: "@Url.Action("InsertOrUpdateSettingAccounts", "Settings")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: JSON.stringify(SettingsAccounts) ,
+                success: function (data) {
+                     window.location.href ="@Url.Action("Index", "POS")" ;
+
+                        }
+            });
+        }
+        function CloseRegister() {
+                    var result = {
+                        "Cash_in_hand": @Model.Registers.Cash_in_hand,
+                        "Status": "close",
+                        "Total_cash":parseFloat($('#totalcash').html())
+                        };
+                         $.ajax({
+              type: 'Post',
+              url: "@Url.Action("CloseRegister", "Registers")" ,
+              contentType: 'application/json',
+              dataType: 'json',
+              data: JSON.stringify(result) ,
+                success: function (data) {
+                     window.location.href ="@Url.Action("Index", "POS")" ;
+
+                        }
+            });
+        }
+    function contains(text_one, text_two) {
+        return text_one.toLowerCase().indexOf(text_two.toLowerCase()) != -1;
+    }
+
+    $("#txtSearchBankByNames").keyup(function () {
+        var searchText = $(this).val();
+        $("#BankBranchTable div").each(function () {
+            $(this).toggle(contains($(this).text(), searchText));
+
+        });
+    });
+
+
+
+    function sendBank(ChequeBankName,ChequeId) {
+
+        document.getElementById("ChequeBankName").value = ChequeBankName;
+        document.getElementById("ChequeBank").value = ChequeId;
+    }
+        function sendTask(Id, PrimaryName) {
+            debugger
+            spositems[KeyId].ToUserId = Id;
+            spositems[KeyId].Title = PrimaryName;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+            //document.getElementById("AssignId").value = PrimaryName;
+        }
+
+    </script>
+
+
+    <script src="@(assets)dist/js/libraries.min.js" type="text/javascript"></script>
+    <script src="@(assets)dist/js/scripts.min.js" type="text/javascript"></script>
+    <script src="@(assets)dist/js/pos.min.js" type="text/javascript"></script>
+    @if (@remote_printing != 1)
+    {
+        <script src="@(assets)dist/js/htmlimg.js"></script>
+    }
+    <script>
+        $(".datepicker").datepicker();
+        // Toggle 'active' and 'show' states of panels
+
+        var accord = document.getElementsByClassName("accordion-btn");
+        var i;
+
+        for (i = 0; i < accord.length; i++) {
+            accord[i].onclick = function () {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
+        $(document).ready(function () {
+            if ($(window).width() <= 768) {
+                $(".nav.nav-tabs.real-tabs.nav-justified").removeClass("nav-justified");
+            }
+        })
+        function GetFromDate(val) {
+            debugger
+            spositems[KeyId].FromDate = val;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+        }
+        function GetToDate(val) {
+            debugger
+            spositems[KeyId].ToDate = val;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+        }
+    </script>
+</body>
+</html>

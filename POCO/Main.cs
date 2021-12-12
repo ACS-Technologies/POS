@@ -21,6 +21,7 @@ namespace POCO
         public List<TransTypeTable> TransTypeTable { get; set; }
         public List<AccountTable> AccountTable { get; set; }
         public List<User> User { get; set; }
+        public List<TaxClassificationTable> TaxClassificationTable { get; set; }
         public string ImageUrl { get; set; }
         public Registers Registers { get; set; }
         public int CompanyId { get; set; }
