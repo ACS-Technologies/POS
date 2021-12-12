@@ -914,13 +914,13 @@
 
                                     @foreach (var branch in parent.BranchWorkshop)
                                     {
-                                        <div class="accordion-btn inner-accord" onclick="sendTask('@branch.Id','@branch.PrimaryName')">@branch.PrimaryName</div>
+                                        <div class="accordion-btn inner-accord" onclick="sendTask('@branch.UserId','@branch.PrimaryName')">@branch.PrimaryName</div>
                                         <div class="panel">
                                             @foreach (var sub in parent.SubBranchWorkshop)
                                             {
                                                 if (sub.ParentId == branch.Id)
                                                 {
-                                                    <p onclick="sendTask('@sub.Id','@branch.PrimaryName')">@sub.PrimaryName</p>
+                                                    <p onclick="sendTask('@sub.UserId','@sub.PrimaryName')" data-dismiss="modal">@sub.PrimaryName</p>
 
                                                 }
 
@@ -1293,9 +1293,14 @@
         document.getElementById("ChequeBank").value = ChequeId;
     }
         function sendTask(Id, PrimaryName) {
-
-            document.getElementById("AssignId").value = PrimaryName;
+            debugger
+            spositems[KeyId].ToUserId = Id;
+            spositems[KeyId].Title = PrimaryName;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+            //document.getElementById("AssignId").value = PrimaryName;
         }
+
     </script>
 
 
@@ -1324,7 +1329,18 @@
                 $(".nav.nav-tabs.real-tabs.nav-justified").removeClass("nav-justified");
             }
         })
-
+        function GetFromDate(val) {
+            debugger
+            spositems[KeyId].FromDate = val;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+        }
+        function GetToDate(val) {
+            debugger
+            spositems[KeyId].ToDate = val;
+            store('spositems', JSON.stringify(spositems));
+            loadItems();
+        }
     </script>
 </body>
 </html>
