@@ -20,6 +20,7 @@ namespace POS.Controllers
 
             int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id; 
             int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
+
             var   oSuspendedSaleDBL = new SuspendedSaleDBL();
             Main main = new Main();
             Session["user_name"] = SessionManager.GetSessionUserInfo.Username;
