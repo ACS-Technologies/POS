@@ -395,9 +395,6 @@ input {
 .pull-left, .control-sidebar-menu .menu-icon, .modal .pull-right {
     float: right !important;
 }
-.row {
-    display: flex;
-}
 .dt-buttons {
     float: left;
 }
@@ -471,6 +468,16 @@ div.dataTables_wrapper div.dataTables_paginate, .text-right.pr0 {
 }
 .main-header > .navbar {
     margin-right: 50px !important
+}
+#arabic-mode .nav-tabs-buttons {
+    padding:0
+}
+#arabic-mode .select2-container .select2-selection--single .select2-selection__rendered {
+    text-align: right
+}
+#arabic-mode .select2-container--default .select2-selection--single .select2-selection__arrow {
+    left: 3px;
+    right: unset
 }
 @media (min-width: 768px) {
     .sidebar-mini.sidebar-collapse .main-header .navbar {

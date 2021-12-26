@@ -165,6 +165,9 @@
   <data name="bill" xml:space="preserve">
     <value>Bill</value>
   </data>
+  <data name="BillDesc" xml:space="preserve">
+    <value>If you are happy with our services, please tell to your friends otherwise let us know so that we can improve.</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -173,6 +176,12 @@
   </data>
   <data name="cash" xml:space="preserve">
     <value>Cash</value>
+  </data>
+  <data name="CashAccount" xml:space="preserve">
+    <value>Cash Account</value>
+  </data>
+  <data name="CashInHand" xml:space="preserve">
+    <value>Cash in hand:</value>
   </data>
   <data name="categories" xml:space="preserve">
     <value>Categories</value>
@@ -303,6 +312,9 @@
   <data name="note" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="OpenedAt" xml:space="preserve">
+    <value>Opened at:</value>
+  </data>
   <data name="order" xml:space="preserve">
     <value>Order</value>
   </data>
@@ -323,6 +335,9 @@
   </data>
   <data name="phone" xml:space="preserve">
     <value>Phone</value>
+  </data>
+  <data name="PleaseComeAgain" xml:space="preserve">
+    <value>Please come again</value>
   </data>
   <data name="POS" xml:space="preserve">
     <value>POS</value>
@@ -372,6 +387,12 @@
   <data name="sales" xml:space="preserve">
     <value>Sales</value>
   </data>
+  <data name="SalesAccount" xml:space="preserve">
+    <value>Sales Account</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="search__scan" xml:space="preserve">
     <value>Search product by code or name, you can scan barcode too</value>
   </data>
@@ -399,14 +420,26 @@
   <data name="suspend_sale" xml:space="preserve">
     <value>Suspend Sale</value>
   </data>
+  <data name="TaxAccount" xml:space="preserve">
+    <value>Tax Account</value>
+  </data>
   <data name="tax_title" xml:space="preserve">
     <value>Tax (5 or 5%)</value>
+  </data>
+  <data name="ThankVisit" xml:space="preserve">
+    <value>Thank you for your visit !!!</value>
+  </data>
+  <data name="TodaySale" xml:space="preserve">
+    <value>Today's Sale</value>
   </data>
   <data name="today_sale" xml:space="preserve">
     <value>Today's Sale</value>
   </data>
   <data name="total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="TotalCash" xml:space="preserve">
+    <value>Total Cash</value>
   </data>
   <data name="total_items" xml:space="preserve">
     <value>Total Items</value>
@@ -437,6 +470,9 @@
   </data>
   <data name="visa" xml:space="preserve">
     <value>Visa</value>
+  </data>
+  <data name="VoucherType" xml:space="preserve">
+    <value>Voucher Type</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>

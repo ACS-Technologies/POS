@@ -136,6 +136,10 @@ namespace POS.Controllers
 
                          
                 oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
+                if (PoSales.Vehicle_id != 0)
+                {
+
+                }
                 return Json(result);
 
             }

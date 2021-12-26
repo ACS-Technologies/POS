@@ -81,7 +81,10 @@ namespace DBL
 
                     oSales.Store_id = int.Parse(ds.Tables[0].Rows[i]["Store_id"].ToString());
                     oSales.Hold_ref = ds.Tables[0].Rows[i]["Hold_ref"].ToString();
-
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Vehicle_id"].ToString()))
+                        oSales.Vehicle_id = int.Parse(ds.Tables[0].Rows[i]["Vehicle_id"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Vehicle_name"].ToString()))
+                        oSales.Vehicle_name = ds.Tables[0].Rows[i]["Vehicle_name"].ToString();
                     oLSales.Add(oSales);
                 }
             }
@@ -93,13 +96,13 @@ namespace DBL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Sales M_Sales_GetById(int Id)
+        public Sales M_Sales_GetById(int Id,bool IsWorkShop=false)
         {
             DataSet ds = new DataSet();
             Sales oSales = new Sales();
             SaleItems oSaleItems;
-
-            ds = oSalesDAL.M_Sales_GetById(Id);
+            Task oTask;
+            ds = oSalesDAL.M_Sales_GetById(Id, IsWorkShop);
 
             if (ds.Tables.Count > 0)
             {
@@ -158,7 +161,10 @@ namespace DBL
 
                     oSales.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
                     oSales.Hold_ref = ds.Tables[0].Rows[0]["Hold_ref"].ToString();
-
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Vehicle_id"].ToString()))
+                        oSales.Vehicle_id = int.Parse(ds.Tables[0].Rows[0]["Vehicle_id"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Vehicle_name"].ToString()))
+                        oSales.Vehicle_name = ds.Tables[0].Rows[0]["Vehicle_name"].ToString();
                     if (ds.Tables.Count > 1)
                     {
                         for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
@@ -196,7 +202,17 @@ namespace DBL
 
                         }
                     }
-
+                    if (IsWorkShop==true)
+                    {
+                        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+                        {
+                            oTask = new Task();
+                            oTask.FromDate = DateTime.Parse(ds.Tables[2].Rows[i]["FromDate"].ToString());
+                            oTask.ToDate = DateTime.Parse(ds.Tables[2].Rows[i]["ToDate"].ToString());
+                            oTask.Title = ds.Tables[2].Rows[i]["Title"].ToString();
+                            oSales.Tasks.Add(oTask);
+                        }
+                    }
                 }
 
             }
@@ -227,7 +243,7 @@ namespace DBL
             PoSales.Total_discount, PoSales.Product_tax, PoSales.Order_tax_id, PoSales.Order_tax, PoSales.Total_tax, PoSales.Grand_total, PoSales.Total_items, PoSales.Total_quantity,
             PoSales.Paid, PoSales. Created_by, PoSales.Note, PoSales.Status, PoSales.Rounding, PoSales.Store_id, PoSales.Hold_ref, ToDataTable(PoSales.SaleItems),
             PoSales.Payments.Amount, PoSales.Payments.Paid_by, PoSales.Payments.Cheque_no, PoSales.Payments.Cc_no, PoSales.Payments.Gc_no, PoSales.Payments.Cc_holder, PoSales.Payments.Cc_month,
-            PoSales.Payments.Cc_year, PoSales.Payments.Cc_type, PoSales.Payments.Note, PoSales.Payments.Pos_paid, PoSales.Payments.Pos_balance, PoSales.Payments.ChequeBanks, PoSales.Payments.DateCheque);
+            PoSales.Payments.Cc_year, PoSales.Payments.Cc_type, PoSales.Payments.Note, PoSales.Payments.Pos_paid, PoSales.Payments.Pos_balance, PoSales.Payments.ChequeBanks, PoSales.Payments.DateCheque, PoSales.Vehicle_id, PoSales.Vehicle_name);
 
             if (ds.Tables.Count > 0)
             {

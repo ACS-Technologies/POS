@@ -17,6 +17,7 @@ namespace POCO
         public List<SuspendedSale> SuspendedSale { get; set; }
         public List<Sales> Sales { get; set; }
         public List<CustomerInformation> CustomerInformation { get; set; }
+        public List<VehicleNams> VehicleNams { get; set; }
         public List<PaymentMethod> PaymentMethod { get; set; }
         public List<TransTypeTable> TransTypeTable { get; set; }
         public List<AccountTable> AccountTable { get; set; }
@@ -31,6 +32,6 @@ namespace POCO
         public BankBranch oBankBranch { get; set; }
         public List<WorkshopLevels> Workshops { get; set; }
         public SettingAccounts SettingAccounts { get; set; }
-        
+        public bool IsWorkShop { get; set; }
     }
 }

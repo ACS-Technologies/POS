@@ -16,6 +16,8 @@ namespace POCO
         public DateTime Date { get; set; }
         public int Customer_id { get; set; }
         public string Customer_name { get; set; }
+        public int Vehicle_id { get; set; }
+        public string Vehicle_name { get; set; }
         public decimal Total { get; set; }
         public decimal? Product_discount { get; set; }
         public string Order_discount_id { get; set; }

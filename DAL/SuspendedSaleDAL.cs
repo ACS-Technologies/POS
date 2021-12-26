@@ -119,7 +119,7 @@ namespace DAL
         /// <returns></returns>
         public DataSet M_SuspendedSale_Insert(DateTime Date, int Customer_id, string Customer_name, decimal Total, decimal? Product_discount, string Order_discount_id, decimal? Order_discount,
             decimal? Total_discount, decimal? Product_tax, string Order_tax_id, decimal Order_tax, decimal? Total_tax, decimal Grand_total, int? Total_items, decimal? Total_quantity,
-            decimal? Paid, int? Created_by, string Note, int Store_id, string Hold_ref, DataTable SaleItems)
+            decimal? Paid, int? Created_by, string Note, int Store_id, string Hold_ref, DataTable SaleItems,int Vehicle_id,string Vehicle_name)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_SuspendedSale_Insert";
@@ -144,7 +144,8 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Store_id", Store_id);
             cmd.Parameters.AddWithValue("@Hold_ref", Hold_ref);
             cmd.Parameters.AddWithValue("@SuspendedSaleItemsType", SaleItems);
-
+            cmd.Parameters.AddWithValue("@Vehicle_id", Vehicle_id);
+            cmd.Parameters.AddWithValue("@Vehicle_name", Vehicle_name);
             return ExDataBase_returnDataSet(cmd);
         }
 

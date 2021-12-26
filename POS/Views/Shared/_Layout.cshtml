@@ -1,216 +1,235 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    
-    
-        @{
-            string assets = "/Content/themes/default/assets/";
-            string lang = "ltr";
-            //Start Settings Table
-            string theme_style = "purple-light";
-            string selected_language = "en";
-            int default_customer = 1;
-            string header = "";
-            int remote_printing = 1;
-            string dateformat = "D j M Y";
-            int default_category = 1;
-            int stripe = 0;
-            string timeformat = "h:i A";
-            int pro_limit = 10;
-            //End Settings Table
-            //Start Stores Table
 
-            string store_phone = "012345678";
-            string store_address1 = "Address Line 1";
-            string store_address2 = "";
-            string store_city = "Petaling Jaya";
 
-            //End Stores Table
-            //Start Printers Table
+    @{
+        string assets = "/Content/themes/default/assets/";
+        string lang = "ltr";
+        //Start Settings Table
+        string theme_style = "purple-light";
+        string selected_language = "en";
+        int default_customer = 1;
+        string header = "";
+        int remote_printing = 1;
+        string dateformat = "D j M Y";
+        int default_category = 1;
+        int stripe = 0;
+        string timeformat = "h:i A";
+        int pro_limit = 10;
+        //End Settings Table
+        //Start Stores Table
 
-            int printer_char_per_line = 45;
+        string store_phone = "012345678";
+        string store_address1 = "Address Line 1";
+        string store_address2 = "";
+        string store_city = "Petaling Jaya";
 
-            //End Printers Table
+        //End Stores Table
+        //Start Printers Table
+
+        int printer_char_per_line = 45;
+
+        //End Printers Table
+    }
+
+
+
+    <meta charset="UTF-8">
+    <title>POS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="@(assets)images/icon.png" />
+
+    <link href="@(assets)dist/css/styles.css" rel="stylesheet" type="text/css" />
+    @if (POS.Controllers.LanguageController.IsRighToLeft())
+    {
+        <link href="@(assets)dist/css/rtl.css" rel="stylesheet" />
+    }
+    <script src="@(assets)plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <style>
+        body {
+            overflow-x: hidden !important
         }
 
-
-
-        <meta charset="UTF-8">
-        <title>POS</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="@(assets)images/icon.png" />
-
-        <link href="@(assets)dist/css/styles.css" rel="stylesheet" type="text/css" />
-        @if (POS.Controllers.LanguageController.IsRighToLeft())
-        {
-            <link href="@(assets)dist/css/rtl.css" rel="stylesheet" />
+        .content-wrapper {
+            min-height: unset !important;
+            height: 100%
         }
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-        <script src="@(assets)plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        @*<script src="https://code.jquery.com/jquery-3.6.0.js"></script>*@
-        <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
-        <style>
-            .btn {
-                font-weight: bold
+        .bootstrap-datetimepicker-widget.dropdown-menu {
+            z-index: 9999999 !important;
+        }
+
+        .btn {
+            font-weight: bold
+        }
+
+        input.form-control {
+            border-radius: 7px !important
+        }
+
+        .list-table .success {
+            background-color: #b19dce !important;
+            color: #fff
+        }
+
+            .list-table .success th {
+                background-color: #987bc3 !important
             }
 
-            input.form-control {
-                border-radius: 7px !important
+        .select2-container--default .select2-selection--single {
+            border-radius: 7px !important
+        }
+
+        .pos .contents {
+            padding: 15px !important
+        }
+
+        .text-white {
+            color: #fff !important
+        }
+
+        .pos .contents {
+            background-color: #fff !important
+        }
+
+        .nav-tabs-buttons {
+            width: 75%;
+            margin: auto;
+            background-color: #605ca8;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            overflow: hidden
+        }
+
+            .nav-tabs-buttons li {
+                border-right: 1px solid rgba(0, 0, 0, 0.1);
+                border-left: 1px solid rgba(0, 0, 0, 0.1);
             }
 
-            .list-table .success {
-                background-color: #b19dce !important;
-                color: #fff
-            }
+        .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover, .nav-tabs > li > a:hover {
+            background-color: #4e499d !important;
+            color: #fff !important
+        }
 
-                .list-table .success th {
-                    background-color: #987bc3 !important
-                }
-
-            .select2-container--default .select2-selection--single {
-                border-radius: 7px !important
-            }
-
-            .pos .contents {
-                padding: 15px !important
-            }
-
-            .text-white {
-                color: #fff !important
-            }
-
-            .pos .contents {
-                background-color: #fff !important
-            }
-
-            .nav-tabs-buttons {
-                width: 75%;
-                margin: auto;
-                background-color: #605ca8;
-                border-radius: 15px;
-                margin-bottom: 2rem;
-                overflow: hidden
-            }
-
-                .nav-tabs-buttons li {
-                    border-right: 1px solid rgba(0, 0, 0, 0.1);
-                    border-left: 1px solid rgba(0, 0, 0, 0.1);
-                }
-
-            .nav > li > a:active, .nav > li > a:focus, .nav > li > a:hover, .nav-tabs > li > a:hover {
-                background-color: #4e499d !important;
-                color: #fff !important
-            }
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+            background-color: #4e499d
+        }
 
             .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
-                background-color: #4e499d
+                border-top-color: #4e499d;
             }
 
-                .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
-                    border-top-color: #4e499d;
+        .real-tabs li a:hover {
+            background-color: #eee !important;
+            color: #4e499d !important
+        }
+
+        #item-list .slimScrollDiv {
+            height: 690px !important
+        }
+
+        .bank-btn {
+            position: absolute;
+            right: 0;
+            z-index: 9;
+            border-radius: 0 5px 5px 0;
+        }
+        /*Start Accordion Styles */
+        .accordion-btn {
+            background-color: #2C3E50;
+            font-size: 1.5em;
+            color: #ECF0F1;
+            cursor: pointer;
+            padding: 1em;
+            width: 100%;
+            text-align: left;
+            border: none;
+            transition: 0.5s;
+        }
+
+            .accordion-btn:after {
+                content: '+';
+                font-size: 1em;
+                color: aliceblue;
+                float: right;
+                margin-left: 5px;
+            }
+
+            .accordion-btn.active,
+            .accordion-btn:hover {
+                background-color: #3f5973;
+            }
+
+                .accordion-btn.active:after {
+                    content: "-";
                 }
 
-            .real-tabs li a:hover {
-                background-color: #eee !important;
-                color: #4e499d !important
-            }
+        .panel {
+            background-color: #ECF0F1;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.5s ease-in-out;
+            opacity: 0;
+        }
 
-            #item-list .slimScrollDiv {
-                height: 690px !important
-            }
-
-            .bank-btn {
-                position: absolute;
-                right: 0;
-                z-index: 9;
-                border-radius: 0 5px 5px 0;
-            }
-            /*Start Accordion Styles */
-            .accordion-btn {
-                background-color: #2C3E50;
-                font-size: 1.5em;
-                color: #ECF0F1;
-                cursor: pointer;
-                padding: 1em;
-                width: 100%;
-                text-align: left;
-                border: none;
-                transition: 0.5s;
-            }
-
-                .accordion-btn:after {
-                    content: '+';
-                    font-size: 1em;
-                    color: aliceblue;
-                    float: right;
-                    margin-left: 5px;
-                }
-
-                .accordion-btn.active,
-                .accordion-btn:hover {
-                    background-color: #3f5973;
-                }
-
-                    .accordion-btn.active:after {
-                        content: "-";
-                    }
-
-            .panel {
-                background-color: #ECF0F1;
-                max-height: 0;
-                overflow: hidden;
-                transition: 0.5s ease-in-out;
-                opacity: 0;
-            }
-
-                .panel p {
-                    font-size: 1.2em;
-                    padding: 0 2em;
-                }
-
-                .panel.show {
-                    display: block;
-                    opacity: 1;
-                    max-height: 500px;
-                }
-
-            .inner-accord {
-                background-color: #5b80a4;
+            .panel p {
                 font-size: 1.2em;
-                padding: 1em 1.75em;
+                padding: 0 2em;
             }
 
-                .inner-accord.active,
-                .inner-accord:hover {
-                    background-color: #7b99b7;
-                }
-
-            .select2-container {
-                box-sizing: border-box;
+            .panel.show {
                 display: block;
-                /* margin: 0; */
-                position: relative;
-                vertical-align: middle;
-                width: 100% !important;
-            }
-            /*End Accordion Styles */
-            .items-table-width {
-                width: 35%
+                opacity: 1;
+                max-height: 500px;
             }
 
-            .items-width {
-                width: 65%
+        .inner-accord {
+            background-color: #5b80a4;
+            font-size: 1.2em;
+            padding: 1em 1.75em;
+        }
+
+            .inner-accord.active,
+            .inner-accord:hover {
+                background-color: #7b99b7;
             }
 
-            @@media only screen and (max-width: 768px) {
-                .items-table-width, .items-width, .pos .contents #item-list .btn {
-                    width: 50%
-                }
+        .select2-container {
+            box-sizing: border-box;
+            display: block;
+            /* margin: 0; */
+            position: relative;
+            vertical-align: middle;
+            width: 100% !important;
+        }
+        /*End Accordion Styles */
+        .items-table-width {
+            width: 35%
+        }
+
+        .items-width {
+            width: 65%
+        }
+        .flex{
+            display:flex;
+            justify-content:space-between
+        }
+        .flex input{
+            margin:0 7px
+        }
+        @@media only screen and (max-width: 768px) {
+            .items-table-width, .items-width, .pos .contents #item-list .btn {
+                width: 50%
             }
-        </style>
-    </head>
-<body class="skin-@theme_style sidebar-collapse sidebar-mini pos" style="background-color:#fff !important">
+        }
+    </style>
+</head>
+<body class="skin-@theme_style sidebar-collapse sidebar-mini pos" id="arabic-mode" style="background-color:#fff !important">
     <header class="main-header">
         <a href="@Url.Action("Index","Home")" class="logo">
             <span class="logo-mini">POS</span>
@@ -332,34 +351,34 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Settings</h4>
+                    <h4 class="modal-title" id="myModalLabel">@Resources.Default.settings</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 my-1">
                             <div class="form-group">
-                                <label>Cash Account</label>
+                                <label>@Resources.Default.CashAccount</label>
                                 @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                             </div>
                         </div>
                         <div class="col-md-6 my-1">
                             <div class="form-group">
-                                <label>Tax Account</label>
+                                <label>@Resources.Default.TaxAccount</label>
                                 @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                             </div>
                         </div>
                         <div class="col-md-6 my-1">
                             <div class="form-group">
-                                <label>Sales Account</label>
+                                <label>@Resources.Default.SalesAccount</label>
                                 @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                             </div>
                         </div>
                         <div class="col-md-6 my-1">
                             <div class="form-group">
-                                <label>Voucher Type</label>
+                                <label>@Resources.Default.VoucherType</label>
                                 @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                             </div>
@@ -368,7 +387,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <input type="submit" onclick="SaveSettings()" value="Save" data-dismiss="modal" class="btn btn-primary">
+                    <input type="submit" onclick="SaveSettings()" value="@Resources.Default.SalesAccount" data-dismiss="modal" class="btn btn-primary">
                 </div>
             </div>
         </div>
@@ -379,14 +398,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Close Register (Opened at: @Model.Registers.Date)</h4>
+                    <h4 class="modal-title" id="myModalLabel">@Resources.Default.close_register &nbsp; (@Resources.Default.OpenedAt &nbsp; @Model.Registers.Date)</h4>
                 </div>
                 <div class="modal-body">
                     <table width="100%" class="stable">
                         <tbody>
                             <tr>
-                                <td style="border-bottom: 1px solid #EEE;"><h4>Cash in hand:</h4></td>
-                                <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                <td style="border-bottom: 1px solid #EEE;"><h4>@Resources.Default.CashInHand</h4></td>
+                                <td style="text-align:end; border-bottom: 1px solid #EEE">
                                     <h4>
                                         <span>@Model.Registers.Cash_in_hand.ToString("0.00")</span>
                                     </h4>
@@ -396,7 +415,7 @@
                             {
                                 <tr>
                                     <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
-                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                    <td style="text-align:end; border-bottom: 1px solid #EEE;">
                                         <h4>
                                             <span id="P_@item.MethodId">0.00</span>
                                         </h4>
@@ -406,7 +425,7 @@
 
                             <tr>
                                 <td width="300px" style="font-weight:bold;">
-                                    <h4><strong>Total Cash</strong>:</h4>
+                                    <h4><strong>@Resources.Default.TotalCash</strong>:</h4>
                                 </td>
                                 <td style="text-align:right;">
                                     <h4>
@@ -419,7 +438,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <input type="submit" onclick="CloseRegister()" name="close_register" value="Close Register" class="btn btn-primary">
+                    <input type="submit" onclick="CloseRegister()" name="close_register" value="@Resources.Default.close_register" class="btn btn-primary">
                 </div>
             </div>
         </div>
@@ -429,7 +448,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="myModalLabel">Today's Sale (@DateTime.Now.Date.ToString("dd-MM-yyyy"))</h4>
+                    <h4 class="modal-title" id="myModalLabel">@Resources.Default.TodaySale (@DateTime.Now.Date.ToString("dd-MM-yyyy"))</h4>
                 </div>
                 <div class="modal-body">
                     <table width="100%" class="stable">
@@ -438,7 +457,7 @@
                             {
                                 <tr>
                                     <td style="border-bottom: 1px solid #EEE;"><h4> @item.Name:</h4></td>
-                                    <td style="text-align:right; border-bottom: 1px solid #EEE;">
+                                    <td style="text-align:end; border-bottom: 1px solid #EEE;">
                                         <h4>
                                             <span id="Pt_@item.MethodId">0.00</span>
                                         </h4>
@@ -447,9 +466,9 @@
                             }
                             <tr>
                                 <td width="300px" style="font-weight:bold;">
-                                    <h4><strong>Total Cash</strong>:</h4>
+                                    <h4><strong>@Resources.Default.TotalCash</strong>:</h4>
                                 </td>
-                                <td style="text-align:right;">
+                                <td style="text-align:end;">
                                     <h4>
                                         <span><strong id="todaytotalcash">0.00</strong></span>
                                     </h4>
@@ -703,11 +722,16 @@
     <script type="text/javascript">
         var datatax = @Html.Raw(Json.Encode(Model.TaxClassificationTable));
         $(document).ready(function () {
+
+            $("#to_date").datetimepicker({
+
+                format: 'DD-MM-YYYY HH:mm',
+            });
+
             $("#OpenRegisterPopup").show();
             $("#close-now").click(function () {
                 $("#OpenRegisterPopup").hide();
             });
-
         });
 
         jsonObj = [];
@@ -785,9 +809,10 @@
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
-                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service+'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service +'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
+
                         } else {
-                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'"  data-service="' + data[i].Service +'" data-name=' + data[i].ItemName + ' data-price=' + data[i].Price + 'data-qty=' + data[i].Qty + 'data-itembarcode=' + data[i].ItemBarcode + 'data-taxrate=' + data[i].taxRate + ' id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
+                            $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service +'" data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate + '" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl'+'637720557797713568.jfif" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price + '</span></span></button>');
                         }
                     }
 
@@ -1054,10 +1079,12 @@
     }
         function sendTask(Id, PrimaryName) {
             debugger
-            spositems[KeyId].ToUserId = Id;
-            spositems[KeyId].Title = PrimaryName;
+            spositems[KeyToUserId].ToUserId = Id;
+            spositems[KeyToUserId].Title = PrimaryName;
+            $("#AssignId").val(PrimaryName);
             store('spositems', JSON.stringify(spositems));
-            loadItems();
+            $('#DateModal').modal('show');
+           // loadItems();
             //document.getElementById("AssignId").value = PrimaryName;
         }
 
@@ -1072,7 +1099,6 @@
         <script src="@(assets)dist/js/htmlimg.js"></script>
     }
     <script>
-        $(".datepicker").datepicker();
         // Toggle 'active' and 'show' states of panels
 
         var accord = document.getElementsByClassName("accordion-btn");
@@ -1091,15 +1117,15 @@
         })
         function GetFromDate(val) {
             debugger
-            spositems[KeyId].FromDate = val;
+            spositems[KeyToUserId].FromDate = moment(val).format("DD-MM-YYYY HH:mm");
             store('spositems', JSON.stringify(spositems));
-            loadItems();
+            //loadItems();
         }
         function GetToDate(val) {
             debugger
-            spositems[KeyId].ToDate = val;
+            spositems[KeyToUserId].ToDate = moment(val).format("DD-MM-YYYY HH:mm");
             store('spositems', JSON.stringify(spositems));
-            loadItems();
+            //loadItems();
         }
     </script>
 </body>

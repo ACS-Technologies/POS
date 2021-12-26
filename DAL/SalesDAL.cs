@@ -23,11 +23,12 @@ namespace DAL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public DataSet M_Sales_GetById(int Id)
+        public DataSet M_Sales_GetById(int Id,bool IsWorkShop)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_GetById";
             cmd.Parameters.AddWithValue("@Id", Id);
+            cmd.Parameters.AddWithValue("@IsWorkShop", IsWorkShop);
             return ExDataBase_returnDataSet(cmd);
         }
 
@@ -151,7 +152,7 @@ namespace DAL
             decimal? Total_discount, decimal? Product_tax, string Order_tax_id, decimal Order_tax, decimal? Total_tax, decimal Grand_total, int? Total_items, decimal? Total_quantity,
             decimal? Paid, int? Created_by, string Note, string Status, decimal? Rounding, int Store_id, string Hold_ref, DataTable SaleItems,
             decimal Amount, int paid_by, string cheque_no, string cc_no, string gc_no, string cc_holder, string cc_month, string cc_year, string cc_type,
-            string paymentNote, decimal? pos_paid, decimal? pos_balance, int? ChequeBanks, DateTime? DateCheque)
+            string paymentNote, decimal? pos_paid, decimal? pos_balance, int? ChequeBanks, DateTime? DateCheque,int Vehicle_id,string Vehicle_name)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_Insert";
@@ -192,6 +193,8 @@ namespace DAL
             cmd.Parameters.AddWithValue("@Pos_balance", pos_balance);
             cmd.Parameters.AddWithValue("@ChequeBanks", ChequeBanks);
             cmd.Parameters.AddWithValue("@DateCheque", DateCheque);
+            cmd.Parameters.AddWithValue("@Vehicle_id", Vehicle_id);
+            cmd.Parameters.AddWithValue("@Vehicle_name", Vehicle_name);
             return ExDataBase_returnDataSet(cmd);
         }
 

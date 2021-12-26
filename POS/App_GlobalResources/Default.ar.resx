@@ -165,6 +165,9 @@
   <data name="bill" xml:space="preserve">
     <value>فاتورة</value>
   </data>
+  <data name="BillDesc" xml:space="preserve">
+    <value>إذا كنت راضيًا عن خدماتنا ، فيرجى إخبار أصدقائك وان لم تكن راضياً نرجوا إخبارنا حتى نتمكن من التحسين</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>إلغاء</value>
   </data>
@@ -173,6 +176,12 @@
   </data>
   <data name="cash" xml:space="preserve">
     <value>كاش</value>
+  </data>
+  <data name="CashAccount" xml:space="preserve">
+    <value>حساب الكاش</value>
+  </data>
+  <data name="CashInHand" xml:space="preserve">
+    <value>الكاش في اليد</value>
   </data>
   <data name="categories" xml:space="preserve">
     <value>الفئات</value>
@@ -303,6 +312,9 @@
   <data name="note" xml:space="preserve">
     <value>ملاحظات</value>
   </data>
+  <data name="OpenedAt" xml:space="preserve">
+    <value>تم فتحه في:</value>
+  </data>
   <data name="order" xml:space="preserve">
     <value>ترتيب</value>
   </data>
@@ -323,6 +335,9 @@
   </data>
   <data name="phone" xml:space="preserve">
     <value>هاتف</value>
+  </data>
+  <data name="PleaseComeAgain" xml:space="preserve">
+    <value>نلقاك قريباً</value>
   </data>
   <data name="POS" xml:space="preserve">
     <value>نقاط البيع</value>
@@ -372,6 +387,12 @@
   <data name="sales" xml:space="preserve">
     <value>مبيعات</value>
   </data>
+  <data name="SalesAccount" xml:space="preserve">
+    <value>حساب المبيعات</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
   <data name="search__scan" xml:space="preserve">
     <value>ابحث عن المنتج بالرمز أو الاسم ، ويمكنك أيضًا مسح الرمز الشريطي ضوئيًا</value>
   </data>
@@ -399,14 +420,26 @@
   <data name="suspend_sale" xml:space="preserve">
     <value>تعليق عملية البيع</value>
   </data>
+  <data name="TaxAccount" xml:space="preserve">
+    <value>حساب الضريبة</value>
+  </data>
   <data name="tax_title" xml:space="preserve">
     <value>الضريبة (5 أو 5٪)</value>
+  </data>
+  <data name="ThankVisit" xml:space="preserve">
+    <value>شكراً جزيلاً لزيارتك</value>
+  </data>
+  <data name="TodaySale" xml:space="preserve">
+    <value>مبيعات اليوم</value>
   </data>
   <data name="today_sale" xml:space="preserve">
     <value>مبيعات اليوم</value>
   </data>
   <data name="total" xml:space="preserve">
     <value>المجموع</value>
+  </data>
+  <data name="TotalCash" xml:space="preserve">
+    <value>المجموع الكلي</value>
   </data>
   <data name="total_items" xml:space="preserve">
     <value>إجمالي العناصر</value>
@@ -437,6 +470,9 @@
   </data>
   <data name="visa" xml:space="preserve">
     <value>فيزا</value>
+  </data>
+  <data name="VoucherType" xml:space="preserve">
+    <value>نوع السند</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>أهلا بك</value>

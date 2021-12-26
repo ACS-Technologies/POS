@@ -80,6 +80,7 @@
     <Compile Include="TransTypeTable.cs" />
     <Compile Include="TransTypeUD.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="VehicleNams.cs" />
     <Compile Include="WorkshopLevels.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

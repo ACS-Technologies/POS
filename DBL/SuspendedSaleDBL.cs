@@ -206,7 +206,7 @@ namespace DBL
             SuspendedSale oSuspendedSale = new SuspendedSale();
             ds = oSuspendedSaleDAL.M_SuspendedSale_Insert(PoSuspendedSale.Date, PoSuspendedSale.Customer_id, PoSuspendedSale.Customer_name, PoSuspendedSale.Total, PoSuspendedSale.Product_discount, PoSuspendedSale.Order_discount_id, PoSuspendedSale.Order_discount,
             PoSuspendedSale.Total_discount, PoSuspendedSale.Product_tax, PoSuspendedSale.Order_tax_id, PoSuspendedSale.Order_tax, PoSuspendedSale.Total_tax, PoSuspendedSale.Grand_total, PoSuspendedSale.Total_items, PoSuspendedSale.Total_quantity,
-            PoSuspendedSale.Paid, PoSuspendedSale.Created_by, PoSuspendedSale.Note,PoSuspendedSale.Store_id, PoSuspendedSale.Hold_ref, ToDataTable(PoSuspendedSale.SuspendedItems));
+            PoSuspendedSale.Paid, PoSuspendedSale.Created_by, PoSuspendedSale.Note,PoSuspendedSale.Store_id, PoSuspendedSale.Hold_ref, ToDataTable(PoSuspendedSale.SuspendedItems), PoSuspendedSale.Vehicle_id, PoSuspendedSale.Vehicle_name);
 
             if (ds.Tables.Count > 0)
             {
