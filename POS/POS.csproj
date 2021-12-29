@@ -18,7 +18,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44376</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -179,6 +180,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\engine-oil.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\moment.min.js" />
     <Content Include="Content\smart_theme\build\build-bundle.js" />
     <Content Include="Content\smart_theme\build\build-combine.js" />
     <Content Include="Content\smart_theme\build\build-dist.js" />

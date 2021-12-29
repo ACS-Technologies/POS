@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="~/Content/moment.min.js"></script>
     <style>
         body {
             overflow-x: hidden !important
@@ -231,7 +232,7 @@
 </head>
 <body class="skin-@theme_style sidebar-collapse sidebar-mini pos" id="arabic-mode" style="background-color:#fff !important">
     <header class="main-header">
-        <a href="@Url.Action("Index","Home")" class="logo">
+        <a href="@Url.Action("Index","POS")" class="logo">
             <span class="logo-mini">POS</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
@@ -250,49 +251,53 @@
                 </ul>*@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" class="clock"></a></li>
+                    <li><a href="#" class="">@DateTime.Now</a></li>
                     <li><a href="@Url.Action("TablePage","POS")"><i class="fa fa-table"></i></a></li>
                     <li><a href="@Url.Action("Index","POS")"><i class="fa fa-th"></i></a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#settingsModal"><i class="fa fa-cogs"></i></a></li>
-                    <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
-                    <li class="hidden-xs hidden-sm"><a href="@Url.Action("shortcuts","POS")" data-toggle="ajax"><i class="fa fa-key"></i></a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#" onclick="GetTodaySales()">@Resources.Default.today_sale</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#" onclick="GetGrandTotal()">@Resources.Default.close_register</a></li>
-                    <li class="dropdown notifications-menu" id="suspended_sales">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">@Model.SuspendedSale.Count</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">
-                                <input type="text" autocomplete="off" data-list=".list-suspended-sales" name="filter-suspended-sales" id="filter-suspended-sales" class="form-control input-sm kb-text clearfix" placeholder="@Resources.Default.filter_by_reference">
-                            </li>
-                            <li>
-                                <ul class="menu">
-                                    <li class="list-suspended-sales">
-                                        @foreach (var item in Model.SuspendedSale)
-                                        {
-                                            <a href="#" value="@item.Id" class="load_hold">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
-                                        }
-                                    </li>
-                                </ul>
-                            </li>
-                            @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
-                        </ul>
-                    </li>
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
-                            <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="user-header">
-                                <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
-                            </li>
+                        <li><a href="#" data-toggle="modal" data-target="#settingsModal"><i class="fa fa-cogs"></i></a></li>
 
-                        </ul>
-                    </li>
-                </ul>
+                        <li><a href="@Url.Action("ViewBill","POS")" target="_blank"><i class="fa fa-desktop"></i></a></li>
+                        @if (ViewBag.IsWorkShop == false)
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#" onclick="GetTodaySales()">@Resources.Default.today_sale</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#" onclick="GetGrandTotal()">@Resources.Default.close_register</a></li>
+                        }
+
+                        <li class="dropdown notifications-menu" id="suspended_sales">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">@Model.SuspendedSale.Count</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">
+                                    <input type="text" autocomplete="off" data-list=".list-suspended-sales" name="filter-suspended-sales" id="filter-suspended-sales" class="form-control input-sm kb-text clearfix" placeholder="@Resources.Default.filter_by_reference">
+                                </li>
+                                <li>
+                                    <ul class="menu">
+                                        <li class="list-suspended-sales">
+                                            @foreach (var item in Model.SuspendedSale)
+                                            {
+                                                <a href="#" value="@item.Id" class="load_hold">@item.Date.ToString("dd-MM-yyyy")   @item.Customer_name<br><div class="bold">@item.Hold_ref</div></a>
+                                            }
+                                        </li>
+                                    </ul>
+                                </li>
+                                @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
+                            </ul>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
+                                <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
             </div>
         </nav>
     </header>
@@ -354,36 +359,58 @@
                     <h4 class="modal-title" id="myModalLabel">@Resources.Default.settings</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 my-1">
-                            <div class="form-group">
-                                <label>@Resources.Default.CashAccount</label>
-                                @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                    @if (ViewBag.IsWorkShop == false)
+                    {
+                        <div class="row">
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>@Resources.Default.CashAccount</label>
+                                    @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
+                                </div>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>@Resources.Default.TaxAccount</label>
+                                    @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>@Resources.Default.SalesAccount</label>
+                                    @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>@Resources.Default.VoucherType</label>
+                                    @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 my-1">
-                            <div class="form-group">
-                                <label>@Resources.Default.TaxAccount</label>
-                                @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>Expenses Type</label>
+                                    @Html.DropDownList("ExpensesTypeId", new SelectList(Model.ExpensesType, "Id",POS.Controllers.LanguageController.GetCurrentLanguage()=="en"? "PrimaryName":"SecondaryName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
+                                </div>
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <div class="form-group">
+                                    <label>Payment Voucher</label>
+                                    @Html.DropDownList("PaymentVoucherId", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 my-1">
-                            <div class="form-group">
-                                <label>@Resources.Default.SalesAccount</label>
-                                @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
-
-                            </div>
-                        </div>
-                        <div class="col-md-6 my-1">
-                            <div class="form-group">
-                                <label>@Resources.Default.VoucherType</label>
-                                @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
-
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div class="modal-footer">
 
@@ -723,11 +750,6 @@
         var datatax = @Html.Raw(Json.Encode(Model.TaxClassificationTable));
         $(document).ready(function () {
 
-            $("#to_date").datetimepicker({
-
-                format: 'DD-MM-YYYY HH:mm',
-            });
-
             $("#OpenRegisterPopup").show();
             $("#close-now").click(function () {
                 $("#OpenRegisterPopup").hide();
@@ -743,6 +765,8 @@
                 $('#CachAccountId').val(@Model.SettingAccounts.CachAccountId);
                 $('#SalesAccountId').val(@Model.SettingAccounts.SalesAccountId);
                 $('#TaxAccountId').val(@Model.SettingAccounts.TaxAccountId);
+                $('#ExpensesTypeId').val(@Model.SettingAccounts.ExpensesTypeId);
+                  $('#PaymentVoucherId').val(@Model.SettingAccounts.PaymentVoucherId);
             }
 
             if (localStorage.getItem("Items") === null) {
@@ -929,6 +953,7 @@
             data: {},
             contentType: 'application/json',
             success: function (data) {
+                debugger
                 if (data[0].ChequesNumber === true) {
                     $("#ChequeNumber").show();
                     chkN = true;
@@ -1026,7 +1051,9 @@
                         TransTypeNo :  $('#TransTypeNo').val(),
                         CachAccountId :  $('#CachAccountId').val(),
                         SalesAccountId :  $('#SalesAccountId').val(),
-                        TaxAccountId :  $('#TaxAccountId').val()
+                TaxAccountId: $('#TaxAccountId').val(),
+                ExpensesTypeId: $('#ExpensesTypeId').val(),
+                              PaymentVoucherId :  $('#PaymentVoucherId').val()
             }
              $.ajax({
               type: 'Post',
@@ -1115,17 +1142,27 @@
                 $(".nav.nav-tabs.real-tabs.nav-justified").removeClass("nav-justified");
             }
         })
-        function GetFromDate(val) {
+        //function GetFromDate(val) {
+        //    debugger
+        //    spositems[KeyToUserId].FromDate = moment(val).format("DD-MM-YYYY HH:mm");
+        //    store('spositems', JSON.stringify(spositems));
+        //    //loadItems();
+        //}
+        //function GetToDate(val) {
+        //    debugger
+        //    spositems[KeyToUserId].ToDate = moment(val).format("DD-MM-YYYY HH:mm");
+        //    store('spositems', JSON.stringify(spositems));
+        //    //loadItems();
+        //}
+        function SendDataTospositems()
+        {
             debugger
-            spositems[KeyToUserId].FromDate = moment(val).format("DD-MM-YYYY HH:mm");
+            spositems[KeyToUserId].FromDate = $('#from_date').val();
+            spositems[KeyToUserId].ToDate = $('#to_date').val();
+            spositems[KeyToUserId].TimeFrom = $('#time_from').val();
+            spositems[KeyToUserId].TimeTo = $('#time_to').val();
             store('spositems', JSON.stringify(spositems));
-            //loadItems();
-        }
-        function GetToDate(val) {
-            debugger
-            spositems[KeyToUserId].ToDate = moment(val).format("DD-MM-YYYY HH:mm");
-            store('spositems', JSON.stringify(spositems));
-            //loadItems();
+            loadItems();
         }
     </script>
 </body>

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDetailsTable.cs" />
+    <Compile Include="AccountingDefinitions.cs" />
     <Compile Include="AccountSalesDetails.cs" />
     <Compile Include="AccountSalesMaster.cs" />
     <Compile Include="AccountTable.cs" />
@@ -54,6 +55,8 @@
     <Compile Include="CompanyInfo.cs" />
     <Compile Include="CurrencyTable.cs" />
     <Compile Include="CustomerInformation.cs" />
+    <Compile Include="ExpensesType.cs" />
+    <Compile Include="GeneralDefinitions.cs" />
     <Compile Include="GiftCard.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Item.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="TransTypeTable.cs" />
     <Compile Include="TransTypeUD.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="VehicleDefinitions.cs" />
     <Compile Include="VehicleNams.cs" />
     <Compile Include="WorkshopLevels.cs" />
   </ItemGroup>

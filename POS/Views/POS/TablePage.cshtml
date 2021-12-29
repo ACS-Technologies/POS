@@ -3,12 +3,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <section class="content">
-        <h3>Invoices Table</h3>
+        @if (Model.IsWorkShop == true)
+        {
+            <h3>Orders Table</h3>
+        }
+        else
+        {
+            <h3>Invoices Table</h3>
+        }
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="table-responsive">
+                            <input type="hidden" name="SalesId" id="SalesId" value="@Model.SalesId" />
                             <table id="SLData" class="table table-striped table-bordered table-condensed table-hover text-center">
                                 <thead>
                                     <tr>
@@ -33,49 +41,49 @@
                                 <tbody>
                                     @foreach (var item in Model.Sales)
                                     {
-                                    <tr role="row" class="odd" id="13">
-                                        <td>@item.Date</td>
-                                        @if (Model.IsWorkShop == true)
-                                        {
-                                            <td>@item.Vehicle_name</td>
-                                        }
-                                        else
-                                        {
-                                            <td>@item.Customer_name</td>
-                                        }
+                                        <tr role="row" class="odd" id="13">
+                                            <td>@item.Date</td>
+                                            @if (Model.IsWorkShop == true)
+                                            {
+                                                <td>@item.Vehicle_name</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@item.Customer_name</td>
+                                            }
 
-                                        <td>@item.Total</td>
-                                        <td>
-                                            @item.Product_tax
-                                        </td>
-                                        <td>
-                                            @item.Order_discount
-                                        </td>
-                                        <td>
-                                            @item.Grand_total
-                                        </td>
-                                        <td>
-                                            @item.Paid
-                                        </td>
+                                            <td>@item.Total</td>
+                                            <td>
+                                                @item.Product_tax
+                                            </td>
+                                            <td>
+                                                @item.Order_discount
+                                            </td>
+                                            <td>
+                                                @item.Grand_total
+                                            </td>
+                                            <td>
+                                                @item.Paid
+                                            </td>
 
-                                        <td>
-                                            <a href="@Url.Action("Index", "POS")?Id=@item.Id" class="tip btn btn-primary btn-sm"><i class="fa fa-eye"></i>&nbsp; View</a>
-                                            <a href="@Url.Action("PrintOrder", "POS")?Id=@item.Id&IsWorkShop=@(Model.IsWorkShop ==true ? "true":"false")" class="tip btn btn-success btn-sm"><i class="fa fa-print"></i>&nbsp; Print</a>
+                                            <td>
+                                                <a href="@Url.Action("Index", "POS")?Id=@item.Id" class="tip btn btn-primary btn-sm"><i class="fa fa-eye"></i>&nbsp; View</a>
+                                                <a href="@Url.Action("PrintOrder", "POS")?Id=@item.Id&IsWorkShop=@(Model.IsWorkShop ==true ? "true":"false")" class="tip btn btn-success btn-sm"><i class="fa fa-print"></i>&nbsp; Print</a>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                                 <tfoot class="text-center">
                                     <tr>
-                                        <th><span class="datepickercon"><input type="text" class="text_filter datepicker" placeholder="Date"></span></th>
+                                        <th>Date</th>
                                         @if (Model.IsWorkShop == false)
                                         {
-                                            <th><input type="text" class="text_filter" placeholder="Customer"></th>
+                                            <th>Customer</th>
                                         }
                                         else
                                         {
-                                            <th><input type="text" class="text_filter" placeholder="Vehicle"></th>
+                                            <th>Vehicle</th>
                                         }
                                         <th>Total</th>
                                         <th>Tax</th>

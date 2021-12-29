@@ -191,7 +191,7 @@
 </div>
 
 <div id="ajaxCall"><i class="fa fa-spinner fa-pulse"></i></div>
-@if (Model.Registers.Status == "close" || Model.Registers.Status == null)
+@if (Model.Registers.Status == "close" || Model.Registers.Status == null && Model.IsWorkShop==false)
 {
     <div class="modal" data-easein="flipYIn" id="OpenRegisterPopup" tabindex="-1" role="dialog" aria-labelledby="mModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -555,25 +555,25 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Time</label>
-                            <input type="time" class="form-control" value="@DateTime.Now.ToString("hh:mm")" />
+                            <input type="time" class="form-control" id="time_from" value="@DateTime.Now.ToString("hh:mm")" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>From Date</label>
+                            <label>To Date</label>
                             <input type="text" class="to form-control" id="to_date" placeholder="To" value="" autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Time</label>
-                            <input type="time" class="form-control" value="@DateTime.Now.ToString("hh:mm")" />
+                            <input type="time" class="form-control" id="time_to" value="@DateTime.Now.ToString("hh:mm")" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-primary">Save</a>
+                <a href="#" class="btn btn-primary" onclick="SendDataTospositems()" data-dismiss="modal">Save</a>
             </div>
         </div>
     </div>
