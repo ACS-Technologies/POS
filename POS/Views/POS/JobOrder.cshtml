@@ -154,10 +154,10 @@
                     @foreach (var item in Model.SaleItems)
                     {
                         <tr class="service">
-                            <td class="tableitem"><p class="itemtext">@item.Product_name</p></td>
-                            <td class="tableitem"><p class="itemtext">@item.Quantity.ToString("0")</p></td>
-                            <td class="tableitem"><p class="itemtext">@Model.Tasks.Where(x=>x.Title== item.Product_name).FirstOrDefault().FromDate</p></td>
-                            <td class="tableitem"><p class="itemtext">@Model.Tasks.Where(x => x.Title == item.Product_name).FirstOrDefault().ToDate</p></td>
+                            <td class="tableitem" style="width:30%"><p class="itemtext">@item.Product_name</p></td>
+                            <td class="tableitem" style="width:10%"><p class="itemtext">@item.Quantity.ToString("0")</p></td>
+                            <td class="tableitem" style="width:30%"><p class="itemtext">@Model.Tasks.Where(x=>x.Title== item.Product_name).FirstOrDefault().FromDate</p></td>
+                            <td class="tableitem" style="width:30%"><p class="itemtext">@Model.Tasks.Where(x => x.Title == item.Product_name).FirstOrDefault().ToDate</p></td>
                         </tr>
                     }
 

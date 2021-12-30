@@ -16,6 +16,7 @@ namespace POCO
         public Int64 TranTypeNo { get; set; }
         public Int64? RevenueTransNo { get; set; }
         public Int64? RevenueTransTypeNo { get; set; }
+        public bool? IsWorkShop { get; set; }
         public Int64 AccountNo { get; set; }
         public decimal DAmount { get; set; }
         public decimal CAmount { get; set; }

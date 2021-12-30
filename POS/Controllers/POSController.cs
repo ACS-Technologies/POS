@@ -52,19 +52,24 @@ namespace POS.Controllers
             {
                 main.Workshops = JsonConvert.DeserializeObject<List<WorkshopLevels>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"],0, 1158, 307, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            Response responseExpensesType = APICall.Get<Response>(string.Format("{0}/ExpensesType/ExpensesType_Get?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+            if (responseUsers.IsScusses)
+            {
+                main.ExpensesType = JsonConvert.DeserializeObject<List<ExpensesType>>(JsonConvert.SerializeObject(responseExpensesType.ResponseDetails));
+            }
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"],0, 1202, 369, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
-            }       
-
-            List<TransTypeTable> TransTypeTable = new List<TransTypeTable>();
-
-            Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            }
+            main.IsWorkShop = true;
+            ViewBag.IsWorkShop = main.IsWorkShop;
+            Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (response.IsScusses)
             {
                 var trans = JsonConvert.DeserializeObject<List<TransTypeTable>>(JsonConvert.SerializeObject(response.ResponseDetails));
-                main.TransTypeTable = trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
+
+                main.TransTypeTable = main.IsWorkShop == true ? trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 2).ToList() : trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
             }
             Response responseaccount = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307,  LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responseaccount.IsScusses)
@@ -92,7 +97,7 @@ namespace POS.Controllers
                 {
                     main.VehicleNams = JsonConvert.DeserializeObject<List<VehicleNams>>(JsonConvert.SerializeObject(responseVehicleNams.ResponseDetails));
                 }
-            main.IsWorkShop = true;
+
             //}
             main.oBankBranch = new BankBranch();
             Response response3 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Active", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
@@ -170,7 +175,7 @@ namespace POS.Controllers
             List<PaymentMethod> PaymentMethod = new List<PaymentMethod>();
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
 
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], MethodId, 1158, 307, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], MethodId, CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
@@ -219,12 +224,12 @@ namespace POS.Controllers
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
 
-            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responseGroup.IsScusses)
             {
                 main.Group = JsonConvert.DeserializeObject<List<Group>>(JsonConvert.SerializeObject(responseGroup.ResponseDetails));
             }
-            Response responseCategory = APICall.Get<Response>(string.Format("{0}/Categories/Get_Categories?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responseCategory = APICall.Get<Response>(string.Format("{0}/Categories/Get_Categories?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responseCategory.IsScusses)
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
@@ -234,19 +239,26 @@ namespace POS.Controllers
             {
                 main.Workshops = JsonConvert.DeserializeObject<List<WorkshopLevels>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
             }
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
+            Response responseExpensesType = APICall.Get<Response>(string.Format("{0}/ExpensesType/ExpensesType_Get?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+            if (responseUsers.IsScusses)
+            {
+                main.ExpensesType = JsonConvert.DeserializeObject<List<ExpensesType>>(JsonConvert.SerializeObject(responseExpensesType.ResponseDetails));
+            }
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, main.CompanyId, main.BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
             }
 
-            List<TransTypeTable> TransTypeTable = new List<TransTypeTable>();
+
+            main.IsWorkShop = true;
+            ViewBag.IsWorkShop = main.IsWorkShop;
 
             Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (response.IsScusses)
             {
                 var trans = JsonConvert.DeserializeObject<List<TransTypeTable>>(JsonConvert.SerializeObject(response.ResponseDetails));
-                main.TransTypeTable = trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
+                main.TransTypeTable = main.IsWorkShop == true ? trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 2).ToList() : trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
             }
             Response responseaccount = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responseaccount.IsScusses)
@@ -275,7 +287,6 @@ namespace POS.Controllers
                 }
             //}
 
-            main.IsWorkShop = true;
             main.oBankBranch = new BankBranch();
             Response response3 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Active", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
             if (response3.IsScusses)

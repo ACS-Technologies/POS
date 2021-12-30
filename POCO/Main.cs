@@ -31,6 +31,7 @@ namespace POCO
         public List<BankBranch> oLBankBranch { get; set; }
         public BankBranch oBankBranch { get; set; }
         public List<WorkshopLevels> Workshops { get; set; }
+        public List<ExpensesType> ExpensesType { get; set; }
         public SettingAccounts SettingAccounts { get; set; }
         public bool IsWorkShop { get; set; }
     }

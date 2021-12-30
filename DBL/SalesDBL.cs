@@ -210,6 +210,7 @@ namespace DBL
                             oTask.FromDate = DateTime.Parse(ds.Tables[2].Rows[i]["FromDate"].ToString());
                             oTask.ToDate = DateTime.Parse(ds.Tables[2].Rows[i]["ToDate"].ToString());
                             oTask.Title = ds.Tables[2].Rows[i]["Title"].ToString();
+                            oTask.ToUserId = int.Parse(ds.Tables[2].Rows[0]["ToUserId"].ToString());
                             oSales.Tasks.Add(oTask);
                         }
                     }

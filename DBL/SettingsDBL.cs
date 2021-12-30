@@ -577,7 +577,7 @@ namespace DBL
             SettingAccounts oSettingAccounts = new SettingAccounts();
             SettingsDAL oSettingsDAL = new SettingsDAL();
 
-            ds = oSettingsDAL.M_SettingAccounts_InsertOrUpdate( PoSettings.BranchId, PoSettings.CachAccountId, PoSettings.TaxAccountId, PoSettings.SalesAccountId, PoSettings.TransTypeNo );
+            ds = oSettingsDAL.M_SettingAccounts_InsertOrUpdate( PoSettings.BranchId, PoSettings.CachAccountId, PoSettings.TaxAccountId, PoSettings.SalesAccountId, PoSettings.TransTypeNo, PoSettings.ExpensesTypeId, PoSettings.PaymentVoucherId);
 
             if (ds.Tables.Count > 0)
             {
@@ -600,6 +600,10 @@ namespace DBL
 
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TransTypeNo"].ToString()))
                         oSettingAccounts.TransTypeNo = int.Parse(ds.Tables[0].Rows[0]["TransTypeNo"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["ExpensesTypeId"].ToString()))
+                        oSettingAccounts.ExpensesTypeId = int.Parse(ds.Tables[0].Rows[0]["ExpensesTypeId"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["PaymentVoucherId"].ToString()))
+                        oSettingAccounts.PaymentVoucherId = int.Parse(ds.Tables[0].Rows[0]["PaymentVoucherId"].ToString());
 
                 }
 
@@ -635,6 +639,10 @@ namespace DBL
 
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["TransTypeNo"].ToString()))
                         oSettingAccounts.TransTypeNo = int.Parse(ds.Tables[0].Rows[0]["TransTypeNo"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["ExpensesTypeId"].ToString()))
+                        oSettingAccounts.ExpensesTypeId = int.Parse(ds.Tables[0].Rows[0]["ExpensesTypeId"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["PaymentVoucherId"].ToString()))
+                        oSettingAccounts.PaymentVoucherId = int.Parse(ds.Tables[0].Rows[0]["PaymentVoucherId"].ToString());
 
                 }
 

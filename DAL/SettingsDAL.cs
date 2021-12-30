@@ -121,7 +121,7 @@ namespace DAL
             return ExDataBase_returnDataSet(cmd);
 
         }
-        public DataSet M_SettingAccounts_InsertOrUpdate(int BranchId, int CachAccountId, int TaxAccountId, int SalesAccountId, int TransTypeNo)
+        public DataSet M_SettingAccounts_InsertOrUpdate(int BranchId, int CachAccountId, int TaxAccountId, int SalesAccountId, int TransTypeNo, int? ExpensesTypeId, int? PaymentVoucherId)
 
         {
             SqlCommand cmd = new SqlCommand();
@@ -132,6 +132,8 @@ namespace DAL
             cmd.Parameters.AddWithValue("@TaxAccountId", TaxAccountId);
             cmd.Parameters.AddWithValue("@SalesAccountId", SalesAccountId);
             cmd.Parameters.AddWithValue("@TransTypeNo", TransTypeNo);
+            cmd.Parameters.AddWithValue("@ExpensesTypeId", ExpensesTypeId);
+            cmd.Parameters.AddWithValue("@PaymentVoucherId", PaymentVoucherId);
 
             return ExDataBase_returnDataSet(cmd);
 
