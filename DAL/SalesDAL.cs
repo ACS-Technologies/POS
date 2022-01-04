@@ -305,7 +305,7 @@ namespace DAL
         #region Task
 
         public DataSet D_Task_Insert(string Title, int Status, DateTime FromDate, DateTime ToDate, string Description, int FromUserId,
-             int ToUserId, int CompanyId, int BranchId, int Type, int? RelatedId = null)
+             int ToUserId, int CompanyId, int BranchId, int Type, int? RelatedId = null,bool IsHold = false)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "D_Task_Insert";
@@ -320,6 +320,7 @@ namespace DAL
             cmd.Parameters.AddWithValue("@BranchId", BranchId);
             cmd.Parameters.AddWithValue("@Type", Type);
             cmd.Parameters.AddWithValue("@RelatedId", RelatedId);
+            cmd.Parameters.AddWithValue("@IsHold", IsHold);
 
             return ExDataBase_returnDataSet(cmd);
         }

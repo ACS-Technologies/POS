@@ -17,7 +17,7 @@ namespace POS.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult GetById(int Id)
+        public ActionResult GetById(int Id,bool IsWorkShop)
         {
             result = new ResultJson();
 
@@ -25,7 +25,7 @@ namespace POS.Controllers
             {
                 oSuspendedSaleDBL = new SuspendedSaleDBL();
                 result.IsSuccess = true;
-                result.Data = oSuspendedSaleDBL.M_SuspendedSale_GetById(Id);
+                result.Data = oSuspendedSaleDBL.M_SuspendedSale_GetById(Id, IsWorkShop);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -91,6 +91,7 @@ namespace POS.Controllers
         public ActionResult Insert(SuspendedSale PoSuspendedSale)
         {
             result = new ResultJson();
+            var oSalesDBL = new SalesDBL();
             int CompanyId = ((POCO.CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((POCO.CompanyBranch)Session["BranchInfo"]).BranchID;
             try
@@ -111,6 +112,19 @@ namespace POS.Controllers
                 PoSuspendedSale.Total_items = PoSuspendedSale.SuspendedItems.Count;
                 PoSuspendedSale.Store_id = BranchId;
                 result.Data = oSuspendedSaleDBL.M_Store_Insert(PoSuspendedSale);
+                var userId = SessionManager.GetSessionUserInfo.UserID;
+                foreach (var item in PoSuspendedSale.Tasks)
+                {
+                    item.FromUserId = userId;
+                    item.Status = 1;
+                    item.CompanyId = CompanyId;
+                    item.BranchId = BranchId;
+                    item.Type = 2;
+                    item.RelatedId = ((SuspendedSale)result.Data).Id;
+                    item.IsHold = true;
+                    //item.ToUserId = item;
+                    oSalesDBL.D_Task_Insert(item);
+                }
                 return Json(result);
 
             }

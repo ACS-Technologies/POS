@@ -87,13 +87,13 @@ namespace DBL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public SuspendedSale M_SuspendedSale_GetById(int Id)
+        public SuspendedSale M_SuspendedSale_GetById(int Id,bool IsWorkShop)
         {
             DataSet ds = new DataSet();
             SuspendedSale oSuspendedSale = new SuspendedSale();
             SuspendedItem oSuspendedItem;
-
-            ds = oSuspendedSaleDAL.M_SuspendedSale_GetById(Id);
+            Task oTask;
+            ds = oSuspendedSaleDAL.M_SuspendedSale_GetById(Id, IsWorkShop);
 
             if (ds.Tables.Count > 0)
             {
@@ -148,7 +148,10 @@ namespace DBL
 
                     oSuspendedSale.Store_id = int.Parse(ds.Tables[0].Rows[0]["Store_id"].ToString());
                     oSuspendedSale.Hold_ref = ds.Tables[0].Rows[0]["Hold_ref"].ToString();
-
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Vehicle_id"].ToString()))
+                        oSuspendedSale.Vehicle_id = int.Parse(ds.Tables[0].Rows[0]["Vehicle_id"].ToString());
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Vehicle_name"].ToString()))
+                        oSuspendedSale.Vehicle_name = ds.Tables[0].Rows[0]["Vehicle_name"].ToString();
                     if (ds.Tables.Count > 1)
                     {
                         for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
@@ -180,6 +183,18 @@ namespace DBL
 
                             oSuspendedSale.SuspendedItems.Add(oSuspendedItem);
 
+                        }
+                    }
+                    if (IsWorkShop == true)
+                    {
+                        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+                        {
+                            oTask = new Task();
+                            oTask.FromDate = DateTime.Parse(ds.Tables[2].Rows[i]["FromDate"].ToString());
+                            oTask.ToDate = DateTime.Parse(ds.Tables[2].Rows[i]["ToDate"].ToString());
+                            oTask.Title = ds.Tables[2].Rows[i]["Title"].ToString();
+                            oTask.ToUserId = int.Parse(ds.Tables[2].Rows[0]["ToUserId"].ToString());
+                            oSuspendedSale.Tasks.Add(oTask);
                         }
                     }
 

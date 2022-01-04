@@ -11,6 +11,7 @@ namespace POCO
         public SuspendedSale()
         {
             SuspendedItems = new List<SuspendedItem>();
+            Tasks = new List<Task>();
         }
         public int Id { get; set; }
         public DateTime Date { get; set; }
@@ -38,5 +39,6 @@ namespace POCO
         public int Store_id { get; set; }
         public string Hold_ref { get; set; }
         public List<SuspendedItem> SuspendedItems { get; set; }
+        public List<Task> Tasks { get; set; }
     }
 }

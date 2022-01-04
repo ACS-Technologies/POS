@@ -19,5 +19,6 @@ namespace POCO
         public int BranchId { get; set; }
         public string Title { get; set; }// Product name
         public string Description { get; set; }
+        public bool IsHold { get; set; } 
     }
 }

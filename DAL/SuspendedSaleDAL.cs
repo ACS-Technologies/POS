@@ -24,11 +24,12 @@ namespace DAL
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public DataSet M_SuspendedSale_GetById(int Id)
+        public DataSet M_SuspendedSale_GetById(int Id,bool IsWorkShop)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_SuspendedSale_GetById";
             cmd.Parameters.AddWithValue("@Id", Id);
+            cmd.Parameters.AddWithValue("@IsWorkShop", IsWorkShop);
             return ExDataBase_returnDataSet(cmd);
         }
 
