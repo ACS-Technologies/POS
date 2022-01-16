@@ -688,7 +688,7 @@ namespace POS.Controllers
                             }
                     PoSales.Accident.RelatedId= ((Sales)result.Data).Id;
                     oSuspendedSaleDBL.M_POS_Accident_Insert(PoSales.Accident);
-                          //  oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
+                        oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
                        
                 
                 }
