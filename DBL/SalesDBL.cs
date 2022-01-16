@@ -17,12 +17,12 @@ namespace DBL
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public List<Sales> M_Sales_GetAll(int? UserId)
+        public List<Sales> M_Sales_GetAll(int? UserId,int? BranchId)
         {
             DataSet ds = new DataSet();
             Sales oSales;
             List<Sales> oLSales = new List<Sales>();
-            ds = oSalesDAL.M_Sales_GetAll(UserId);
+            ds = oSalesDAL.M_Sales_GetAll(UserId, BranchId);
             if (ds.Tables.Count > 0)
             {
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -85,7 +85,10 @@ namespace DBL
                         oSales.Vehicle_id = int.Parse(ds.Tables[0].Rows[i]["Vehicle_id"].ToString());
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["Vehicle_name"].ToString()))
                         oSales.Vehicle_name = ds.Tables[0].Rows[i]["Vehicle_name"].ToString();
-                    oLSales.Add(oSales);
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[i]["EnduranceRatio"].ToString()))
+                        oSales.EnduranceRatio = int.Parse(ds.Tables[0].Rows[i]["EnduranceRatio"].ToString());
+                    
+                        oLSales.Add(oSales);
                 }
             }
             return oLSales;
@@ -554,6 +557,14 @@ namespace DBL
             DataSet ds = new DataSet();
             ds = oSalesDAL.D_Task_Insert(PoTask.Title, PoTask.Status, PoTask.FromDate, PoTask.ToDate, PoTask.Description, PoTask.FromUserId, PoTask.ToUserId,
                 PoTask.CompanyId, PoTask.BranchId, PoTask.Type, PoTask.RelatedId, PoTask.IsHold);
+        }
+        public DataSet M_POS_Sales_GetInvoice(int Id)
+        {
+            DataSet ds = new DataSet();
+
+            ds = oSalesDAL.M_POS_Sales_GetInvoice(Id);
+
+            return ds;
         }
         #endregion
     }

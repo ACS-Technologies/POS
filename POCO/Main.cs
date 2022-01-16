@@ -17,6 +17,8 @@ namespace POCO
         public List<SuspendedSale> SuspendedSale { get; set; }
         public List<Sales> Sales { get; set; }
         public List<CustomerInformation> CustomerInformation { get; set; }
+        public List<CustomerInformation> InsuranceCompanies { get; set; }
+         public List<InsuranceDiscountCalculation> InsuranceDiscountCalculation { get; set; }
         public List<VehicleNams> VehicleNams { get; set; }
         public List<PaymentMethod> PaymentMethod { get; set; }
         public List<TransTypeTable> TransTypeTable { get; set; }

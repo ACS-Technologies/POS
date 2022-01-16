@@ -10,6 +10,7 @@ namespace POCO
             SaleItems = new List<SaleItems>();
             Payments = new Payments();
             Tasks = new List<Task>();
+            Accident = new Accident();
         }
              
         public int Id { get; set; }
@@ -43,7 +44,9 @@ namespace POCO
         public List<SaleItems> SaleItems { get; set; }
         public List<Task> Tasks { get; set; }
 
-        public int Hold_Id { get; set; }
-        
+        public int Hold_Id { get; set; }      
+        public Accident Accident { get; set; }
+        public int? EnduranceRatio { get; set; }
+
     }
 }

@@ -42,3 +42,7 @@
 .modal-footer{
     text-align:end
 }
+.ui-autocomplete {
+    top: 187px !important;
+    left: 26px !important;
+}
