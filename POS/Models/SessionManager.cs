@@ -30,6 +30,18 @@ namespace POS.Models
                 HttpContext.Current.Session["UserInfo"] = value;
             }
         }
-      
+        public static CompanyInfo GetSessionCompanyInfo
+        {
+            get
+            {
+                //store the object in session if not already stored
+                if (HttpContext.Current.Session["CompanyInfo"] == null)
+                    HttpContext.Current.Session["CompanyInfo"] = new CompanyInfo();
+
+                //return the object from session
+                return (CompanyInfo)HttpContext.Current.Session["CompanyInfo"];
+            }
+        }
+
     }
 }

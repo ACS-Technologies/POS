@@ -121,7 +121,8 @@
                         }
                         <div class="clearfix"></div>
                         <span id="hidesuspend"></span>
-
+                        <input type="hidden" name="AccidentId" id="AccidentId" />
+                        <input type="hidden" name="Movment" id="Movment" />
                         <input type="hidden" name="customer" id="customer" />
                         <input type="hidden" name="order_tax" id="tax_val" value="" />
                         <input type="hidden" name="order_discount" id="discount_val" value="" />
@@ -398,7 +399,62 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="Ratio" style="display:none">
+
+                            <div class="col-xs-6">
+                                <div class="form-group EnduranceRatio">
+                                    Endurance Ratio
+                                    <select id="EnduranceRatio" name="EnduranceRatio" class="form-control select2" style="width:100%;">
+                                        <option value="0">Select</option>
+                                        <option value="1">Customer</option>
+                                        <option value="2">Insurance Company</option>
+                                        <option value="3">Mutual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6" style="display:none" id="Companies">
+                                <div class="form-group InsuranceCompanies">
+                                    Insurance Companies
+
+                                    @Html.DropDownList("InsuranceCompanies", new SelectList(Model.InsuranceCompanies, "Id", "Name"), "----- Select -----", htmlAttributes: new { @class = "form-control select2", style = "width:100%;" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row info" id="" style="display:none">
+
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    Customer percentage
+                                    <input name="CustomerRatio" type="text" id="CustomerRatio" min="0" max="100"
+                                           class="pa form-control kb-pad " />
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    Insurance percentage
+                                    <input name="InsuranceRatio" type="text" id="InsuranceRatio" min="0" max="100"
+                                           class="pa form-control kb-pad " />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row Value"  style="display:none">
+
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    Customer percentage
+                                    <input name="CustomerValue" type="text" id="CustomerValue" disabled
+                                           class="pa form-control kb-pad " />
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    Insurance percentage
+                                    <input name="InsuranceValue" type="text" id="InsuranceValue" disabled
+                                           class="pa form-control kb-pad " />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="paid">
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     @Resources.Default.amount
@@ -581,7 +637,12 @@
 
 <script>
         var IsWorkShop = @(Model.IsWorkShop.ToString().ToLower()) ;
-        var dataVehicle =@Html.Raw(Json.Encode(Model.VehicleNams));
+    var dataVehicle =@Html.Raw(Json.Encode(Model.VehicleNams));
+
+    var Workshops =@Html.Raw(Json.Encode(Model.Workshops));
+    var InsuranceCompanies =@Html.Raw(Json.Encode(Model.InsuranceCompanies));
+    var InsuranceDiscountCalculation =@Html.Raw(Json.Encode(Model.InsuranceDiscountCalculation));
+     //var Account = Accounts.find(x => x.AccountNo == value);
         $(document).ready(function () {
 
             if (IsWorkShop==true) {

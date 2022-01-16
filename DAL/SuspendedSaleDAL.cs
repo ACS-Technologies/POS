@@ -10,12 +10,12 @@ namespace DAL
         /// M_SuspendedSale_GetAll
         /// </summary>
         /// <returns></returns>
-        public DataSet M_SuspendedSale_GetAll(int? UserId)
+        public DataSet M_SuspendedSale_GetAll(int? UserId, int? BranchId)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_SuspendedSale_GetAll";
             cmd.Parameters.AddWithValue("@UserId", UserId);
-
+            cmd.Parameters.AddWithValue("@BranchId", BranchId);
             return ExDataBase_returnDataSet(cmd);
         }
 
@@ -160,6 +160,22 @@ namespace DAL
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_SuspendedSale_Delete";
             cmd.Parameters.AddWithValue("@Id", Id);
+            return ExDataBase_returnDataSet(cmd);
+        }
+        public DataSet M_POS_Accident_Insert(int? AccidentId, int? CustomerId, int? InsuranceCompanies,decimal? CustomerRatio, decimal? InsuranceRatio, decimal? CustomerValue, decimal? InsuranceValue, decimal? DiscountInsurance, int? EnduranceRatio, int? RelatedId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_POS_Accident_Insert";
+            cmd.Parameters.AddWithValue("@AccidentId", AccidentId);
+            cmd.Parameters.AddWithValue("@CustomerId", CustomerId);
+            cmd.Parameters.AddWithValue("@InsuranceCompanies", InsuranceCompanies);
+            cmd.Parameters.AddWithValue("@CustomerRatio", CustomerRatio);
+            cmd.Parameters.AddWithValue("@InsuranceRatio", InsuranceRatio);
+            cmd.Parameters.AddWithValue("@CustomerValue", CustomerValue);
+            cmd.Parameters.AddWithValue("@InsuranceValue", InsuranceValue);
+            cmd.Parameters.AddWithValue("@DiscountInsurance", DiscountInsurance);
+            cmd.Parameters.AddWithValue("@EnduranceRatio", EnduranceRatio);
+            cmd.Parameters.AddWithValue("@RelatedId", RelatedId);
             return ExDataBase_returnDataSet(cmd);
         }
     }

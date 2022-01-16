@@ -15,12 +15,12 @@ namespace DBL
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public List<SuspendedSale> M_SuspendedSale_GetAll(int? UserId)
+        public List<SuspendedSale> M_SuspendedSale_GetAll(int? UserId, int? BranchId)
         {
             DataSet ds = new DataSet();
             SuspendedSale oSuspendedSale;
             List<SuspendedSale> oLSuspendedSale = new List<SuspendedSale>();
-            ds = oSuspendedSaleDAL.M_SuspendedSale_GetAll(UserId);
+            ds = oSuspendedSaleDAL.M_SuspendedSale_GetAll(UserId, BranchId);
             if (ds.Tables.Count > 0)
             {
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -81,6 +81,7 @@ namespace DBL
             }
             return oLSuspendedSale;
         }
+
 
         /// <summary>
         /// M_SuspendedSale_GetById
@@ -152,6 +153,8 @@ namespace DBL
                         oSuspendedSale.Vehicle_id = int.Parse(ds.Tables[0].Rows[0]["Vehicle_id"].ToString());
                     if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["Vehicle_name"].ToString()))
                         oSuspendedSale.Vehicle_name = ds.Tables[0].Rows[0]["Vehicle_name"].ToString();
+                    if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["AccidentId"].ToString()))
+                        oSuspendedSale.AccidentId = int.Parse(ds.Tables[0].Rows[0]["AccidentId"].ToString());
                     if (ds.Tables.Count > 1)
                     {
                         for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
@@ -347,6 +350,14 @@ namespace DBL
 
             }
             return oSuspendedSale;
+        }
+
+        public void M_POS_Accident_Insert(Accident accident)
+        {
+            DataSet ds = new DataSet();
+            SuspendedSale oSuspendedSale = new SuspendedSale();
+            ds = oSuspendedSaleDAL.M_POS_Accident_Insert(accident.AccidentId, accident.CustomerId, accident.InsuranceCompanies, accident.CustomerRatio, accident.InsuranceRatio, accident.CustomerValue, accident.InsuranceValue, accident.DiscountInsurance, accident.EnduranceRatio, accident.RelatedId);
+
         }
     }
 }

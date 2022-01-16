@@ -10,11 +10,12 @@ namespace DAL
         /// M_Sales_GetAll
         /// </summary>
         /// <returns></returns>
-        public DataSet M_Sales_GetAll(int? UserId)
+        public DataSet M_Sales_GetAll(int? UserId, int? BranchId)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "M_POS_Sales_GetAll";
             cmd.Parameters.AddWithValue("@UserId", UserId);
+            cmd.Parameters.AddWithValue("@BranchId", BranchId);
             return ExDataBase_returnDataSet(cmd);
         }
 
@@ -326,5 +327,13 @@ namespace DAL
         }
 
         #endregion
+
+        public DataSet M_POS_Sales_GetInvoice(int Id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "M_POS_Sales_GetInvoice";
+            cmd.Parameters.AddWithValue("@Id", Id);
+            return ExDataBase_returnDataSet(cmd);
+        }
     }
 }

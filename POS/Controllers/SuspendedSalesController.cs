@@ -48,7 +48,7 @@ namespace POS.Controllers
                 int userId = SessionManager.GetSessionUserInfo.UserID;
                 oSuspendedSaleDBL = new SuspendedSaleDBL();
                 result.IsSuccess = true;
-                result.Data = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId);
+                result.Data = oSuspendedSaleDBL.M_SuspendedSale_GetAll(userId,null);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch

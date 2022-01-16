@@ -68,8 +68,20 @@
 
                                             <td>
                                                 <a href="@Url.Action("Index", "POS")?Id=@item.Id" class="tip btn btn-primary btn-sm"><i class="fa fa-eye"></i>&nbsp; View</a>
-                                                <a href="@Url.Action("PrintOrder", "POS")?Id=@item.Id&IsWorkShop=@(Model.IsWorkShop ==true ? "true":"false")" class="tip btn btn-success btn-sm"><i class="fa fa-print"></i>&nbsp; Print</a>
-
+                                                <a href="@Url.Action("PrintOrder", "POS")?Id=@item.Id&IsWorkShop=@(Model.IsWorkShop ==true ? "true":"false")" class="tip btn btn-success btn-sm"><i class="fa fa-print"></i>&nbsp; Print Order</a>
+                                                @if (item.EnduranceRatio == 1)
+                                                {
+                                                    <a href="@Url.Action("PrintInvoice", "POS")?Id=@item.Id&EnduranceRatio=@item.EnduranceRatio&Type=1" class="tip btn btn-warning btn-sm"><i class="fa fa-print"></i>&nbsp; Print Customer Invoice</a>
+                                                }
+                                                else if (item.EnduranceRatio == 2)
+                                                {
+                                                    <a href="@Url.Action("PrintInvoice", "POS")?Id=@item.Id&EnduranceRatio=@item.EnduranceRatio&Type=2" class="tip btn btn-info btn-sm"><i class="fa fa-print"></i>&nbsp; Print Insurance Invoice</a>
+                                                }
+                                                else if (item.EnduranceRatio == 3)
+                                                {
+                                                    <a href="@Url.Action("PrintInvoice", "POS")?Id=@item.Id&EnduranceRatio=@item.EnduranceRatio&Type=1" class="tip btn btn-warning btn-sm"><i class="fa fa-print"></i>&nbsp; Print Customer Invoice</a>
+                                                    <a href="@Url.Action("PrintInvoice", "POS")?Id=@item.Id&EnduranceRatio=@item.EnduranceRatio&Type=2" class="tip btn btn-info btn-sm"><i class="fa fa-print"></i>&nbsp; Print Insurance Invoice</a>
+                                                }
                                             </td>
                                         </tr>
                                     }

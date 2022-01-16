@@ -53,7 +53,7 @@ namespace POS.Controllers
                 int userId =SessionManager.GetSessionUserInfo.UserID;
                 oSalesDBL = new SalesDBL();
                 result.IsSuccess = true;
-                result.Data = oSalesDBL.M_Sales_GetAll(userId);
+                result.Data = oSalesDBL.M_Sales_GetAll(userId,null);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -98,10 +98,13 @@ namespace POS.Controllers
             List<PaymentMethod> olPaymentMethod = new List<PaymentMethod>();
             List<ExpensesType> olExpensesType = new List<ExpensesType>();
             AccountingDefinitions oAccountingDefinitions = new AccountingDefinitions();
+            AgreementInfo agreementInfo = new AgreementInfo();
             GeneralDefinitions oGeneralDefinitions = new GeneralDefinitions();
             Transactions Transactions = new Transactions();
             List <TaxClassificationTable> OLtaxClassificationTable = new List<TaxClassificationTable>();
             TaxClassificationTable OtaxClassificationTable = new TaxClassificationTable();
+            var Customer = new CustomerInformation();
+            var Company = new CustomerInformation();
             SettingsDBL oSettingsDBL = new SettingsDBL();
             var oLTransTypeUD = new List<TransTypeUD>();
             var AccountTable = new List<AccountTable>();
@@ -132,7 +135,7 @@ namespace POS.Controllers
                 {
                     PoSales.Payments.DateCheque = Convert.ToDateTime(PoSales.Payments.DateTemp);
                 }
-                if (PoSales.Vehicle_id != 0)
+                if (PoSales.Vehicle_id != 0 && PoSales.Accident.AccidentId==null)
                 {
 
                     APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
@@ -157,7 +160,7 @@ namespace POS.Controllers
                     {
                         oGeneralDefinitions = JsonConvert.DeserializeObject<GeneralDefinitions>(JsonConvert.SerializeObject(responseGeneralDefinitions.ResponseDetails));
                     }
-                    Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, 1202, 369, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                    Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
                     if (responsePaymentMethod.IsScusses)
                     {
                         olPaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
@@ -172,7 +175,7 @@ namespace POS.Controllers
                     {
                         AccountTable = JsonConvert.DeserializeObject<List<AccountTable>>(JsonConvert.SerializeObject(response.ResponseDetails));
                     }
-                    Response responsetax = APICall.Get<Response>(string.Format("{0}/TaxClassification/TaxClassificationGet?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], 1158, 307, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                    Response responsetax = APICall.Get<Response>(string.Format("{0}/TaxClassification/TaxClassificationGet?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
                     if (responsetax.IsScusses)
                     {
                         OLtaxClassificationTable = JsonConvert.DeserializeObject<List<TaxClassificationTable>>(JsonConvert.SerializeObject(responsetax.ResponseDetails));
@@ -348,6 +351,346 @@ namespace POS.Controllers
                             oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
                         }
                     }
+                }
+                else if (PoSales.Accident.AccidentId != null)
+                {
+                    APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+                    APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
+                    Response responseAccountingDefinitions = APICall.Get<Response>(string.Format("{0}/AccountingDefinitions/AccountingDefinitions_Get?BranchId={1}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                    if (responseAccountingDefinitions.IsScusses)
+                    {
+                        oAccountingDefinitions = JsonConvert.DeserializeObject<AccountingDefinitions>(JsonConvert.SerializeObject(responseAccountingDefinitions.ResponseDetails));
+                    }
+                    Response responseAgreement = APICall.Get<Response>(string.Format("{0}/Agreement/M_Agreement_GetByAccidentId?AccidentId={1}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], PoSales.Accident.AccidentId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                    if (responseAgreement.IsScusses)
+                    {
+                        agreementInfo = JsonConvert.DeserializeObject<AgreementInfo>(JsonConvert.SerializeObject(responseAgreement.ResponseDetails));
+                    }
+                    Response response = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                    if (response.IsScusses)
+                    {
+                        AccountTable = JsonConvert.DeserializeObject<List<AccountTable>>(JsonConvert.SerializeObject(response.ResponseDetails));
+                    }
+                    Response responsetax = APICall.Get<Response>(string.Format("{0}/TaxClassification/TaxClassificationGet?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                    if (responsetax.IsScusses)
+                    {
+                        OLtaxClassificationTable = JsonConvert.DeserializeObject<List<TaxClassificationTable>>(JsonConvert.SerializeObject(responsetax.ResponseDetails));
+                    }
+                    Response responseB = APICall.Get<Response>(string.Format("{0}/Authentication/BranchesLink?BranchId={1}", (object)ConfigurationManager.AppSettings["APIURL"], BranchId), authorization.TokenType, authorization.AccessToken);
+                    if (responseB.IsScusses)
+                    {
+                        oBranch = JsonConvert.DeserializeObject<Branches>(JsonConvert.SerializeObject(responseB.ResponseDetails));
+                    }
+                    Response responseGeneralDefinitions = APICall.Get<Response>(string.Format("{0}/GeneralDefinition/GetDefinitionByBranchId?BranchId={1}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                    if (responseGeneralDefinitions.IsScusses)
+                    {
+                        oGeneralDefinitions = JsonConvert.DeserializeObject<GeneralDefinitions>(JsonConvert.SerializeObject(responseGeneralDefinitions.ResponseDetails));
+                    }
+                    if (agreementInfo.CustomerId !=0 && PoSales.Accident.EnduranceRatio != 2)
+                    {
+                        Response responseCustomer = APICall.Get<Response>(string.Format("{0}/CustomerInformation/FindById?Id={1}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], agreementInfo.CustomerId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                        if (responseCustomer.IsScusses)
+                        {
+                            Customer = JsonConvert.DeserializeObject<CustomerInformation>(JsonConvert.SerializeObject(responseCustomer.ResponseDetails));
+                        }
+
+                    }
+
+                    if (PoSales.Accident.InsuranceCompanies !=null)
+                    {
+                        Response responseInsuranceCompany = APICall.Get<Response>(string.Format("{0}/CustomerInformation/FindById?Id={1}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], PoSales.Accident.InsuranceCompanies), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                        if (responseInsuranceCompany.IsScusses)
+                        {
+                            Company = JsonConvert.DeserializeObject<CustomerInformation>(JsonConvert.SerializeObject(responseInsuranceCompany.ResponseDetails));
+                        }
+                    }
+                                
+                    OtaxClassificationTable = OLtaxClassificationTable.Where(x => x.TaxClassificationNo == oGeneralDefinitions.TaxClassificationId).FirstOrDefault();
+                    var FinesAccount = (AccountTable.Where(x => x.ID == oAccountingDefinitions.RepairsAccount).FirstOrDefault().AccountNo).ToString();
+                    // Movment
+                    if (PoSales.Accident.Movment)
+                    {
+                        var InsuranceCompanyAccountNo = (AccountTable.Where(x => x.ID == Company.AccountReceivable).FirstOrDefault().AccountNo).ToString();
+                        // من حساب شركة التأمين
+                        oTransTypeUD = new TransTypeUD();
+                        oTransTypeUD.AccountNo = InsuranceCompanyAccountNo;
+                        oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                        oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                        oTransTypeUD.DAmount = (decimal)PoSales.Accident.InsuranceValue;
+                        oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                        oTransTypeUD.TranDate = DateTime.Now;
+                        oTransTypeUD.CreateDate = DateTime.Now;
+                        oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                        oTransTypeUD.CostsCentersNo = 0;
+                        oTransTypeUD.Notes = PoSales.Payments.Note;
+                        oLTransTypeUD.Add(oTransTypeUD);
+                        decimal tax = (decimal)PoSales.Accident.InsuranceValue / (1 + (OtaxClassificationTable.TaxRate / 100));
+                        oTransTypeUD = new TransTypeUD();
+                        oTransTypeUD.AccountNo = (AccountTable.Where(x => x.ID == oAccountingDefinitions.TaxAccount).FirstOrDefault().AccountNo).ToString();
+                        oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                        oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                        oTransTypeUD.CAmount = (decimal)PoSales.Accident.InsuranceValue - tax;
+                        oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                        oTransTypeUD.TranDate = DateTime.Now;
+                        oTransTypeUD.CreateDate = DateTime.Now;
+                        oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                        oTransTypeUD.CostsCentersNo = 0;
+                        oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                        oLTransTypeUD.Add(oTransTypeUD);
+                        oTransTypeUD = new TransTypeUD();
+                        oTransTypeUD.AccountNo = FinesAccount;
+                        oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                        oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                        oTransTypeUD.CAmount = tax;
+                        oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                        oTransTypeUD.TranDate = DateTime.Now;
+                        oTransTypeUD.CreateDate = DateTime.Now;
+                        oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                        oTransTypeUD.CostsCentersNo = 0;
+                        oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                        oLTransTypeUD.Add(oTransTypeUD);
+                        // Call
+                        Transactions = new Transactions();
+                        Transactions.oLTransTypeUD = oLTransTypeUD;
+                        Transactions.CompanyId = CompanyId;
+                        Transactions.BranchId = BranchId;
+                        Transactions.UserID = SessionManager.GetSessionUserInfo.UserID;
+                        Transactions.VoucherType = 1;
+                        Transactions.oLReceiptChequeUD = new List<ReceiptChequeUD>();
+                        Response response1ss = APICall.Post<Response>(string.Format("{0}/Transaction/PostTransaction", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken, Transactions);
+                        if (response1ss.IsScusses)
+                        {
+
+                        }
+                    }
+                    // End
+
+
+                    // Agreement
+                    else
+                    {
+                        PoSales.Accident.CustomerId = agreementInfo.CustomerId;
+                         Vouchers ovouchers = new Vouchers();
+                        if (PoSales.Accident.EnduranceRatio != 2)
+                        {
+                            decimal tax1 = (decimal)PoSales.Accident.CustomerValue / (1 + (OtaxClassificationTable.TaxRate / 100));
+                            ovouchers.TaxValue = (decimal)PoSales.Accident.CustomerValue - tax1;
+                            ovouchers.AmountwithTax = (decimal)PoSales.Accident.CustomerValue;
+                            ovouchers.Amount = tax1;
+                            ovouchers.FK_BranchId = BranchId;
+                            ovouchers.FK_AgreementId = agreementInfo.AgreementId;
+                            ovouchers.VoucherTypId = 1;
+                            ovouchers.Notes = LanguageController.GetCurrentLanguage() == "en" ? "Fines Repairs" : " غرامة اصلاحات";
+                            ovouchers.FinesReason = 1183;
+                            ovouchers.BeforeAgreement = agreementInfo.AgreementStatusId == 3 ? false : true;
+                            ovouchers.CreatedBy = SessionManager.GetSessionUserInfo.UserID;
+                            ovouchers.TaxPercentage = OtaxClassificationTable.TaxRate;
+                            ovouchers.TaxIncluded = false;
+                            ovouchers.Fk_CustomerId = agreementInfo.CustomerId;
+                            ovouchers.CurrencyID = oBranch.CurrencyIDH;
+                            ovouchers.GregorianDate = DateTime.Now;
+                            ovouchers.ishijriTran = false;
+                        }
+                        // العقد مغلق
+
+                        if (agreementInfo.AgreementStatusId == 3)
+                        {
+                            //Debit 0 
+
+                            if (PoSales.Accident.CustomerValue != 0)
+                            {
+                                var CustomerAccountNo = (AccountTable.Where(x => x.ID == Customer.AccountReceivable).FirstOrDefault().AccountNo).ToString();
+                                //Debit  من حساب العميل
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = CustomerAccountNo;
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.DAmount = (decimal)PoSales.Accident.CustomerValue;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.Notes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                            }
+                            if (PoSales.Accident.InsuranceValue != 0)
+                            {
+                                var InsuranceCompanyAccountNo = (AccountTable.Where(x => x.ID == Company.AccountReceivable).FirstOrDefault().AccountNo).ToString();
+                                // من حساب شركة التأمين
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = InsuranceCompanyAccountNo;
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.DAmount = (decimal)PoSales.Accident.InsuranceValue;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.Notes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                            }
+                           
+                            if (PoSales.Total_tax != 0 && PoSales.Total_tax != null)
+                            {
+
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = (AccountTable.Where(x => x.ID == oAccountingDefinitions.TaxAccount).FirstOrDefault().AccountNo).ToString();
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.CAmount = (decimal)PoSales.Total_tax;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                            }
+                            oTransTypeUD = new TransTypeUD();
+                            oTransTypeUD.AccountNo = FinesAccount;
+                            oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                            oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                            oTransTypeUD.CAmount = (decimal)PoSales.Grand_total - (decimal)PoSales.Total_tax- (decimal)PoSales.Accident.DiscountInsurance;
+                            oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                            oTransTypeUD.TranDate = DateTime.Now;
+                            oTransTypeUD.CreateDate = DateTime.Now;
+                            oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                            oTransTypeUD.CostsCentersNo = 0;
+                            oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                            oLTransTypeUD.Add(oTransTypeUD);
+                            // Call
+                            Transactions = new Transactions();
+                            Transactions.oLTransTypeUD = oLTransTypeUD;
+                            Transactions.CompanyId = CompanyId;
+                            Transactions.BranchId = BranchId;
+                            Transactions.UserID = SessionManager.GetSessionUserInfo.UserID;
+                            Transactions.VoucherType = 1;
+                            Transactions.oLReceiptChequeUD = new List<ReceiptChequeUD>();
+                            Response response1ssh = APICall.Post<Response>(string.Format("{0}/Transaction/PostTransaction", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken, Transactions);
+                            if (response1ssh.IsScusses)
+                            {
+                                var oTransTable1ss = JsonConvert.DeserializeObject<List<TransTable>>(JsonConvert.SerializeObject(response1ssh.ResponseDetails));
+                                ovouchers.TranNo = oTransTable1ss.FirstOrDefault().TranNo;
+                                ovouchers.TranTypeNo = oTransTable1ss.FirstOrDefault().TranTypeNo;
+                                if (PoSales.Accident.EnduranceRatio != 2)
+                                {
+                                    Response responsePaymentVoucher = APICall.Post<Response>(string.Format("{0}/Voucher/AgreementVouchers_Insert", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken, ovouchers);
+                                    if (responsePaymentVoucher.IsScusses)
+                                    {
+
+                                    }
+                                }
+
+
+                            }
+                        }
+                           
+
+                        //
+
+                        // العقد غير مغلق
+                        else
+                        {
+                            if (PoSales.Accident.EnduranceRatio != 1)
+                            {
+
+                                var InsuranceCompanyAccountNo = (AccountTable.Where(x => x.ID == Company.AccountReceivable).FirstOrDefault().AccountNo).ToString();
+                                // من حساب شركة التأمين
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = InsuranceCompanyAccountNo;
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.DAmount = (decimal)PoSales.Accident.InsuranceValue;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.Notes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                                decimal tax = (decimal)PoSales.Accident.InsuranceValue / (1 + (OtaxClassificationTable.TaxRate / 100));
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = (AccountTable.Where(x => x.ID == oAccountingDefinitions.TaxAccount).FirstOrDefault().AccountNo).ToString();
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.CAmount = (decimal)PoSales.Accident.InsuranceValue - tax;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                                oTransTypeUD = new TransTypeUD();
+                                oTransTypeUD.AccountNo = FinesAccount;
+                                oTransTypeUD.TranTypeNo = (Int64)oAccountingDefinitions.FinesVoucherId;
+                                oTransTypeUD.CurrencyID = oBranch.CurrencyIDH;
+                                oTransTypeUD.CAmount = tax;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oTransTypeUD.TranDate = DateTime.Now;
+                                oTransTypeUD.CreateDate = DateTime.Now;
+                                oTransTypeUD.UserName = SessionManager.GetSessionUserInfo.UserID.ToString();
+                                oTransTypeUD.CostsCentersNo = 0;
+                                oTransTypeUD.HeaderNotes = PoSales.Payments.Note;
+                                oLTransTypeUD.Add(oTransTypeUD);
+                                // Call
+                                Transactions = new Transactions();
+                                Transactions.oLTransTypeUD = oLTransTypeUD;
+                                Transactions.CompanyId = CompanyId;
+                                Transactions.BranchId = BranchId;
+                                Transactions.UserID = SessionManager.GetSessionUserInfo.UserID;
+                                Transactions.VoucherType = 1;
+                                Transactions.oLReceiptChequeUD = new List<ReceiptChequeUD>();
+                                Response response1ss = APICall.Post<Response>(string.Format("{0}/Transaction/PostTransaction", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken, Transactions);
+                                if (response1ss.IsScusses)
+                                {
+                                    if (PoSales.Accident.EnduranceRatio != 2)
+                                    {
+                                        Response AgreementVouchers = APICall.Post<Response>(string.Format("{0}/Voucher/AgreementVouchers_Insert", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken, ovouchers);
+                                        if (AgreementVouchers.IsScusses)
+                                        {
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                if (PoSales.Accident.EnduranceRatio != 2)
+                                {
+                                    Response AgreementVouchers = APICall.Post<Response>(string.Format("{0}/Voucher/AgreementVouchers_Insert", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken, ovouchers);
+                                    if (AgreementVouchers.IsScusses)
+                                    {
+                                    }
+                                }
+                            }
+
+                        }
+
+                        // 
+                    }
+
+                    // End
+                    result.Data = oSalesDBL.M_Store_Insert(PoSales);
+                            var userId = SessionManager.GetSessionUserInfo.UserID;
+                            foreach (var item in PoSales.Tasks)
+                            {
+                                item.FromUserId = userId;
+                                item.Status = 1;
+                                item.CompanyId = CompanyId;
+                                item.BranchId = BranchId;
+                                item.Type = 2;
+                                item.RelatedId = ((Sales)result.Data).Id;
+                                //item.ToUserId = item;
+                                oSalesDBL.D_Task_Insert(item);
+                            }
+                    PoSales.Accident.RelatedId= ((Sales)result.Data).Id;
+                    oSuspendedSaleDBL.M_POS_Accident_Insert(PoSales.Accident);
+                          //  oSuspendedSaleDBL.M_SuspendedSale_Delete(PoSales.Hold_Id);
+                       
+                
                 }
                 else
                 {
