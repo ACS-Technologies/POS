@@ -21,13 +21,13 @@ namespace POS.Controllers
         public ActionResult Index(int? Id)
         {
 
-            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id; 
+            int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
 
-            var   oSuspendedSaleDBL = new SuspendedSaleDBL();
+            var oSuspendedSaleDBL = new SuspendedSaleDBL();
             Main main = new Main();
             Session["user_name"] = SessionManager.GetSessionUserInfo.Username;
-            Session["first_name"] =SessionManager.GetSessionUserInfo.FirstName;
+            Session["first_name"] = SessionManager.GetSessionUserInfo.FirstName;
             Session["last_name"] = SessionManager.GetSessionUserInfo.LastName;
             Session["Avatar"] = "male.png";
             Session["rmspos"] = true;
@@ -36,6 +36,8 @@ namespace POS.Controllers
             main.BranchId = BranchId;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             SettingsDBL oSettingsDBL = new SettingsDBL();
+            main.InsuranceCompanies = new List<CustomerInformation>();
+            main.InsuranceDiscountCalculation = new List<InsuranceDiscountCalculation>();
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
@@ -50,7 +52,7 @@ namespace POS.Controllers
             {
                 main.Category = JsonConvert.DeserializeObject<List<Category>>(JsonConvert.SerializeObject(responseCategory.ResponseDetails));
             }
-            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Workshop/GetWorkshops?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"],CompanyId, BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+            Response responseUsers = APICall.Get<Response>(string.Format("{0}/Workshop/GetWorkshops?CompanyId={1}&BranchId={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, BranchId), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
             if (responseUsers.IsScusses)
             {
                 main.Workshops = JsonConvert.DeserializeObject<List<WorkshopLevels>>(JsonConvert.SerializeObject(responseUsers.ResponseDetails));
@@ -60,12 +62,12 @@ namespace POS.Controllers
             {
                 main.ExpensesType = JsonConvert.DeserializeObject<List<ExpensesType>>(JsonConvert.SerializeObject(responseExpensesType.ResponseDetails));
             }
-            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"],0, CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            Response responsePaymentMethod = APICall.Get<Response>(string.Format("{0}/PaymentMethod/Get_PaymentMethod?Id={1}&CompanyId={2}&BranchId={3}&Language={4}", (object)ConfigurationManager.AppSettings["APIURL"], 0, CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responsePaymentMethod.IsScusses)
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
             }
-            main.IsWorkShop = true;
+            main.IsWorkShop = SessionManager.GetSessionUserInfo.IsWorkShop;
             ViewBag.IsWorkShop = main.IsWorkShop;
             Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (response.IsScusses)
@@ -74,42 +76,44 @@ namespace POS.Controllers
 
                 main.TransTypeTable = main.IsWorkShop == true ? trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 2).ToList() : trans.Where(x => x.IsAutoCreated == true && x.VoucherType == 1).ToList();
             }
-            Response responseaccount = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId,  LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+            Response responseaccount = APICall.Get<Response>(string.Format("{0}/ChartOfAccount/ChartOfAccountAcceptTrans?CompanyId={1}&BranchId={2}&language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responseaccount.IsScusses)
             {
-                main.AccountTable  = JsonConvert.DeserializeObject<List<AccountTable>>(JsonConvert.SerializeObject(responseaccount.ResponseDetails));
+                main.AccountTable = JsonConvert.DeserializeObject<List<AccountTable>>(JsonConvert.SerializeObject(responseaccount.ResponseDetails));
             }
             Response responsetax = APICall.Get<Response>(string.Format("{0}/TaxClassification/TaxClassificationGet?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
             if (responsetax.IsScusses)
             {
                 main.TaxClassificationTable = JsonConvert.DeserializeObject<List<TaxClassificationTable>>(JsonConvert.SerializeObject(responsetax.ResponseDetails));
             }
-            //if (1==1)
-            //{
-            //    Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
-            //    if (responseCustomerInformation.IsScusses)
-            //    {
-            //        main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
-            //    }
-            //}
-            //else
-            //{
-            
+            if (main.IsWorkShop == false)
+            {
+                //Response responseCustomer = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                //if (responseCustomer.IsScusses)
+                //{
+                //    main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomer.ResponseDetails));
+                //}
+            }
+            else
+            {
+
                 Response responseVehicleNams = APICall.Get<Response>(string.Format("{0}/VehicleDefinition/M_VehicleDefinitionsDDLGet_POS?CompanyId={1}&language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
-                if (responseVehicleNams.IsScusses)
+            if (responseVehicleNams.IsScusses)
+            {
+                main.VehicleNams = JsonConvert.DeserializeObject<List<VehicleNams>>(JsonConvert.SerializeObject(responseVehicleNams.ResponseDetails));
+            }
+                Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/GetInsuranceCompanies?CompanyId={1}&Language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                if (responseCustomerInformation.IsScusses)
                 {
-                    main.VehicleNams = JsonConvert.DeserializeObject<List<VehicleNams>>(JsonConvert.SerializeObject(responseVehicleNams.ResponseDetails));
+                    main.InsuranceCompanies = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
                 }
-            Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/GetInsuranceCompanies?CompanyId={1}&Language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
-            if (responseCustomerInformation.IsScusses)
-            {
-                main.InsuranceCompanies = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
+                Response responseInsuranceDiscountCalculation = APICall.Get<Response>(string.Format("{0}/InsuranceCalculation/GetInsuranceCalculation?CompanyId={1}&Language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
+                if (responseInsuranceDiscountCalculation.IsScusses)
+                {
+                    main.InsuranceDiscountCalculation = JsonConvert.DeserializeObject<List<InsuranceDiscountCalculation>>(JsonConvert.SerializeObject(responseInsuranceDiscountCalculation.ResponseDetails));
+                }
             }
-            Response responseInsuranceDiscountCalculation = APICall.Get<Response>(string.Format("{0}/InsuranceCalculation/GetInsuranceCalculation?CompanyId={1}&Language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
-            if (responseInsuranceDiscountCalculation.IsScusses)
-            {
-                main.InsuranceDiscountCalculation = JsonConvert.DeserializeObject<List<InsuranceDiscountCalculation>>(JsonConvert.SerializeObject(responseInsuranceDiscountCalculation.ResponseDetails));
-            }
+ 
             //}
             main.oBankBranch = new BankBranch();
             Response response3 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Active", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
@@ -239,8 +243,11 @@ namespace POS.Controllers
             main.BranchId = BranchId;
             RegistersDBL oRegistersDBL = new RegistersDBL();
             SettingsDBL oSettingsDBL = new SettingsDBL();
-            //API 
-            APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            main.InsuranceCompanies = new List<CustomerInformation>();
+            main.InsuranceDiscountCalculation = new List<InsuranceDiscountCalculation>();
+            main.CustomerInformation = new List<CustomerInformation>();
+          //API 
+          APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             APIAuthorization vehicleAuthorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["VehicleAPIURL"]), ConfigurationManager.AppSettings["VehicleAPIUser"], ConfigurationManager.AppSettings["VehicleAPIPassword"]);
 
             Response responseGroup = APICall.Get<Response>(string.Format("{0}/Groups/Get_Groups?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
@@ -268,9 +275,7 @@ namespace POS.Controllers
             {
                 main.PaymentMethod = JsonConvert.DeserializeObject<List<PaymentMethod>>(JsonConvert.SerializeObject(responsePaymentMethod.ResponseDetails));
             }
-
-
-            main.IsWorkShop = true;
+            main.IsWorkShop = main.IsWorkShop = SessionManager.GetSessionUserInfo.IsWorkShop;
             ViewBag.IsWorkShop = main.IsWorkShop;
 
             Response response = APICall.Get<Response>(string.Format("{0}/Transaction/TransType?CompanyId={1}&BranchId={2}&lang={3}", (object)ConfigurationManager.AppSettings["APIURL"], CompanyId, BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
@@ -289,16 +294,16 @@ namespace POS.Controllers
             {
                 main.TaxClassificationTable = JsonConvert.DeserializeObject<List<TaxClassificationTable>>(JsonConvert.SerializeObject(responsetax.ResponseDetails));
             }
-            //if (1 == 1)
-            //{
-            //    Response responseCustomerInformation = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, "en"), authorization.TokenType, authorization.AccessToken);
-            //    if (responseCustomerInformation.IsScusses)
-            //    {
-            //        main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomerInformation.ResponseDetails));
-            //    }
-            //}
-            //else
-            //{
+            if (main.IsWorkShop == false)
+            {
+                //Response responseCustomer = APICall.Get<Response>(string.Format("{0}/CustomerInformation/Get_CustomerInformation?CompanyId={1}&BranchId={2}&Language={3}", (object)ConfigurationManager.AppSettings["APIURL"], main.CompanyId, main.BranchId, LanguageController.GetCurrentLanguage()), authorization.TokenType, authorization.AccessToken);
+                //if (responseCustomer.IsScusses)
+                //{
+                //    main.CustomerInformation = JsonConvert.DeserializeObject<List<CustomerInformation>>(JsonConvert.SerializeObject(responseCustomer.ResponseDetails));
+                //}
+            }
+            else
+            {
                 Response responseVehicleNams = APICall.Get<Response>(string.Format("{0}/VehicleDefinition/M_VehicleDefinitionsDDLGet_POS?CompanyId={1}&language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], CompanyId, LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
                 if (responseVehicleNams.IsScusses)
                 {
@@ -314,9 +319,9 @@ namespace POS.Controllers
             {
                 main.InsuranceDiscountCalculation = JsonConvert.DeserializeObject<List<InsuranceDiscountCalculation>>(JsonConvert.SerializeObject(responseInsuranceDiscountCalculation.ResponseDetails));
             }
-            //}
+        }
 
-            main.oBankBranch = new BankBranch();
+        main.oBankBranch = new BankBranch();
             Response response3 = APICall.Get<Response>(string.Format("{0}/Banks/Banks_Active", (object)ConfigurationManager.AppSettings["APIURL"]), authorization.TokenType, authorization.AccessToken);
             if (response3.IsScusses)
             {
@@ -355,10 +360,8 @@ namespace POS.Controllers
             int CompanyId = ((CompanyInfo)Session["CompanyInfo"]).Id;
             int BranchId = ((CompanyBranch)Session["BranchInfo"]).BranchID;
             var oSalesDBL = new SalesDBL();
-         List<Sales> oLSales =   oSalesDBL.M_Salse_PaymentMethod_Payment(userId, BranchId);
+            List<Sales> oLSales =   oSalesDBL.M_Salse_PaymentMethod_Payment(userId, BranchId);
             return Json(oLSales, JsonRequestBehavior.AllowGet);
-
-
         }
         public JsonResult Get_TodaySales()
         {
@@ -380,8 +383,6 @@ namespace POS.Controllers
                 agreementInfo = JsonConvert.DeserializeObject<AgreementInfo>(JsonConvert.SerializeObject(responseAgreement.ResponseDetails));
             }
             return Json(agreementInfo, JsonRequestBehavior.AllowGet);
-
-
         }
         public ActionResult PrintInvoice(int Id, int EnduranceRatio,int Type)
         {
@@ -421,15 +422,13 @@ namespace POS.Controllers
             {
                 TaxClassification = JsonConvert.DeserializeObject<TaxClassification>(JsonConvert.SerializeObject(responsetax.ResponseDetails));
 
-            }
-            if (Type !=3)
-            {
+            }   
                 Response responseCustomer = APICall.Get<Response>(string.Format("{0}/CustomerInformation/FindById?Id={1}&language={2}", (object)ConfigurationManager.AppSettings["VehicleAPIURL"], Type==1? int.Parse(ds.Tables[0].Rows[0]["CustomerId"].ToString()): int.Parse(ds.Tables[0].Rows[0]["InsuranceCompanies"].ToString()), LanguageController.GetCurrentLanguage()), vehicleAuthorization.TokenType, vehicleAuthorization.AccessToken);
                 if (responseCustomer.IsScusses)
                 {
                     Customer = JsonConvert.DeserializeObject<CustomerInformation>(JsonConvert.SerializeObject(responseCustomer.ResponseDetails));
                 }
-            }
+        
             decimal taxvalue = 0;
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {

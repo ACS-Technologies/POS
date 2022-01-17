@@ -15,9 +15,9 @@
                         <div id="lefttop" style="margin-bottom:5px;">
                             @if (Model.IsWorkShop == false)
                             {
-                                <div class="form-group" style="margin-bottom:5px;">
+                                @*<div class="form-group" style="margin-bottom:5px;">
                                     @Html.DropDownList("CustomerId", new SelectList(Model.CustomerInformation, "Id", "CustomerName"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
-                                </div>
+                                </div>*@
                             }
                             else
                             {

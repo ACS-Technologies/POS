@@ -35,5 +35,6 @@ namespace POCO
         public DateTime PasswordLastModifyDate { get; set; }
         public string Name { get; set; }
         public int StoreId { get; set; }
+        public bool IsWorkShop { get; set; }
     }
 }

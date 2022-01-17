@@ -60,8 +60,8 @@ namespace POS.Controllers
                     language = "en";
                 }
                 //API 
-                APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
-                Response response = APICall.Post<Response>(string.Format("{0}/Authentication/LogIn?UserName={1}&Password={2}", (object)ConfigurationManager.AppSettings["APIURL"], PoUser.Username, PoUser.OldPassword), authorization.TokenType, authorization.AccessToken);
+                APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIAuthenticationURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+                Response response = APICall.Post<Response>(string.Format("{0}/Users/LogIn", (object)ConfigurationManager.AppSettings["APIAuthenticationURL"]), authorization.TokenType, authorization.AccessToken, PoUser);
                 if (response.IsScusses)
                 {
                     oUser = JsonConvert.DeserializeObject<User>(JsonConvert.SerializeObject(response.ResponseDetails));
