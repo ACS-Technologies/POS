@@ -216,6 +216,9 @@
   <data name="current_quantity" xml:space="preserve">
     <value>Current Quantity</value>
   </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
   <data name="cvv2" xml:space="preserve">
     <value>CVV2</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="email_address" xml:space="preserve">
     <value>Email Address</value>
+  </data>
+  <data name="EnduranceRatio" xml:space="preserve">
+    <value>Endurance Ratio</value>
   </data>
   <data name="enter_info" xml:space="preserve">
     <value>Enter Info</value>
@@ -257,6 +263,9 @@
   </data>
   <data name="import_products" xml:space="preserve">
     <value>Import Products</value>
+  </data>
+  <data name="InsuranceCompany" xml:space="preserve">
+    <value>Insurance Company</value>
   </data>
   <data name="lblWelcomePOS" xml:space="preserve">
     <value>Welcome To POS System</value>
@@ -294,11 +303,17 @@
   <data name="LogIn" xml:space="preserve">
     <value>LogIn</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
   <data name="master_card" xml:space="preserve">
     <value>Master Card</value>
   </data>
   <data name="merchant_copy" xml:space="preserve">
     <value>Merchant Copy</value>
+  </data>
+  <data name="Mutual" xml:space="preserve">
+    <value>Mutual</value>
   </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
@@ -395,6 +410,9 @@
   </data>
   <data name="search__scan" xml:space="preserve">
     <value>Search product by code or name, you can scan barcode too</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select Language</value>

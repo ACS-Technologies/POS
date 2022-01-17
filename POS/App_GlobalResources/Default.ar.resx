@@ -216,6 +216,9 @@
   <data name="current_quantity" xml:space="preserve">
     <value>الكمية الحالية</value>
   </data>
+  <data name="Customer" xml:space="preserve">
+    <value>العميل</value>
+  </data>
   <data name="cvv2" xml:space="preserve">
     <value>CVV2</value>
   </data>
@@ -230,6 +233,9 @@
   </data>
   <data name="email_address" xml:space="preserve">
     <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="EnduranceRatio" xml:space="preserve">
+    <value>نسبة التحمل</value>
   </data>
   <data name="enter_info" xml:space="preserve">
     <value>أدخل المعلومات</value>
@@ -257,6 +263,9 @@
   </data>
   <data name="import_products" xml:space="preserve">
     <value>استيراد المنتجات</value>
+  </data>
+  <data name="InsuranceCompany" xml:space="preserve">
+    <value>شركة التأمين</value>
   </data>
   <data name="lblWelcomePOS" xml:space="preserve">
     <value>مرحبا بك في نظام نقاط البيع</value>
@@ -294,11 +303,17 @@
   <data name="LogIn" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
   <data name="master_card" xml:space="preserve">
     <value>ماستر كارد</value>
   </data>
   <data name="merchant_copy" xml:space="preserve">
     <value>نسخة التاجر</value>
+  </data>
+  <data name="Mutual" xml:space="preserve">
+    <value>مشترك</value>
   </data>
   <data name="name" xml:space="preserve">
     <value>اسم</value>
@@ -395,6 +410,9 @@
   </data>
   <data name="search__scan" xml:space="preserve">
     <value>ابحث عن المنتج بالرمز أو الاسم ، ويمكنك أيضًا مسح الرمز الشريطي ضوئيًا</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>إختر</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>اختر اللغة</value>

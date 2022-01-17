@@ -290,13 +290,14 @@
                                 <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
                                 <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
                             </a>
-                            <ul class="dropdown-menu">
+                            @*<ul class="dropdown-menu">
                                 <li class="user-header">
                                     <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
                                 </li>
 
-                            </ul>
+                            </ul>*@
                         </li>
+                        <li><a href="#" class="text-danger font-weight-bold">@Resources.Default.Logout</a></li>
                     </ul>
             </div>
         </nav>
