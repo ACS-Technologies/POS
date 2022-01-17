@@ -152,7 +152,7 @@
                         <ul class="nav nav-tabs real-tabs nav-justified">
                             @foreach (var item in Model.Category)
                             {
-                                <li><a data-toggle="tab" href="#@item.CategoryId" id="@item.GroupId" onclick="myfunction(@item.CategoryId)">@item.CategoryName</a></li>
+                                <li id="@item.GroupId" class="active"><a href="#@item.CategoryId" onclick="myfunction(@item.CategoryId)">@item.CategoryName</a></li>
 
                             }
                         </ul>
@@ -400,15 +400,15 @@
                             </div>
                         </div>
                         <div class="row" id="Ratio" style="display:none">
-
+                            
                             <div class="col-xs-6">
                                 <div class="form-group EnduranceRatio">
-                                    Endurance Ratio
+                                    @Resources.Default.EnduranceRatio
                                     <select id="EnduranceRatio" name="EnduranceRatio" class="form-control select2" style="width:100%;">
-                                        <option value="0">Select</option>
-                                        <option value="1">Customer</option>
-                                        <option value="2">Insurance Company</option>
-                                        <option value="3">Mutual</option>
+                                        <option value="0">@Resources.Default.Select</option>
+                                        <option value="1">@Resources.Default.Customer</option>
+                                        <option value="2">@Resources.Default.InsuranceCompany</option>
+                                        <option value="3">@Resources.Default.Mutual</option>
                                     </select>
                                 </div>
                             </div>

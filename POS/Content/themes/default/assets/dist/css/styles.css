@@ -46,3 +46,15 @@
     top: 187px !important;
     left: 26px !important;
 }
+.text-danger {
+    color:red
+}
+.font-weight-bold{
+    font-weight:bold
+}
+.real-tabs li {
+    display: none !important
+}
+.real-tabs li.active {
+    display:table-cell !important
+}

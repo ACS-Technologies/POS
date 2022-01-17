@@ -358,6 +358,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer.
+        /// </summary>
+        internal static string Customer {
+            get {
+                return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CVV2.
         /// </summary>
         internal static string cvv2 {
@@ -399,6 +408,15 @@ namespace Resources {
         internal static string email_address {
             get {
                 return ResourceManager.GetString("email_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endurance Ratio.
+        /// </summary>
+        internal static string EnduranceRatio {
+            get {
+                return ResourceManager.GetString("EnduranceRatio", resourceCulture);
             }
         }
         
@@ -480,6 +498,15 @@ namespace Resources {
         internal static string import_products {
             get {
                 return ResourceManager.GetString("import_products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insurance Company.
+        /// </summary>
+        internal static string InsuranceCompany {
+            get {
+                return ResourceManager.GetString("InsuranceCompany", resourceCulture);
             }
         }
         
@@ -592,6 +619,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        internal static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Master Card.
         /// </summary>
         internal static string master_card {
@@ -606,6 +642,15 @@ namespace Resources {
         internal static string merchant_copy {
             get {
                 return ResourceManager.GetString("merchant_copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mutual.
+        /// </summary>
+        internal static string Mutual {
+            get {
+                return ResourceManager.GetString("Mutual", resourceCulture);
             }
         }
         
@@ -894,6 +939,15 @@ namespace Resources {
         internal static string search__scan {
             get {
                 return ResourceManager.GetString("search__scan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        internal static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
             }
         }
         
