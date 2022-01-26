@@ -1,8 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-
-
     @{
         string assets = "/Content/themes/default/assets/";
         string lang = "ltr";
@@ -32,14 +30,10 @@
 
         //End Printers Table
     }
-
-
-
     <meta charset="UTF-8">
     <title>POS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="@(assets)images/icon.png" />
-
     <link href="@(assets)dist/css/styles.css" rel="stylesheet" type="text/css" />
     @if (POS.Controllers.LanguageController.IsRighToLeft())
     {
@@ -236,19 +230,6 @@
             <span class="logo-mini">POS</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
-            @*<ul class="nav navbar-nav pull-left">
-                    <li class="dropdown">
-                        <a href="@Url.Action("Index","Home")" class="dropdown-toggle" data-toggle="dropdown"><img src="@(assets)images/@(selected_language).png" alt="@selected_language"></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="@Url.Action("SetLanguage","Language")?lang=en">
-                                    <img src="@assets/images/en.png" class="language-img">
-                                    English
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>*@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li><a href="#" class="">@DateTime.Now</a></li>
@@ -262,7 +243,6 @@
                             <li><a href="#" data-toggle="modal" data-target="#" onclick="GetTodaySales()">@Resources.Default.today_sale</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#" onclick="GetGrandTotal()">@Resources.Default.close_register</a></li>
                         }
-
                         <li class="dropdown notifications-menu" id="suspended_sales">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bell-o"></i>
@@ -282,7 +262,6 @@
                                         </li>
                                     </ul>
                                 </li>
-                                @*<li class="footer"><a href="@Url.Action("opened","sales")">@Resources.Default.view_all</a></li>*@
                             </ul>
                         </li>
                         <li class="dropdown user user-menu">
@@ -290,14 +269,8 @@
                                 <img src="~/Content/Avatar/@Session["Avatar"]" class="user-image" alt="Avatar" />
                                 <span>@Session["first_name"] &nbsp;@Session["last_name"]</span>
                             </a>
-                            @*<ul class="dropdown-menu">
-                                <li class="user-header">
-                                    <img src="~/Content/Avatar/@Session["Avatar"]" class="img-circle" alt="Avatar" />
-                                </li>
-
-                            </ul>*@
                         </li>
-                        <li><a href="#" class="text-danger font-weight-bold">@Resources.Default.Logout</a></li>
+                        <li><a href="@Url.Action("Logout", "Authentication")" class="text-danger font-weight-bold">@Resources.Default.Logout</a></li>
                     </ul>
             </div>
         </nav>
@@ -366,28 +339,28 @@
                             <div class="col-md-6 my-1">
                                 <div class="form-group">
                                     <label>@Resources.Default.CashAccount</label>
-                                    @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("CachAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                                 </div>
                             </div>
                             <div class="col-md-6 my-1">
                                 <div class="form-group">
                                     <label>@Resources.Default.TaxAccount</label>
-                                    @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("TaxAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                                 </div>
                             </div>
                             <div class="col-md-6 my-1">
                                 <div class="form-group">
                                     <label>@Resources.Default.SalesAccount</label>
-                                    @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"@*,"AccountSecondaryNameNo"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("SalesAccountId", new SelectList(Model.AccountTable, "ID", "AccountNameNo"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                                 </div>
                             </div>
                             <div class="col-md-6 my-1">
                                 <div class="form-group">
                                     <label>@Resources.Default.VoucherType</label>
-                                    @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("TransTypeNo", new SelectList(Model.TransTypeTable, "ID", "TransType"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                                 </div>
                             </div>
@@ -406,7 +379,7 @@
                             <div class="col-md-6 my-1">
                                 <div class="form-group">
                                     <label>Payment Voucher</label>
-                                    @Html.DropDownList("PaymentVoucherId", new SelectList(Model.TransTypeTable, "ID", "TransType"@*,"TransTypeArabic"*@), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("PaymentVoucherId", new SelectList(Model.TransTypeTable, "ID", "TransType"), "----- Select -----", htmlAttributes: new { @class = "form-control select2" })
 
                                 </div>
                             </div>
@@ -762,14 +735,14 @@
         $(document).ready(function () {
             if (@Model.SettingAccounts.ID !=0)
             {
-                  $('#TransTypeNo').val(@Model.SettingAccounts.TransTypeNo);
+                $('#TransTypeNo').val(@Model.SettingAccounts.TransTypeNo);
                 $('#CachAccountId').val(@Model.SettingAccounts.CachAccountId);
                 $('#SalesAccountId').val(@Model.SettingAccounts.SalesAccountId);
                 $('#TaxAccountId').val(@Model.SettingAccounts.TaxAccountId);
                 $('#ExpensesTypeId').val(@Model.SettingAccounts.ExpensesTypeId);
-                  $('#PaymentVoucherId').val(@Model.SettingAccounts.PaymentVoucherId);
+                $('#PaymentVoucherId').val(@Model.SettingAccounts.PaymentVoucherId);
             }
-            debugger
+            
             if (localStorage.getItem("Items") === null) {
                 $.ajax({
                 type: 'get',
@@ -778,10 +751,7 @@
                     dataType: 'json',
                     data: {},
                     success: function (data) {
-
-
                         for (var i = 0; i < data.length; i++) {
-
                             var item = [];
                             item["id"] = data[i].ItemId;
                             item["Product_id"] = data[i].ItemId;
@@ -795,15 +765,15 @@
                             item["UnitId"] = data[i].UnitId;
                             item["TaxClassificationNo"] = data[i].TaxClassificationNo;
                             jsonObj.push(item);
-
                         }
-                        debugger
+                        
                         window.localStorage.setItem('Items', JSON.stringify(data));
                     }
                 });
             }
             else {
-               var  JsonArr = JSON.parse(get('Items'));
+                var JsonArr = JSON.parse(get('Items'));
+                
                  for (var i = 0; i < JsonArr.length; i++) {
                             var item = [];
                             item["id"] = JsonArr[i].ItemId;
@@ -832,6 +802,7 @@
               dataType: 'json',
               data: {},
                 success: function (data) {
+                       oTaxClassification = datatax.find(x => x.TaxClassificationNo == TaxClassification);
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].Image != "") {
                             $("#emptyitems").append('<button type="button" data-taxno="'+data[i].TaxClassificationNo+'" data-unitid="'+data[i].UnitId+'" data-unitid="'+data[i].UnitId+'" data-service="' + data[i].Service +'"  data-name="' + data[i].ItemName + '" data-price="' + data[i].Price + '" data-qty="' + data[i].Qty + '" data-itembarcode="' + data[i].ItemBarcode + '" data-taxrate="' + data[i].taxRate +'" id=' + data[i].ItemId + ' value=' + data[i].ItemId + ' class="btn btn-both btn-flat product"><span class="bg-img"><img src="@Model.ImageUrl' + data[i].Image + '" alt=' + data[i].ItemName + ' style="width: 100%; height: 200px;"></span><span><span style="float:right;text-align:right;width:70%">' + data[i].ItemName + '</span><span class="real_unit_price" style="float:left;text-align:left;width:29%">' + data[i].Price +'</span></span></button>');
@@ -954,7 +925,7 @@
             data: {},
             contentType: 'application/json',
             success: function (data) {
-                debugger
+                
                 if (data[0].ChequesNumber === true) {
                     $("#ChequeNumber").show();
                     chkN = true;
@@ -986,7 +957,7 @@
         });
         }
         $('#PaymentMethod').on('change', function () {
-               debugger
+               
         getPaymentMethod();
            });
             function SearchBankByName() {
@@ -1015,7 +986,7 @@
               dataType: 'json',
               data: {},
                 success: function (data) {
-                    debugger
+                    
                     var total=0
                     for (var i = 0; i < data.length; i++) {
                         total += data[i].Grand_total;
@@ -1036,7 +1007,7 @@
               dataType: 'json',
               data: {},
                 success: function (data) {
-                    debugger
+                    
                     var total=0
                     for (var i = 0; i < data.length; i++) {
                         total += data[i].Grand_total;
@@ -1106,7 +1077,7 @@
         document.getElementById("ChequeBank").value = ChequeId;
     }
         function sendTask(Id, PrimaryName) {
-            debugger
+            
             spositems[KeyToUserId].ToUserId = Id;
             spositems[KeyToUserId].Title = PrimaryName;
             $("#AssignId").val(PrimaryName);
@@ -1144,20 +1115,20 @@
             }
         })
         //function GetFromDate(val) {
-        //    debugger
+        //    
         //    spositems[KeyToUserId].FromDate = moment(val).format("DD-MM-YYYY HH:mm");
         //    store('spositems', JSON.stringify(spositems));
         //    //loadItems();
         //}
         //function GetToDate(val) {
-        //    debugger
+        //    
         //    spositems[KeyToUserId].ToDate = moment(val).format("DD-MM-YYYY HH:mm");
         //    store('spositems', JSON.stringify(spositems));
         //    //loadItems();
         //}
         function SendDataTospositems()
         {
-            debugger
+            
             spositems[KeyToUserId].FromDate = $('#from_date').val();
             spositems[KeyToUserId].ToDate = $('#to_date').val();
             spositems[KeyToUserId].TimeFrom = $('#time_from').val();

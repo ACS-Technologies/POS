@@ -190,7 +190,7 @@ namespace DBL
                     }
                     if (IsWorkShop == true)
                     {
-                        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+                        for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
                         {
                             oTask = new Task();
                             oTask.FromDate = DateTime.Parse(ds.Tables[2].Rows[i]["FromDate"].ToString());

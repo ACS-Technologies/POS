@@ -119,10 +119,6 @@ namespace POS.Controllers
             {
                 oLCompanyInfo = JsonConvert.DeserializeObject<List<POCO.CompanyInfo>>(JsonConvert.SerializeObject(response.ResponseDetails));
             }
-
-            //UsersCompaniesDBL oUsersCompaniesDBL = new UsersCompaniesDBL();
-            //    int UserId = Models.SessionManager.GetSessionUserInfo.UserID;
-            //    List<POCO.CompanyInfo> oLCompanyInfo = oUsersCompaniesDBL.UsersCompanies_GetUserCompany(UserId);
             return View(oLCompanyInfo);
 
         }
@@ -178,16 +174,19 @@ namespace POS.Controllers
         public ActionResult SelectBranchLink(int branch)
         {
 
-            // CompanyBranchDBL ocompanyInfoDBL = new CompanyBranchDBL();
-
-            // Session["branchInfo"] = ocompanyInfoDBL.D_CompanyBranches_Get_ByID(branch);
-
             //API 
             APIAuthorization authorization = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
             Response response = APICall.Get<Response>(string.Format("{0}/Authentication/BranchesLink?BranchId={1}", (object)ConfigurationManager.AppSettings["APIURL"], branch), authorization.TokenType, authorization.AccessToken);
             if (response.IsScusses)
             {
                 Session["BranchInfo"] = JsonConvert.DeserializeObject<POCO.CompanyBranch>(JsonConvert.SerializeObject(response.ResponseDetails));
+            }
+            int userId = SessionManager.GetSessionUserInfo.UserID;
+            APIAuthorization authorizationerp = APICall.GetAuthorization(string.Format("{0}/token", (object)ConfigurationManager.AppSettings["APIAuthenticationURL"]), ConfigurationManager.AppSettings["APIUser"], ConfigurationManager.AppSettings["APIPassword"]);
+            Response responseerp = APICall.Get<Response>(string.Format("{0}/Users/GetUserModule?UserId={1}&companyId={2}&branchId={3}", (object)ConfigurationManager.AppSettings["APIAuthenticationURL"], userId, ((CompanyInfo)Session["CompanyInfo"]).Id, branch), authorization.TokenType, authorization.AccessToken);
+            if (responseerp.IsScusses)
+            {
+                SessionManager.GetSessionUserInfo.IsWorkShop = true;//Convert.ToBoolean(responseerp.ResponseDetails);
             }
             Session["branch"] = branch;
             var s = Session["BranchInfo"];
